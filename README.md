@@ -6,10 +6,10 @@ Backend para el manejo de miembros de la Iglesia Templo Belen
 - Python 3.12 instalado, puede usar pyenv para manejar la version de python, siga (estas instrucciones)[https://github.com/pyenv/pyenv?tab=readme-ov-file#installation] para instalar pyenv
 
 ## Correr la aplicacion
- ** Esto debe cambiar cuando se haga el compose **
 1. Crear en ambiente virtual de python en la raiz del proyecto con el comando `python -m venv venv`
 2. Instalar las dependencias con el comando `pip install -e .`
-3. La aplicacion se corre con el comando `fastapi dev app/main.py`
+3. Correr el Docker Compose para iniciar una base de datos local `docker-compose up -d`. Esto también ejecutara todos los scripts SQL de la carpeta `db_scripts`.
+4. La aplicacion se corre con el comando `fastapi dev app/main.py`
 
 
 - La aplicacion REST estara disponible en http://localhost:8000
@@ -51,8 +51,8 @@ Aqui se encuentra toda la logica de la aplicaion
 2. Agregar las rutas en main.py
 
 ### Subir el codigo al repo
-- Cada cambio debe ir en una rama separada de main
+- Cada cambio debe ir en una rama separada de master
 - Se debe crear un PR y pedir aprobacion del mismo 
 - El PR se debe se debe asignar a la misma persona que lo creo, quien es reponsable de que al PR se le haga merge
-- Por favor no suban configuraciones propias de ide
+- Por favor no suban configuraciones propias del IDE
 

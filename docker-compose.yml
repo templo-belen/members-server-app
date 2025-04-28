@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:16.8-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=emplo_belen
+      - POSTGRES_USER=pguser
+      - POSTGRES_PASSWORD=pgpassword
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db_scripts/insert_customer_role.sql:/docker-entrypoint-initdb.d/
+  
+volumes:
+  db-data:
+    driver: local
