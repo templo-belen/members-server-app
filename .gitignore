@@ -1,3 +1,9 @@
 venv/
 members_server_app.egg-info/
 __pycache__/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
