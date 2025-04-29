@@ -44,7 +44,10 @@ Todas las rutas de la aplicacion se configuran en esta carpeta, al igual que en 
 
 
 #### app/service
-Aqui se encuentra toda la logica de la aplicaion
+Aqui se encuentra toda la logica de la aplicación
+
+#### db_scripts
+Crear aquí los scripts de base de datos (tablas necesarias, inserción de datos). **Mantener la secuencia nnn para que el docker los ejecute en orden**.
 
 ### Agregar funcionalidades
 1. Crear las respectivas clase en las ubicaciones definidas en la estructura
