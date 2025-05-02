@@ -1,0 +1,30 @@
+from fastapi import Depends, HTTPException, APIRouter
+from fastapi.security import OAuth2PasswordRequestForm
+from sqlalchemy.orm import Session
+
+from app.database import get_db
+from app.models.user import Token
+from app.services.auth import AuthService
+from app.services.user import UserService
+
+
+class LoginRouter:
+    def __init__(self):
+        self.router = APIRouter(tags=["login"])
+        self.auth_service = AuthService()
+        self._setup_routes()
+
+    def get_router(self):
+        return self.router
+
+    def _setup_routes(self):
+        @self.router.post("/login", response_model=Token)
+        def login(
+            form_data: OAuth2PasswordRequestForm = Depends(),
+            db: Session = Depends(get_db)
+        ):
+            user_service = UserService(db)
+            user = user_service.get_user_login_by_username(form_data.username)
+            if not user or not self.auth_service.verify_password(form_data.password, user):
+                raise HTTPException(status_code=401, detail="Invalid credentials")
+            return self.auth_service.create_access_token(user)

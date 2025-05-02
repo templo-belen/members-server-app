@@ -10,7 +10,7 @@ Backend para el manejo de miembros de la Iglesia Templo Belen
 2. Instalar las dependencias con el comando `pip install -e .`
 3. Correr el Docker Compose para iniciar una base de datos local `docker-compose up -d`. Esto también ejecutara todos los scripts SQL de la carpeta `db_scripts`.
 4. La aplicacion se corre con el comando `fastapi dev app/main.py`
-
+   - **NOTA:** Si no existe un .env se tomará el archivo .env.dev. Si se desea especificar un entorno específico, ejecutar: `SET ENV=myenv & fastapi dev app/main.py` (Windows) o `export ENV=myenv & fastapi dev app/main.py` (Linux)
 
 - La aplicacion REST estara disponible en http://localhost:8000
 - La documentacion swagger es autogenerada, esta disponible en http://localhost:8000/docs
