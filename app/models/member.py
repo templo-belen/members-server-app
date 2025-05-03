@@ -10,7 +10,6 @@ from app.models.base_table_model import BaseTableModel
 class Member(BaseTableModel):
     __tablename__ = "members"
 
-    id = Column(Integer, primary_key=True, index=True)
     id_number = Column(String(50), nullable=False, unique=True)
     surnames = Column(String(100), nullable=False)
     names = Column(String(100), nullable=False)
