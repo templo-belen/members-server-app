@@ -11,7 +11,7 @@ from app.services.member import MemberService
 
 class MemberRouter:
     def __init__(self):
-        self.router = APIRouter(prefix="/members", tags=["member"])
+        self.router = APIRouter(prefix="/members", tags=["members"])
         self.auth_service = AuthService()
         self._setup_routes()
 
