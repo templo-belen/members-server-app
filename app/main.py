@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from app.routers.health import HealthRouter
 from app.routers.login import LoginRouter
+from app.routers.member import MemberRouter
 from app.routers.user import UserRouter
 from app.services.health import HealthService
 
@@ -16,5 +17,7 @@ login_router = LoginRouter()
 app.include_router(login_router.get_router())
 
 # Users
-user_router = UserRouter()
-app.include_router(user_router.get_router())
+app.include_router(UserRouter().get_router())
+
+# Members
+app.include_router(MemberRouter().get_router())

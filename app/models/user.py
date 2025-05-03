@@ -18,6 +18,8 @@ class User(Base):
 
     role = relationship(Role)
 
+# Pydantic models
+
 class UserLogin(BaseModel):
     id : int
     username: str
