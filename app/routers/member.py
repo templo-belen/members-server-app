@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -22,10 +22,20 @@ class MemberRouter:
         @self.router.get(
             "/",
             response_model=Optional[List[MemberBasicInformation]] | None,
-            # Esto funciona, por ahora estaremos sin seguridad para agilizar
-            # Descomentar para agregar autorización
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def get_all(db: Session = Depends(get_db)):
             member_service = MemberService(db)
             return member_service.get_all()
+
+        @self.router.get(
+            "/{member_id}",
+            response_model=MemberBasicInformation,
+            #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def find_by_id(member_id, db: Session = Depends(get_db)):
+            member_service = MemberService(db)
+            member = member_service.find_by_id(member_id)
+            if not member:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+            return member

@@ -44,7 +44,7 @@ class AuthService:
             raise self._403_exception
     
     def require_role(self, role_required: list[str]):
-        def get_current_user(authorization: str | None = Header(), db: Session = Depends(get_db)) -> User:
+        def get_current_user(authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> User:
             payload = self.decode_token(authorization)
             user_id: int = payload.get("id")
             user_service = UserService(db)
