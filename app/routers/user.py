@@ -9,7 +9,7 @@ from app.services.auth import AuthService
 
 class UserRouter:
     def __init__(self):
-        self.router = APIRouter(tags=["users"])
+        self.router = APIRouter(prefix="/users", tags=["users"])
         self.auth_service = AuthService()
         self._setup_routes()
 
@@ -18,7 +18,7 @@ class UserRouter:
 
     def _setup_routes(self):
         @self.router.get(
-            "/users/{user_id}",
+            "/{user_id}",
             response_model=UserInformation | None,
             # Esto funciona, por ahora estaremos sin seguridad para agilizar
             # Descomentar para agregar autorización
