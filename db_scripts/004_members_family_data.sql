@@ -1,7 +1,5 @@
 -- Members family data tab
 
-CREATE TYPE marital_status_type AS ENUM ('Soltero', 'Casado');
-
 CREATE TABLE members_family_data (
     id SERIAL PRIMARY KEY,
 
@@ -12,7 +10,7 @@ CREATE TABLE members_family_data (
     spouse_name VARCHAR(150),
     spouse_occupation VARCHAR(150),
     marriage_registration_number VARCHAR(50),
-    housing_type VARCHAR(10)
+    housing housing_type
 
 );
 
