@@ -48,6 +48,9 @@ class Member(BaseTableModel):
 
 # Pydantic models
 
+"""
+This class makes it easier when loading zone pastor data as part of the member data.
+"""
 class MemberName(BaseModel):
     names: str
     surnames: str
