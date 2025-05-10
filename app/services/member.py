@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.models.member import Member, MemberBasicInformation
+from app.models.member import Member, MemberBasicInformation, MemberPersonalInformation
 
 
 class MemberService:
@@ -11,8 +11,8 @@ class MemberService:
         members = self.db.query(Member).all()
         return [MemberBasicInformation.from_orm(m) for m in members]
     
-    def find_by_id(self, id) -> list[MemberBasicInformation]:
+    def find_by_id(self, id) -> MemberPersonalInformation | None:
         member = self.db.query(Member).filter(Member.id == id).first()
         if not member:
             return None
-        return MemberBasicInformation.from_orm(member)
+        return MemberPersonalInformation.from_orm(member)

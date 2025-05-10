@@ -3,7 +3,7 @@
 CREATE TABLE members_dew (
     id SERIAL PRIMARY KEY,
 
-    member_id integer NOT NULL,
+    member_id integer NOT NULL UNIQUE,
     ministration_date DATE,
     worker_1 VARCHAR(100),
     worker_2 VARCHAR(100),

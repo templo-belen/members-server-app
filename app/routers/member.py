@@ -4,7 +4,7 @@ from fastapi import Depends, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models.member import MemberBasicInformation
+from app.models.member import MemberBasicInformation, MemberPersonalInformation
 from app.services.auth import AuthService
 from app.services.member import MemberService
 
@@ -30,7 +30,7 @@ class MemberRouter:
 
         @self.router.get(
             "/{member_id}",
-            response_model=MemberBasicInformation,
+            response_model=MemberPersonalInformation,
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_by_id(member_id, db: Session = Depends(get_db)):
