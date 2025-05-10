@@ -11,7 +11,7 @@ class MemberService:
         members = self.db.query(Member).all()
         return [MemberBasicInformation.from_orm(m) for m in members]
     
-    def find_by_id(self, id) -> list[MemberPersonalInformation]:
+    def find_by_id(self, id) -> MemberPersonalInformation | None:
         member = self.db.query(Member).filter(Member.id == id).first()
         if not member:
             return None
