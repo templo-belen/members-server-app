@@ -1,15 +1,19 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
-from sqlalchemy import Column, String, TIMESTAMP, Enum
+from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serializer
+from sqlalchemy import Column, String, TIMESTAMP, Enum, ForeignKey, Integer
+from sqlalchemy.orm import relationship
 
 from app.models.EnumType import GenderType, RoleType, LeadershipType, CellLeadershipType
 from app.models.base_table_model import BaseTableModel
+from app.models.preaching_point import PreachingPoint
 
 
 class Member(BaseTableModel):
     __tablename__ = "members"
+
+    id = Column(Integer, primary_key=True, index=True)
 
     id_number = Column(String(50), nullable=False, unique=True)
     surnames = Column(String(100), nullable=False)
@@ -32,12 +36,26 @@ class Member(BaseTableModel):
     gender = Column(Enum(GenderType, name="gender_type", native_enum=True), nullable=True)
 
     role = Column(Enum(RoleType, name="role_type", native_enum=False), nullable=False)
-    zone_pastor = Column(String(100))  # TODO pendiente arreglar relacion y campo punto predicacion
+    zone_pastor_id = Column(Integer, ForeignKey("members.id"), nullable=True)
     cell_leadership = Column(Enum(CellLeadershipType, name="cell_leadership_type", native_enum=True), nullable=False)
     leadership = Column(Enum(LeadershipType, name="leadership_type", native_enum=True), nullable=False)
+    preaching_point_id = Column(Integer, ForeignKey("preaching_point.id"))
+
+    #Relationships
+    preaching_point = relationship(PreachingPoint)
+    zone_pastor = relationship("Member", remote_side=[id], backref="zone_members", lazy="select")
 
 
 # Pydantic models
+
+"""
+This class makes it easier when loading zone pastor data as part of the member data.
+"""
+class MemberName(BaseModel):
+    names: str
+    surnames: str
+
+    model_config = ConfigDict(from_attributes=True)
 
 class MemberBasicInformation(BaseModel):
     id: int = Field(description="User database identifier")
@@ -52,7 +70,7 @@ class MemberBasicInformation(BaseModel):
     cellphone_number: Optional[str] = Field(description="Member cell phone number", alias="cellphoneNumber")
     email: Optional[str] = Field(description="Member email", examples=["templo.belen@mail.com"])
     occupation: Optional[str] = Field(description="Member occupation")
-    zone_pastor: Optional[str] = Field(description="Member zone pastor", alias="zonePastor")
+    zone_pastor: Optional[MemberName] = Field(description="Zone pastor names", alias="zonePastor")
     cell_leadership: CellLeadershipType = Field(description="Cell leadership", exclude=True)
     is_pastor: Optional[bool] = Field(None, description="Indicates if the member is pastor or not", alias="isPastor")
     is_cell_leader: Optional[bool] = Field(None, description="Indicates if the member is cell leader or not", alias="isCellLeader")
@@ -70,3 +88,7 @@ class MemberBasicInformation(BaseModel):
                                                   CellLeadershipType.pastor_principal}
         self.is_cell_leader = self.cell_leadership in {CellLeadershipType.lider_celula}
         return self
+
+    @field_serializer("zone_pastor")
+    def serialize_zone_pastor(self, obj, _info):
+        return f"{obj.names} {obj.surnames}" if obj else None

@@ -2,28 +2,69 @@
 
 -- TODO este archivo debe borrarse posteriormente!!!
 
+-- Pastores de zona
 INSERT INTO members (
-    id_number, surnames, names, birthdate, birth_country, residence_country, address,
-    phone_number, cellphone_number, email, military_service, studies_completed, degree_obtained,
-    other_studies, company, occupation, eps, rh, gender, role, zone_pastor,
+    id_number, surnames, names, birthdate, birth_country, residence_country,
+    address, phone_number, cellphone_number, email, military_service,
+    studies_completed, degree_obtained, other_studies, company, occupation,
+    eps, rh, gender, role, commitment_date, preaching_point_id,
     cell_leadership, leadership, reasons_for_congregating
-)
-VALUES
-(
-    'ID001', 'Gómez Ramírez', 'Laura Fernanda', '1990-05-12', 'Colombia', 'Colombia', 'Cra 10 #45-32',
-    '1234567', '3001234567', 'laura.gomez@example.com', null, 'Universitarios', 'Ingeniería de Sistemas',
-    'Curso de liderazgo', 'TecnoSoft S.A.', 'Desarrolladora', 'Salud Total', 'O+', null, 'miembro',
-    'Jesús María José', 'lider_celula', 'maestro_universitario', 'Sentí una conexión especial con la comunidad'
-),
-(
-    'ID002', 'Martínez López', 'Carlos Andrés', '1985-09-30', 'Colombia', 'Colombia', 'Cl 22 #8-19',
-    '2345678', '3012345678', 'carlos.martinez@example.com', '199928282', 'Bachillerato', 'Técnico en electrónica',
-    'Seminario bíblico', 'ElectroCol', 'Técnico en redes', 'Coomeva', 'A-', 'masculino', 'miembro',
-    'Pedro Pérez', 'lider_asociado', 'musico', 'Porque quiero crecer espiritualmente'
-),
-(
-    'ID003', 'Rojas Nieto', 'Mariana', '2000-01-15', 'Venezuela', 'Colombia', 'Av Siempre Viva 742',
-    '3456789', '3023456789', 'mariana.rojas@example.com', null, 'Pregrado', 'Psicología',
-    '', 'Sin empleo', 'Estudiante', 'Sura', 'B+', 'femenino', 'visitante',
-    null, 'nuevo_creyente', 'no_aplica', 'Me sentí acogida por la comunidad desde el primer día'
-);
+) VALUES
+('100000001', 'Martínez López', 'Carlos Andrés', '1980-03-10', 'Colombia', 'Colombia',
+ 'Calle 10 #5-30', '2345678', '3001234567', 'carlos.martinez@iglesia.org', 'cumplido',
+ 'Universidad', 'Teología', 'Consejería Pastoral', 'Iglesia Betel', 'Pastor',
+ 'Sanitas', 'O+', 'masculino', 'miembro', '2010-05-15', 1,
+ 'pastor_zona', 'no_aplica', 'Deseo servir en comunidad'),
+
+('7008282', 'Rojas Pérez', 'María Fernanda', '1985-07-25', 'Colombia', 'Colombia',
+ 'Carrera 50 #20-60', '2456789', '3012345678', 'maria.rojas@iglesia.org', NULL,
+ 'Universidad', 'Teología', NULL, 'Templo Belén', 'Pastora',
+ 'Compensar', 'A-', 'femenino', 'miembro', '2012-09-10', 2,
+ 'pastor_zona', 'musico', 'Porque encontré propósito');
+
+-- Miembros asociados al pastor Carlos Andrés
+INSERT INTO members (
+    id_number, surnames, names, birthdate, birth_country, residence_country,
+    address, phone_number, cellphone_number, email, military_service,
+    studies_completed, degree_obtained, other_studies, company, occupation,
+    eps, rh, gender, role, commitment_date, preaching_point_id,
+    zone_pastor_id, cell_leadership, leadership, reasons_for_congregating
+) VALUES
+('8004455984', 'Gómez Ruiz', 'Andrés Felipe', '1995-01-12', 'Colombia', 'Colombia',
+ 'Calle 8 #3-20', NULL, '3101234567', 'andres.gomez@correo.com', NULL,
+ 'Bachillerato', NULL, NULL, 'SENA', 'Estudiante',
+ 'Sura', 'B+', 'masculino', 'miembro', '2021-03-22', 1,
+ (SELECT id from members WHERE id_number='100000001'),
+ 'nuevo_creyente', 'musico', 'Por invitación de un amigo'),
+
+('188293871', 'Salazar Meza', 'Laura Cristina', '1998-09-17', 'Colombia', 'Colombia',
+ 'Diagonal 30 #15-42', NULL, '3122345678', 'laura.salazar@correo.com', NULL,
+ 'Universidad', 'Psicología', NULL, NULL, 'Asistente',
+ 'Coomeva', 'O-', 'femenino', 'miembro', '2022-06-11', 1,
+ (SELECT id from members WHERE id_number='100000001'), 'padre_espiritual', 'maestro_junior', 'Buscaba una iglesia activa'),
+
+('488282', 'Zapata Ocampo', 'Daniel Esteban', '2000-11-03', 'Colombia', 'Colombia',
+ 'Carrera 40 #11-11', NULL, '3133456789', 'daniel.zapata@correo.com', NULL,
+ 'Técnico', NULL, NULL, 'Taller Zapata', 'Técnico Automotriz',
+ 'Nueva EPS', 'AB+', 'masculino', 'miembro', '2020-08-05', 1,
+ (SELECT id from members WHERE id_number='100000001'), 'lider_asociado', 'no_aplica', 'Me sentí acogido');
+
+-- Miembros asociados a la pastora María Fernanda
+INSERT INTO members (
+    id_number, surnames, names, birthdate, birth_country, residence_country,
+    address, phone_number, cellphone_number, email, military_service,
+    studies_completed, degree_obtained, other_studies, company, occupation,
+    eps, rh, gender, role, commitment_date, preaching_point_id,
+    zone_pastor_id, cell_leadership, leadership, reasons_for_congregating
+) VALUES
+('1231423', 'Valencia Torres', 'Sandra Milena', '1992-05-14', 'Colombia', 'Colombia',
+ 'Calle 25 #16-90', NULL, '3144567890', 'sandra.valencia@correo.com', NULL,
+ 'Universidad', 'Administración', NULL, NULL, 'Administradora',
+ 'Famisanar', 'A+', 'femenino', 'miembro', '2019-04-20', 2,
+ (SELECT id from members WHERE id_number='7008282'), 'lider_celula', 'maestro_180', 'Vi transformación en mi familia'),
+
+('94585858', 'Castaño Restrepo', 'Jorge Iván', '1990-12-29', 'Colombia', 'Colombia',
+ 'Carrera 22 #33-44', NULL, '3155678901', 'jorge.castano@correo.com', 'exento',
+ 'Universidad', 'Ingeniería de Sistemas', NULL, 'TechSoft', 'Desarrollador',
+ 'Sura', 'O-', 'masculino', 'miembro', '2018-07-18', 2,
+ (SELECT id from members WHERE id_number='7008282'), 'obrero', 'maestro_universitario', 'Deseo servir a Dios con mis talentos');

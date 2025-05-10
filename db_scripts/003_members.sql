@@ -23,7 +23,9 @@ CREATE TABLE members
     gender                   gender_type,
 
     role                     role_type NOT NULL,
-    zone_pastor              VARCHAR(100),  -- TODO falta relacion recursiva con miembros que son pastor
+    commitment_date          DATE,
+    preaching_point_id       INTEGER,
+    zone_pastor_id           INTEGER,
     cell_leadership          cell_leadership_type,
     leadership               leadership_type,
 
@@ -35,3 +37,8 @@ CREATE TABLE members
     updated_at               TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_by               VARCHAR(50)  NOT NULL DEFAULT 'SYS'
 );
+
+ALTER TABLE members
+ADD CONSTRAINT fk_members_pastor_zona
+FOREIGN KEY (zone_pastor_id)
+REFERENCES members(id);
