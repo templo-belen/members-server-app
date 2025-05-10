@@ -34,5 +34,5 @@ app.include_router(MemberRouter().get_router())
 # Preaching points
 app.include_router(PreachingPointRouter().get_router())
 
-# Preaching points
+# Enum types
 app.include_router(EnumTypeRouter().get_router())
