@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.routers.enum_type import EnumTypeRouter
 from app.routers.health import HealthRouter
 from app.routers.login import LoginRouter
 from app.routers.member import MemberRouter
@@ -32,3 +33,6 @@ app.include_router(MemberRouter().get_router())
 
 # Preaching points
 app.include_router(PreachingPointRouter().get_router())
+
+# Preaching points
+app.include_router(EnumTypeRouter().get_router())

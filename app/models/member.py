@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serial
 from sqlalchemy import Column, String, TIMESTAMP, Enum, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
-from app.models.EnumType import GenderType, RoleType, LeadershipType, CellLeadershipType
+from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType
 from app.models.base_table_model import BaseTableModel
 from app.models.preaching_point import PreachingPoint, PreachingPointInformation
 
