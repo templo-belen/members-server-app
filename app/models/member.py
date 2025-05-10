@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 
 from app.models.EnumType import GenderType, RoleType, LeadershipType, CellLeadershipType
 from app.models.base_table_model import BaseTableModel
-from app.models.preaching_point import PreachingPoint
+from app.models.preaching_point import PreachingPoint, PreachingPointInformation
 
 
 class Member(BaseTableModel):
@@ -37,6 +37,7 @@ class Member(BaseTableModel):
 
     role = Column(Enum(RoleType, name="role_type", native_enum=False), nullable=False)
     zone_pastor_id = Column(Integer, ForeignKey("members.id"), nullable=True)
+    commitment_date = Column(TIMESTAMP)
     cell_leadership = Column(Enum(CellLeadershipType, name="cell_leadership_type", native_enum=True), nullable=False)
     leadership = Column(Enum(LeadershipType, name="leadership_type", native_enum=True), nullable=False)
     preaching_point_id = Column(Integer, ForeignKey("preaching_point.id"))
@@ -52,6 +53,16 @@ class Member(BaseTableModel):
 This class makes it easier when loading zone pastor data as part of the member data.
 """
 class MemberName(BaseModel):
+    names: str
+    surnames: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+"""
+This class makes it easier when loading zone pastor and the id data as part of the member data.
+"""
+class MemberBasicData(BaseModel):
+    id: int
     names: str
     surnames: str
 
@@ -74,7 +85,7 @@ class MemberBasicInformation(BaseModel):
     cell_leadership: CellLeadershipType = Field(description="Cell leadership", exclude=True)
     is_pastor: Optional[bool] = Field(None, description="Indicates if the member is pastor or not", alias="isPastor")
     is_cell_leader: Optional[bool] = Field(None, description="Indicates if the member is cell leader or not", alias="isCellLeader")
-    role: Optional[str] = Field(description="Member current role", alias="currentRole")
+    role: RoleType = Field(description="Member current role", alias="currentRole")
     status: str = Field(description="Member current status")
 
     model_config = ConfigDict(
@@ -92,3 +103,38 @@ class MemberBasicInformation(BaseModel):
     @field_serializer("zone_pastor")
     def serialize_zone_pastor(self, obj, _info):
         return f"{obj.names} {obj.surnames}" if obj else None
+
+class MemberPersonalInformation(BaseModel):
+    id: int = Field(description="User database identifier")
+    id_number: str = Field(description="Member ID number", alias="idNumber")
+    surnames: str = Field(description="Member surnames")
+    names: str = Field(description="Member names")
+    birthdate: Optional[datetime] = Field(description="Member birth date")
+    birth_country: Optional[str] = Field(description="Member birth country", alias="birthCountry")
+    residence_country: Optional[str] = Field(description="Member residence country", alias="residenceCountry")
+    address: Optional[str] = Field(description="Member address")
+    phone_number: Optional[str] = Field(description="Phone number", alias="phoneNumber")
+    cellphone_number: Optional[str] = Field(description="Member cell phone number", alias="cellphoneNumber")
+    email: Optional[str] = Field(description="Member email", examples=["templo.belen@mail.com"])
+    military_service: Optional[str] = Field(description="Military service number", alias="militaryService")
+    studies_completed: Optional[str] = Field(description="Completed studies description", alias="studiesCompleted")
+    degree_obtained: Optional[str] = Field(description="Obtained degree description", alias="degreeObtained")
+    other_studies: Optional[str] = Field(description="Other studies description", alias="otherStudies")
+    company: Optional[str] = Field(description="Company name", alias="company")
+    occupation: Optional[str] = Field(description="Member occupation")
+    eps: Optional[str] = Field(description="Member eps")
+    rh: Optional[str] = Field(description="Member rh")
+    gender: Optional[GenderType] = Field(description="Gender type")
+
+    preaching_point: Optional[PreachingPointInformation] = Field(description="Preaching point")
+    role: RoleType = Field(description="Member current role", alias="currentRole")
+    commitment_date: Optional[datetime] = Field(description="Commitment date", alias="commitmentDate")
+    cell_leadership: CellLeadershipType = Field(description="Cell leadership", alias="cellLeadership")
+    zone_pastor: Optional[MemberBasicData] = Field(description="Member zone pastor data", alias="zonePastor")
+    leadership: LeadershipType = Field(description="Leadership")
+    status: str = Field(description="Member current status")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )

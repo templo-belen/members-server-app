@@ -66,5 +66,5 @@ INSERT INTO members (
 ('94585858', 'Castaño Restrepo', 'Jorge Iván', '1990-12-29', 'Colombia', 'Colombia',
  'Carrera 22 #33-44', NULL, '3155678901', 'jorge.castano@correo.com', 'exento',
  'Universidad', 'Ingeniería de Sistemas', NULL, 'TechSoft', 'Desarrollador',
- 'Sura', 'O-', 'masculino', 'miembro', '2018-07-18', 2,
+ 'Sura', 'O-', null, 'visitante', '2018-07-18', 2,
  (SELECT id from members WHERE id_number='7008282'), 'obrero', 'maestro_universitario', 'Deseo servir a Dios con mis talentos');
