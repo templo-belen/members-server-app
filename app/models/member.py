@@ -43,6 +43,12 @@ class Member(BaseTableModel):
     preaching_point_id = Column(Integer, ForeignKey("preaching_point.id"))
     reasons_for_congregating = Column(String(250))
 
+    # Audit-fields
+    created_at = Column(TIMESTAMP)
+    created_by = Column(String(50), nullable=False)
+    updated_at = Column(TIMESTAMP)
+    updated_by = Column(String(50), nullable=False)
+
     #Relationships
     preaching_point = relationship(PreachingPoint)
     zone_pastor = relationship("Member", remote_side=[id], backref="zone_members", lazy="select")
@@ -134,6 +140,11 @@ class MemberPersonalInformation(BaseModel):
     zone_pastor: Optional[MemberBasicData] = Field(description="Member zone pastor data", alias="zonePastor")
     leadership: LeadershipType = Field(description="Leadership")
     status: str = Field(description="Member current status")
+
+    created_at: datetime = Field(description="Member creation date", alias="createdAt")
+    created_by: str = Field(description="Member creation by", alias="createdBy")
+    updated_at: datetime = Field(description="Member update date", alias="updatedAt")
+    updated_by: str = Field(description="Member update by", alias="updatedBy")
 
     model_config = ConfigDict(
         from_attributes=True,
