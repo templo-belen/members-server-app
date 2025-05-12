@@ -52,3 +52,13 @@ class LeavingReasonType(enum.Enum):
     muerte = "Muerte"
     cambio_creencia = "Cambió de creencia"
     otro = "Otro"
+
+class BloodType(enum.Enum):
+    a_positive = "A+"
+    a_negative = "A-"
+    b_positive = "B+"
+    b_negative = "B-"
+    ab_positive = "AB+"
+    ab_negative = "AB-"
+    o_positive = "O+"
+    o_negative = "O-"
