@@ -5,8 +5,8 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serial
 from sqlalchemy import Column, String, TIMESTAMP, Enum, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
-from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType
 from app.models.base_table_model import BaseTableModel
+from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType
 from app.models.preaching_point import PreachingPoint, PreachingPointInformation
 
 
@@ -42,12 +42,6 @@ class Member(BaseTableModel):
     leadership = Column(Enum(LeadershipType, name="leadership_type", native_enum=True), nullable=False)
     preaching_point_id = Column(Integer, ForeignKey("preaching_point.id"))
     reasons_for_congregating = Column(String(250))
-
-    # Audit-fields
-    created_at = Column(TIMESTAMP)
-    created_by = Column(String(50), nullable=False)
-    updated_at = Column(TIMESTAMP)
-    updated_by = Column(String(50), nullable=False)
 
     #Relationships
     preaching_point = relationship(PreachingPoint)
@@ -142,9 +136,9 @@ class MemberPersonalInformation(BaseModel):
     status: str = Field(description="Member current status")
 
     created_at: datetime = Field(description="Member creation date", alias="createdAt")
-    created_by: str = Field(description="Member creation by", alias="createdBy")
+    created_by: str = Field(description="Member created by", alias="createdBy")
     updated_at: datetime = Field(description="Member update date", alias="updatedAt")
-    updated_by: str = Field(description="Member update by", alias="updatedBy")
+    updated_by: str = Field(description="Member updated by", alias="updatedBy")
 
     model_config = ConfigDict(
         from_attributes=True,
