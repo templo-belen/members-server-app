@@ -15,3 +15,5 @@ CREATE TYPE housing_type AS ENUM ('propia', 'familiar', 'alquiler');
 
 CREATE TYPE leaving_reason_type AS ENUM ('cambio_iglesia', 'cambio_residencia', 'personales', 'enfermedad',
     'muerte', 'cambio_creencia', 'otro');
+
+CREATE TYPE blood_type AS ENUM ('a_positive', 'a_negative', 'b_positive', 'b_negative', 'ab_positive', 'ab_negative', 'o_positive', 'o_negative');

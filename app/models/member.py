@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serial
 from sqlalchemy import Column, String, TIMESTAMP, Enum, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
-from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType
+from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType
 from app.models.base_table_model import BaseTableModel
 from app.models.preaching_point import PreachingPoint, PreachingPointInformation
 
@@ -32,7 +32,7 @@ class Member(BaseTableModel):
     company = Column(String(100))
     occupation = Column(String(100))
     eps = Column(String(50))
-    rh = Column(String(5))
+    rh = Column(Enum(BloodType, name="blood_type", native_enum=True), nullable=True)
     gender = Column(Enum(GenderType, name="gender_type", native_enum=True), nullable=True)
 
     role = Column(Enum(RoleType, name="role_type", native_enum=False), nullable=False)
@@ -124,7 +124,7 @@ class MemberPersonalInformation(BaseModel):
     company: Optional[str] = Field(description="Company name", alias="company")
     occupation: Optional[str] = Field(description="Member occupation")
     eps: Optional[str] = Field(description="Member eps")
-    rh: Optional[str] = Field(description="Member rh")
+    rh: Optional[BloodType] = Field(description="Member rh")
     gender: Optional[GenderType] = Field(description="Gender type")
 
     preaching_point: Optional[PreachingPointInformation] = Field(description="Preaching point")

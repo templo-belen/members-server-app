@@ -19,7 +19,7 @@ CREATE TABLE members
     company                  VARCHAR(100),
     occupation               VARCHAR(100),
     eps                      VARCHAR(50),
-    rh                       VARCHAR(5),
+    rh                       blood_type,
     gender                   gender_type,
 
     role                     role_type NOT NULL,
