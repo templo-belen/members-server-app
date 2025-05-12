@@ -2,10 +2,9 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, Field, ConfigDict
-from sqlalchemy import Column, Integer, Date, String, Enum, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, Date, String, ForeignKey, Boolean
 
 from app.database import Base
-from app.models.enum_type import LeavingReasonType
 
 
 class MembersDEW(Base):
@@ -27,7 +26,7 @@ class MembersDEW(Base):
 class MembersDEWInformation(BaseModel):
     id: int = Field(description="Member dew information DB id")
     member_id: int = Field(description="Member ID", alias="memberId")
-    
+
     ministration_date: Optional[datetime] = Field(description="Ministration date")
     worker_1: Optional[str] = Field(description="Worker 1")
     worker_2: Optional[str] = Field(description="Worker 2")
