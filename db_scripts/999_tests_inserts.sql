@@ -68,3 +68,101 @@ INSERT INTO members (
  'Universidad', 'Ingeniería de Sistemas', NULL, 'TechSoft', 'Desarrollador',
  'Sura', 'o_negative', null, 'visitante', '2018-07-18', 2,
  (SELECT id from members WHERE id_number='7008282'), 'obrero', 'maestro_universitario', 'Deseo servir a Dios con mis talentos');
+
+-- INSERTS PARA members_general_data
+INSERT INTO members_general_data (
+    member_id,
+    conversion_date,
+    conversion_place,
+    baptism_date,
+    baptism_place,
+    baptism_holy_spirit_date,
+    baptism_holy_spirit_place,
+    baptism_pastor_name,
+    baptism_denomination,
+    active_member_since,
+    leaving_reason,
+    leaving_reason_description,
+    leaving_date,
+    acceptance_comment
+) VALUES (
+    1,
+    '2010-05-15',
+    'Ciudad Esperanza',
+    '2011-06-20',
+    'Iglesia Central',
+    '2012-01-10',
+    'Campamento Juvenil',
+    'Pastor Juan Pérez',
+    'Evangelista Libre',
+    '2011-06-20',
+    'cambio_iglesia',
+    'Traslado a congregación local',
+    '2023-09-01',
+    'Miembro activo durante 12 años, participación destacada en actividades juveniles.'
+);
+
+INSERT INTO members_general_data (
+    member_id,
+    conversion_date,
+    conversion_place,
+    baptism_date,
+    baptism_place,
+    baptism_holy_spirit_date,
+    baptism_holy_spirit_place,
+    baptism_pastor_name,
+    baptism_denomination,
+    active_member_since,
+    leaving_reason,
+    leaving_reason_description,
+    leaving_date,
+    acceptance_comment
+) VALUES (
+    3,
+    '2015-03-22',
+    'Villa Paz',
+    '2016-04-10',
+    'Iglesia del Norte',
+    '2016-08-05',
+    'Retiro de Invierno',
+    'Pastora Elena Gómez',
+    'Comunidad Renovada',
+    '2016-04-10',
+    'muerte',
+    'Falleció por causas naturales',
+    '2022-11-15',
+    'Persona muy apreciada por la comunidad, dejó un legado espiritual fuerte.'
+);
+
+INSERT INTO members_general_data (
+    member_id,
+    conversion_date,
+    conversion_place,
+    baptism_date,
+    baptism_place,
+    baptism_holy_spirit_date,
+    baptism_holy_spirit_place,
+    baptism_pastor_name,
+    baptism_denomination,
+    active_member_since,
+    leaving_reason,
+    leaving_reason_description,
+    leaving_date,
+    acceptance_comment
+) VALUES (
+    2,
+    '2015-03-22',
+    'Villa Paz',
+    '2016-04-10',
+    'Iglesia del Norte',
+    '2016-08-05',
+    'Retiro de Invierno',
+    'Pastora Elena Gómez',
+    'Comunidad Renovada',
+    '2016-04-10',
+    null,
+    null,
+    null,
+    null
+);
+

@@ -5,6 +5,7 @@ from app.routers.enum_type import EnumTypeRouter
 from app.routers.health import HealthRouter
 from app.routers.login import LoginRouter
 from app.routers.member import MemberRouter
+from app.routers.member_general_data import MembersGeneralDataRouter
 from app.routers.preaching_point import PreachingPointRouter
 from app.routers.user import UserRouter
 from app.services.health import HealthService
@@ -30,6 +31,9 @@ app.include_router(UserRouter().get_router())
 
 # Members
 app.include_router(MemberRouter().get_router())
+
+# Member general data
+app.include_router(MembersGeneralDataRouter().get_router())
 
 # Preaching points
 app.include_router(PreachingPointRouter().get_router())
