@@ -44,7 +44,7 @@ class Member(BaseTableModel):
     reasons_for_congregating = Column(String(250))
 
     #Relationships
-    preaching_point = relationship(PreachingPoint)
+    preaching_point = relationship(PreachingPoint, lazy="select")
     zone_pastor = relationship("Member", remote_side=[id], backref="zone_members", lazy="select")
 
 

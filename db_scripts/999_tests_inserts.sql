@@ -192,3 +192,18 @@ INSERT INTO members_references (
     5, 48, 'Templo Luz del Mundo', 'Pastor Carlos Ramírez', 'Incompatibilidad doctrinal'
 );
 
+-- Inserts para member dew
+
+INSERT INTO members_dew (
+    member_id,
+    ministration_date,
+    worker_1,
+    worker_2,
+    is_sharing_testimony,
+    is_publishing_testimony,
+    is_publishing_testimony_name,
+    is_agreed_share_testimony
+) VALUES
+(5, '2025-05-12', 'Juan Pérez', null, TRUE, TRUE, FALSE, TRUE),
+(6, '2025-05-11', 'Carlos Ruiz', 'Ana Torres', FALSE, FALSE, FALSE, FALSE),
+(7, '2025-05-10', 'Lucía Díaz', null, TRUE, FALSE, TRUE, TRUE);
