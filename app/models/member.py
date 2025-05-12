@@ -41,6 +41,7 @@ class Member(BaseTableModel):
     cell_leadership = Column(Enum(CellLeadershipType, name="cell_leadership_type", native_enum=True), nullable=False)
     leadership = Column(Enum(LeadershipType, name="leadership_type", native_enum=True), nullable=False)
     preaching_point_id = Column(Integer, ForeignKey("preaching_point.id"))
+    reasons_for_congregating = Column(String(250))
 
     #Relationships
     preaching_point = relationship(PreachingPoint)

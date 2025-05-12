@@ -20,7 +20,7 @@ INSERT INTO members (
  'Carrera 50 #20-60', '2456789', '3012345678', 'maria.rojas@iglesia.org', NULL,
  'Universidad', 'Teología', NULL, 'Templo Belén', 'Pastora',
  'Compensar', 'a_negative', 'femenino', 'miembro', '2012-09-10', 2,
- 'pastor_zona', 'musico', 'Porque encontré propósito');
+ 'pastor_zona', 'musico', null);
 
 -- Miembros asociados al pastor Carlos Andrés
 INSERT INTO members (
@@ -164,5 +164,31 @@ INSERT INTO members_general_data (
     null,
     null,
     null
+);
+
+-- INSERTS para references
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    3, 36, 'Iglesia Nueva Vida', 'Pastor Luis Herrera', 'Cambio de ciudad'
+);
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    7, 10, 'Temblo Jerusalén', 'Pastora Ana Martínez', 'Razones personales'
+);
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    3, 24, 'Ministerio Cristo Redentor', 'Pastora Ana Martínez', 'Razones personales'
+);
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    5, 48, 'Templo Luz del Mundo', 'Pastor Carlos Ramírez', 'Incompatibilidad doctrinal'
 );
 
