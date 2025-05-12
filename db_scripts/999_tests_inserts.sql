@@ -20,7 +20,7 @@ INSERT INTO members (
  'Carrera 50 #20-60', '2456789', '3012345678', 'maria.rojas@iglesia.org', NULL,
  'Universidad', 'Teología', NULL, 'Templo Belén', 'Pastora',
  'Compensar', 'A-', 'femenino', 'miembro', '2012-09-10', 2,
- 'pastor_zona', 'musico', 'Porque encontré propósito');
+ 'pastor_zona', 'musico', null);
 
 -- Miembros asociados al pastor Carlos Andrés
 INSERT INTO members (
@@ -67,7 +67,7 @@ INSERT INTO members (
  'Carrera 22 #33-44', NULL, '3155678901', 'jorge.castano@correo.com', 'exento',
  'Universidad', 'Ingeniería de Sistemas', NULL, 'TechSoft', 'Desarrollador',
  'Sura', 'O-', null, 'visitante', '2018-07-18', 2,
- (SELECT id from members WHERE id_number='7008282'), 'obrero', 'maestro_universitario', 'Deseo servir a Dios con mis talentos');
+ (SELECT id from members WHERE id_number='7008282'), 'obrero', 'maestro_universitario', null);
 
 
 -- INSERTS PARA members_general_data
@@ -165,4 +165,30 @@ INSERT INTO members_general_data (
     null,
     null,
     null
+);
+
+-- INSERTS para references
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    3, 36, 'Iglesia Nueva Vida', 'Pastor Luis Herrera', 'Cambio de ciudad'
+);
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    7, 10, 'Temblo Jerusalén', 'Pastora Ana Martínez', 'Razones personales'
+);
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    3, 24, 'Ministerio Cristo Redentor', 'Pastora Ana Martínez', 'Razones personales'
+);
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    5, 48, 'Templo Luz del Mundo', 'Pastor Carlos Ramírez', 'Incompatibilidad doctrinal'
 );
