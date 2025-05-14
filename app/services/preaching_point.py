@@ -4,9 +4,9 @@ from app.models.preaching_point import PreachingPointInformation, PreachingPoint
 
 
 class PreachingPointService:
-    def __init__(self, db: Session):
-        self.db = db
+    def __init__(self):
+        pass
 
-    def get_all(self) -> list[PreachingPointInformation]:
-        preaching_points = self.db.query(PreachingPoint).filter(PreachingPoint.status != 'I')
+    def get_all(self, db: Session) -> list[PreachingPointInformation]:
+        preaching_points = db.query(PreachingPoint).filter(PreachingPoint.status != 'I')
         return [PreachingPointInformation.from_orm(pp) for pp in preaching_points]

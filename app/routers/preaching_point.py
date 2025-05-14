@@ -10,10 +10,11 @@ from app.services.preaching_point import PreachingPointService
 
 
 class PreachingPointRouter:
-    def __init__(self):
+    def __init__(self, preaching_point_service: PreachingPointService):
         self.router = APIRouter(prefix="/preaching-points", tags=["preaching-points"])
         self.auth_service = AuthService()
         self._setup_routes()
+        self.preaching_point_service = preaching_point_service
 
     def get_router(self):
         return self.router
@@ -25,5 +26,4 @@ class PreachingPointRouter:
             # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def get_all(db: Session = Depends(get_db)):
-            preaching_point_service = PreachingPointService(db)
-            return preaching_point_service.get_all()
+            return self.preaching_point_service.get_all(db)

@@ -3,15 +3,16 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.user import UserInformation
-from app.services.user import UserService
 from app.services.auth import AuthService
+from app.services.user import UserService
 
 
 class UserRouter:
-    def __init__(self):
+    def __init__(self, user_service: UserService):
         self.router = APIRouter(prefix="/users", tags=["users"])
         self.auth_service = AuthService()
         self._setup_routes()
+        self.user_service = user_service
 
     def get_router(self):
         return self.router
@@ -25,8 +26,7 @@ class UserRouter:
             #dependencies=[Depends(self.auth_service.require_role(["admin"]))]
         )
         def get_user(user_id: int, db: Session = Depends(get_db)):
-            user_service = UserService(db)
-            user_by_id = user_service.get_user_information_by_id(user_id)
+            user_by_id = self.user_service.get_user_information_by_id(user_id, db)
             if not user_by_id:
                 raise HTTPException(status_code=403)
             return user_by_id
