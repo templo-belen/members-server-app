@@ -5,10 +5,12 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.member import MemberBasicInformation, MemberPersonalInformation
+from app.models.member_dew import MembersDEWInformation
 from app.models.member_general_data import MembersGeneralDataInformation
 from app.models.member_references import MembersReferenceInformation
 from app.services.auth import AuthService
 from app.services.member import MemberService
+from app.services.member_dew import MembersDEWService
 from app.services.member_general_data import MembersGeneralDataService
 from app.services.member_references import MembersReferenceService
 
@@ -68,3 +70,15 @@ class MemberRouter:
             if not member_references:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_references
+
+        @self.router.get(
+            "/{member_id}/dew",
+            response_model=Optional[MembersDEWInformation],
+            #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def find_by_id(member_id, db: Session = Depends(get_db)):
+            member_dew_service = MembersDEWService(db)
+            member_dew = member_dew_service.find_by_id(member_id)
+            if not member_dew:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+            return member_dew
