@@ -16,10 +16,17 @@ from app.services.member_references import MembersReferenceService
 
 
 class MemberRouter:
-    def __init__(self):
+    def __init__(self, member_service: MemberService,
+                       member_general_data_service: MembersGeneralDataService,
+                       member_reference_service: MembersReferenceService,
+                       member_dew_service: MembersDEWService):
         self.router = APIRouter(prefix="/members", tags=["members"])
         self.auth_service = AuthService()
         self._setup_routes()
+        self.member_service = member_service
+        self.member_general_data_service = member_general_data_service
+        self.member_reference_service = member_reference_service
+        self.member_dew_service = member_dew_service
 
     def get_router(self):
         return self.router
@@ -31,8 +38,7 @@ class MemberRouter:
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def get_all(db: Session = Depends(get_db)):
-            member_service = MemberService(db)
-            return member_service.get_all()
+            return self.member_service.get_all(db)
 
         @self.router.get(
             "/{member_id}",
@@ -40,8 +46,7 @@ class MemberRouter:
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_by_id(member_id, db: Session = Depends(get_db)):
-            member_service = MemberService(db)
-            member = member_service.find_by_id(member_id)
+            member = self.member_service.find_by_id(member_id, db)
             if not member:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member
@@ -53,8 +58,7 @@ class MemberRouter:
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_general_data_by_member_id(member_id, db: Session = Depends(get_db)):
-            member_general_data_service = MembersGeneralDataService(db)
-            member_general_data = member_general_data_service.find_by_id(member_id)
+            member_general_data = self.member_general_data_service.find_by_id(member_id, db)
             if not member_general_data:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_general_data
@@ -65,8 +69,7 @@ class MemberRouter:
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_by_id(member_id, db: Session = Depends(get_db)):
-            member_reference_service = MembersReferenceService(db)
-            member_references = member_reference_service.find_by_id(member_id)
+            member_references = self.member_reference_service.find_by_id(member_id, db)
             if not member_references:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_references
@@ -77,8 +80,7 @@ class MemberRouter:
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_by_id(member_id, db: Session = Depends(get_db)):
-            member_dew_service = MembersDEWService(db)
-            member_dew = member_dew_service.find_by_id(member_id)
+            member_dew = self.member_dew_service.find_by_id(member_id, db)
             if not member_dew:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_dew

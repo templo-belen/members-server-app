@@ -2,6 +2,10 @@
 
 -- TODO este archivo debe borrarse posteriormente!!!
 
+-- usuario - pass: 12345
+insert into users(username, password, full_name, role_id)
+values ('user', '$2a$12$QRrPDX6ChrRfqVBlyN6D5.zLFAGVidR69/OV8iXMjf8eKvXUg2on2', 'El Usuario de la Verdad', 1);
+
 -- Pastores de zona
 INSERT INTO members (
     id_number, surnames, names, birthdate, birth_country, residence_country,

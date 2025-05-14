@@ -9,10 +9,11 @@ from app.services.user import UserService
 
 
 class LoginRouter:
-    def __init__(self):
+    def __init__(self, user_service: UserService):
         self.router = APIRouter(tags=["login"])
         self.auth_service = AuthService()
         self._setup_routes()
+        self.user_service = user_service
 
     def get_router(self):
         return self.router
@@ -23,8 +24,7 @@ class LoginRouter:
             form_data: OAuth2PasswordRequestForm = Depends(),
             db: Session = Depends(get_db)
         ):
-            user_service = UserService(db)
-            user = user_service.get_user_login_by_username(form_data.username)
+            user = self.user_service.get_user_login_by_username(form_data.username, db)
             if not user or not self.auth_service.verify_password(form_data.password, user):
                 raise HTTPException(status_code=401, detail="Invalid credentials")
             return self.auth_service.create_access_token(user)

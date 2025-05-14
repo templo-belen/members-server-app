@@ -5,11 +5,11 @@ from app.models.member_references import MembersReferenceInformation, MembersRef
 
 
 class MembersReferenceService:
-    def __init__(self, db: Session):
-        self.db = db
+    def __init__(self):
+        pass
 
-    def find_by_id(self, member_id: int) -> MembersReferenceInformation | None:
-        member_data = self.db.query(Member.id, Member.reasons_for_congregating) \
+    def find_by_id(self, member_id: int, db: Session) -> MembersReferenceInformation | None:
+        member_data = db.query(Member.id, Member.reasons_for_congregating) \
             .filter(Member.id == member_id) \
             .first()
 
@@ -17,7 +17,7 @@ class MembersReferenceService:
             return None
 
         # Getting references
-        references = self.db.query(MembersReference) \
+        references = db.query(MembersReference) \
             .filter(MembersReference.member_id == member_id) \
             .all()
         references_pydantic = [MembersReferenceElement.model_validate(ref) for ref in references]
