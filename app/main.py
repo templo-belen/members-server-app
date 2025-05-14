@@ -7,6 +7,7 @@ from app.routers.login import LoginRouter
 from app.routers.member import MemberRouter
 from app.routers.preaching_point import PreachingPointRouter
 from app.routers.user import UserRouter
+from app.services.auth import AuthService
 from app.services.health import HealthService
 from app.services.member import MemberService
 from app.services.member_dew import MembersDEWService
@@ -30,7 +31,7 @@ app.include_router(health_router.get_router())
 
 # Login
 user_service = UserService()
-app.include_router(LoginRouter(user_service).get_router())
+app.include_router(LoginRouter(user_service, AuthService()).get_router())
 
 # Users
 app.include_router(UserRouter(user_service).get_router())
