@@ -1,25 +1,7 @@
 from typing import Optional, List
 
 from pydantic import BaseModel, Field, ConfigDict
-from sqlalchemy import Column, Integer, String, ForeignKey
 
-from app.database import Base
-
-
-class MembersReference(Base):
-    __tablename__ = 'members_references'
-
-    id = Column(Integer, primary_key=True)
-
-    total_time = Column(Integer)
-    church_name = Column(String(100))
-    main_pastor_name = Column(String(150))
-    leaving_reason = Column(String(50))
-
-    member_id = Column(Integer, ForeignKey('members.id'), unique=True, nullable=False)
-
-
-# Pydantic models
 
 class MembersReferenceElement(BaseModel):
     id: int = Field(description="Member reference DB id")
@@ -36,7 +18,7 @@ class MembersReferenceElement(BaseModel):
     )
 
 
-class MembersReferenceInformation(BaseModel):
+class MemberReferenceResponse(BaseModel):
     references: Optional[List[MembersReferenceElement]] = Field(default=None, description="Member's reference list", )
     reasons_for_congregating: Optional[str] = Field(default=None, description="Reason why the member congregates",
                                                     alias="reasonsForCongregating")
