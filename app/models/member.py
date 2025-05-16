@@ -2,53 +2,10 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serializer
-from sqlalchemy import Column, String, TIMESTAMP, Enum, ForeignKey, Integer
-from sqlalchemy.orm import relationship
 
-from app.models.base_table_model import BaseTableModel
 from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType
-from app.models.preaching_point import PreachingPoint, PreachingPointInformation
+from app.models.preaching_point import PreachingPointInformation
 
-
-class Member(BaseTableModel):
-    __tablename__ = "members"
-
-    id = Column(Integer, primary_key=True, index=True)
-
-    id_number = Column(String(50), nullable=False, unique=True)
-    surnames = Column(String(100), nullable=False)
-    names = Column(String(100), nullable=False)
-    birthdate = Column(TIMESTAMP)
-    birth_country = Column(String(50))
-    residence_country = Column(String(50))
-    address = Column(String(100))
-    phone_number = Column(String(20))
-    cellphone_number = Column(String(20))
-    email = Column(String(100))
-    military_service = Column(String(20))
-    studies_completed = Column(String(100))
-    degree_obtained = Column(String(100))
-    other_studies = Column(String(100))
-    company = Column(String(100))
-    occupation = Column(String(100))
-    eps = Column(String(50))
-    rh = Column(Enum(BloodType, name="blood_type", native_enum=True), nullable=True)
-    gender = Column(Enum(GenderType, name="gender_type", native_enum=True), nullable=True)
-
-    role = Column(Enum(RoleType, name="role_type", native_enum=False), nullable=False)
-    zone_pastor_id = Column(Integer, ForeignKey("members.id"), nullable=True)
-    commitment_date = Column(TIMESTAMP)
-    cell_leadership = Column(Enum(CellLeadershipType, name="cell_leadership_type", native_enum=True), nullable=False)
-    leadership = Column(Enum(LeadershipType, name="leadership_type", native_enum=True), nullable=False)
-    preaching_point_id = Column(Integer, ForeignKey("preaching_point.id"))
-    reasons_for_congregating = Column(String(250))
-
-    #Relationships
-    preaching_point = relationship(PreachingPoint, lazy="select")
-    zone_pastor = relationship("Member", remote_side=[id], backref="zone_members", lazy="select")
-
-
-# Pydantic models
 
 """
 This class makes it easier when loading zone pastor data as part of the member data.
@@ -69,7 +26,7 @@ class MemberBasicData(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-class MemberBasicInformation(BaseModel):
+class MemberListItemResponse(BaseModel):
     id: int = Field(description="User database identifier")
     id_number: str = Field(description="Member ID number", alias="idNumber")
     surnames: str = Field(description="Member surnames")
@@ -105,7 +62,7 @@ class MemberBasicInformation(BaseModel):
     def serialize_zone_pastor(self, obj, _info):
         return f"{obj.names} {obj.surnames}" if obj else None
 
-class MemberPersonalInformation(BaseModel):
+class MemberPersonalInformationResponse(BaseModel):
     id: int = Field(description="User database identifier")
     id_number: str = Field(description="Member ID number", alias="idNumber")
     surnames: str = Field(description="Member surnames")

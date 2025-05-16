@@ -1,18 +1,20 @@
 from sqlalchemy.orm import Session
 
-from app.models.member import Member, MemberBasicInformation, MemberPersonalInformation
+from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse
+
+from app.database.member import Member
 
 
 class MemberService:
     def __init__(self):
         pass
 
-    def get_all(self, db: Session) -> list[MemberBasicInformation]:
+    def get_all(self, db: Session) -> list[MemberListItemResponse]:
         members = db.query(Member).all()
-        return [MemberBasicInformation.from_orm(m) for m in members]
+        return [MemberListItemResponse.from_orm(m) for m in members]
     
-    def find_by_id(self, id, db: Session) -> MemberPersonalInformation | None:
+    def find_by_id(self, id, db: Session) -> MemberPersonalInformationResponse | None:
         member = db.query(Member).filter(Member.id == id).first()
         if not member:
             return None
-        return MemberPersonalInformation.from_orm(member)
+        return MemberPersonalInformationResponse.from_orm(member)

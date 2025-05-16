@@ -1,8 +1,9 @@
 from fastapi import Depends, APIRouter, HTTPException
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.models.user import UserInformation
+from app.database.connection import get_db
+from app.models.user import UserResponse
+from app.services.user import UserService
 from app.services.auth import AuthService
 from app.services.user import UserService
 
@@ -20,7 +21,7 @@ class UserRouter:
     def _setup_routes(self):
         @self.router.get(
             "/{user_id}",
-            response_model=UserInformation | None,
+            response_model=UserResponse | None,
             # Esto funciona, por ahora estaremos sin seguridad para agilizar
             # Descomentar para agregar autorización
             #dependencies=[Depends(self.auth_service.require_role(["admin"]))]

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, TIMESTAMP, String, Integer
 
-from app.database import Base
+from app.database.connection import Base
 
 class BaseTableModel(Base):
     __abstract__ = True

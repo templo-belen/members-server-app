@@ -3,11 +3,11 @@ from typing import List, Optional
 from fastapi import Depends, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.models.member import MemberBasicInformation, MemberPersonalInformation
-from app.models.member_dew import MembersDEWInformation
-from app.models.member_general_data import MembersGeneralDataInformation
-from app.models.member_references import MembersReferenceInformation
+from app.database.connection import get_db
+from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse
+from app.models.member_general_data import MemberGeneralDataResponse
+from app.models.member_references import MemberReferenceResponse
+from app.models.member_dew import MembersDEWResponse
 from app.services.auth import AuthService
 from app.services.member import MemberService
 from app.services.member_dew import MembersDEWService
@@ -34,7 +34,7 @@ class MemberRouter:
     def _setup_routes(self):
         @self.router.get(
             "/",
-            response_model=Optional[List[MemberBasicInformation]] | None,
+            response_model=Optional[List[MemberListItemResponse]] | None,
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def get_all(db: Session = Depends(get_db)):
@@ -42,7 +42,7 @@ class MemberRouter:
 
         @self.router.get(
             "/{member_id}",
-            response_model=MemberPersonalInformation,
+            response_model=MemberPersonalInformationResponse,
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_by_id(member_id, db: Session = Depends(get_db)):
@@ -54,7 +54,7 @@ class MemberRouter:
         @self.router.get(
             "/{member_id}/general-data",
             description="Get 'Member General Data' given the member ID",
-            response_model=MembersGeneralDataInformation,
+            response_model=MemberGeneralDataResponse,
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_general_data_by_member_id(member_id, db: Session = Depends(get_db)):
@@ -65,7 +65,7 @@ class MemberRouter:
 
         @self.router.get(
             "/{member_id}/references",
-            response_model=Optional[MembersReferenceInformation],
+            response_model=Optional[MemberReferenceResponse],
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_by_id(member_id, db: Session = Depends(get_db)):
@@ -76,7 +76,7 @@ class MemberRouter:
 
         @self.router.get(
             "/{member_id}/dew",
-            response_model=Optional[MembersDEWInformation],
+            response_model=Optional[MembersDEWResponse],
             #dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_by_id(member_id, db: Session = Depends(get_db)):

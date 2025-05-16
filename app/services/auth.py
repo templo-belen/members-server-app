@@ -5,12 +5,13 @@ from datetime import datetime, timedelta
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 
-from app.models.user import Token, UserLogin, User
+from app.models.user import TokenResponse, LoginRequest
 from app.settings import settings
 from app.services.user import UserService
 
 from sqlalchemy.orm import Session
-from app.database import get_db
+from app.database.connection import get_db
+from app.database.user import User
 
 class AuthService:
 
@@ -19,17 +20,17 @@ class AuthService:
     def __init__(self):
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-    def verify_password(self, plain_password, userdata : UserLogin):
+    def verify_password(self, plain_password, userdata : LoginRequest):
         return self.pwd_context.verify(plain_password, userdata.password)
 
     def get_password_hash(self, password):
         return self.pwd_context.hash(password)
 
-    def create_access_token(self, data: UserLogin, expires_delta: timedelta | None = None):
+    def create_access_token(self, data: LoginRequest, expires_delta: timedelta | None = None):
         to_encode = {"id" : data.id}
         expire = datetime.utcnow() + (expires_delta or timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES))
         to_encode.update({"exp": expire})
-        token_response = Token(access_token=jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM),
+        token_response = TokenResponse(access_token=jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM),
                                token_type="Bearer")
         return token_response
     
