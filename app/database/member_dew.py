@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Date, String, ForeignKey, Boolean
 
-from app.database.database import Base
+from app.database.connection import Base
 
 
 class MembersDEW(Base):

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Date, String, Enum, ForeignKey
 
-from app.database.database import Base
+from app.database.connection import Base
 from app.models.enum_type import LeavingReasonType
 
 

@@ -10,7 +10,7 @@ from app.settings import settings
 from app.services.user import UserService
 
 from sqlalchemy.orm import Session
-from app.database.database import get_db
+from app.database.connection import get_db
 from app.database.user import User
 
 class AuthService:

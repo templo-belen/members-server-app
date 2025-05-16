@@ -3,7 +3,7 @@ from typing import List, Optional
 from fastapi import Depends, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.database.database import get_db
+from app.database.connection import get_db
 from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse
 from app.models.member_general_data import MemberGeneralDataResponse
 from app.models.member_references import MemberReferenceResponse
