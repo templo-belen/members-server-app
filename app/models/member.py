@@ -84,7 +84,7 @@ class MemberPersonalInformationResponse(BaseModel):
     rh: Optional[BloodType] = Field(description="Member rh")
     gender: Optional[GenderType] = Field(description="Gender type")
 
-    preaching_point: Optional[PreachingPointInformation] = Field(description="Preaching point")
+    preaching_point: Optional[PreachingPointInformation] = Field(description="Preaching point", alias="preachingPoint")
     role: RoleType = Field(description="Member current role", alias="currentRole")
     commitment_date: Optional[datetime] = Field(description="Commitment date", alias="commitmentDate")
     cell_leadership: CellLeadershipType = Field(description="Cell leadership", alias="cellLeadership")
