@@ -7,7 +7,7 @@ Backend para el manejo de miembros de la Iglesia Templo Belen
 
 ## Correr la aplicacion
 
-1. Pararse en la la raiz del proyecto.
+1. Pararse en la raiz del proyecto.
 2. Si su gestor de contenedores es Docker use `docker-compose up --build --detach`, si su gestor es Podman use `podman-compose up --build --detach`
 
 Nota: 

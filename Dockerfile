@@ -9,8 +9,6 @@ COPY ./app /code/app
 
 RUN pip install --upgrade pip
 
-RUN ["ls"]
-
 RUN pip install .
 
 CMD ["fastapi", "run", "app/main.py", "--port", "80"]
