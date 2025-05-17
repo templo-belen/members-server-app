@@ -1,5 +1,6 @@
 from fastapi import Depends, HTTPException, APIRouter
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
@@ -27,4 +28,6 @@ class LoginRouter:
             user = self.user_service.get_user_login_by_username(form_data.username, db)
             if not user or not self.auth_service.verify_password(form_data.password, user):
                 raise HTTPException(status_code=401, detail="Invalid credentials")
-            return self.auth_service.create_access_token(user)
+
+            headers = {"Authorization": self.auth_service.create_access_token(user)}
+            return JSONResponse(content=user, headers=headers)
