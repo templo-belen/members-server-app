@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, ConfigDict
 
-from app.models.enum_serializer import SerializedEnumByName
+from app.models.enum_serializer import serialized_enum_by_name
 from app.models.enum_type import LeavingReasonType
 
 
@@ -19,7 +19,7 @@ class MemberGeneralDataResponse(BaseModel):
     baptism_pastor_name: Optional[str] = Field(description="Baptism pastor name", alias="baptismPastorName")
     baptism_denomination: Optional[str] = Field(description="Baptism denomination", alias="baptismDenomination")
     active_member_since: Optional[datetime] = Field(description="Active member since", alias="activeMemberSince")
-    leaving_reason: Optional[SerializedEnumByName(LeavingReasonType)] = Field(description="Leaving reason", alias="leavingReason")
+    leaving_reason: Optional[serialized_enum_by_name(LeavingReasonType)] = Field(description="Leaving reason", alias="leavingReason")
     leaving_reason_description: Optional[str] = Field(description="Leaving reason", alias="leavingReasonDescription")
     leaving_date: Optional[datetime] = Field(description="Leaving date", alias="leavingDate")
     acceptance_comment: Optional[str] = Field(description="Acceptance comment", alias="acceptanceComment")
