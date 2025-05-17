@@ -3,9 +3,9 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serializer
 
+from app.models.enum_serializer import SerializedEnumByName
 from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType
 from app.models.preaching_point import PreachingPointInformation
-
 
 """
 This class makes it easier when loading zone pastor data as part of the member data.
@@ -81,15 +81,15 @@ class MemberPersonalInformationResponse(BaseModel):
     company: Optional[str] = Field(description="Company name", alias="company")
     occupation: Optional[str] = Field(description="Member occupation")
     eps: Optional[str] = Field(description="Member eps")
-    rh: Optional[BloodType] = Field(description="Member rh")
-    gender: Optional[GenderType] = Field(description="Gender type")
+    rh: Optional[SerializedEnumByName(BloodType)] = Field(description="Member rh")
+    gender: Optional[SerializedEnumByName(GenderType)] = Field(description="Gender type")
 
     preaching_point: Optional[PreachingPointInformation] = Field(description="Preaching point", alias="preachingPoint")
-    role: RoleType = Field(description="Member current role", alias="currentRole")
+    role: SerializedEnumByName(RoleType) = Field(description="Member current role", alias="currentRole")
     commitment_date: Optional[datetime] = Field(description="Commitment date", alias="commitmentDate")
-    cell_leadership: CellLeadershipType = Field(description="Cell leadership", alias="cellLeadership")
+    cell_leadership: SerializedEnumByName(CellLeadershipType) = Field(description="Cell leadership", alias="cellLeadership")
     zone_pastor: Optional[MemberBasicData] = Field(description="Member zone pastor data", alias="zonePastor")
-    leadership: LeadershipType = Field(description="Leadership")
+    leadership: SerializedEnumByName(LeadershipType) = Field(description="Leadership")
     status: str = Field(description="Member current status")
 
     created_at: datetime = Field(description="Member creation date", alias="createdAt")

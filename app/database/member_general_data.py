@@ -17,7 +17,7 @@ class MembersGeneralData(Base):
     baptism_pastor_name = Column(String(150))
     baptism_denomination = Column(String(100))
     active_member_since = Column(Date)
-    leaving_reason = Column(Enum(LeavingReasonType, name="leaving_reason_type", native_enum=True), nullable=True)
+    leaving_reason = Column(Enum(LeavingReasonType, name="leaving_reason_type", native_enum=False), nullable=True)
     leaving_reason_description = Column(String(100))
     leaving_date = Column(Date)
     acceptance_comment = Column(String(250))
