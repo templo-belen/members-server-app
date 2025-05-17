@@ -8,12 +8,12 @@ Backend para el manejo de miembros de la Iglesia Templo Belen
 ## Correr la aplicacion
 
 1. Pararse en la raiz del proyecto.
-2. Si su gestor de contenedores es Docker use `docker-compose up --build --detach`, si su gestor es Podman use `podman-compose up --build --detach`
+2. Si su gestor de contenedores es Docker use `docker-compose up --build --force-recreate --detach`, si su gestor es Podman use `podman-compose up --build --force-recreate --detach`
 
 Nota: 
 Si realiza cambios en la configuracion o en los scripts de base de datos siga lo siguientes pasos:
 - Corra `docker-compose down` o `podman-compose down`
-- Levante de nuevo el stack con `docker-compose up --build --detach` o `podman-compose up --build --detach`
+- Levante de nuevo el stack con `docker-compose up --build --force-recreate --detach` o `podman-compose up --force-recreate --build --detach`
 
 - La aplicacion REST estara disponible en http://localhost:8000
 - La documentacion swagger es autogenerada, esta disponible en http://localhost:8000/docs
