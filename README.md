@@ -3,14 +3,17 @@
 Backend para el manejo de miembros de la Iglesia Templo Belen
 
 ## Prerequisitos
-- Python 3.12 instalado, puede usar pyenv para manejar la version de python, siga (estas instrucciones)[https://github.com/pyenv/pyenv?tab=readme-ov-file#installation] para instalar pyenv
+- Tener instalado podman o docker.
 
 ## Correr la aplicacion
-1. Crear en ambiente virtual de python en la raiz del proyecto con el comando `python -m venv venv`
-2. Instalar las dependencias con el comando `pip install -e .`
-3. Correr el Docker Compose para iniciar una base de datos local `docker-compose up -d`. Esto también ejecutara todos los scripts SQL de la carpeta `db_scripts`.
-4. La aplicacion se corre con el comando `fastapi dev app/main.py`
-   - **NOTA:** Si no existe un .env se tomará el archivo .env.dev. Si se desea especificar un entorno específico, ejecutar: `SET ENV=myenv & fastapi dev app/main.py` (Windows) o `export ENV=myenv & fastapi dev app/main.py` (Linux)
+
+1. Pararse en la raiz del proyecto.
+2. Si su gestor de contenedores es Docker use `docker-compose up --build --detach`, si su gestor es Podman use `podman-compose up --build --detach`
+
+Nota: 
+Si realiza cambios en la configuracion o en los scripts de base de datos siga lo siguientes pasos:
+- Corra `docker-compose down` o `podman-compose down`
+- Levante de nuevo el stack con `docker-compose up --build --detach` o `podman-compose up --build --detach`
 
 - La aplicacion REST estara disponible en http://localhost:8000
 - La documentacion swagger es autogenerada, esta disponible en http://localhost:8000/docs
@@ -18,7 +21,7 @@ Backend para el manejo de miembros de la Iglesia Templo Belen
 ## Desarrollo de la aplicacion
 
 ### Agregar dependencias
-Las dependencias se deben instalar en el el archivo `setup.py`
+Las dependencias se deben agregar en el el archivo `setup.py`
 
 ### Estructura del proyecto
 
@@ -46,7 +49,7 @@ Todas las rutas de la aplicacion se configuran en esta carpeta, al igual que en 
 #### app/service
 Aqui se encuentra toda la logica de la aplicación
 
-#### db_scripts
+#### postgres/db_scripts
 Crear aquí los scripts de base de datos (tablas necesarias, inserción de datos). **Mantener la secuencia nnn para que el docker los ejecute en orden**.
 
 ### Agregar funcionalidades
