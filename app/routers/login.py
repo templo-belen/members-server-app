@@ -1,13 +1,11 @@
 from fastapi import Depends, HTTPException, APIRouter
-from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from sqlalchemy.orm import Session
+from fastapi.security import OAuth2PasswordRequestForm
 
-from app.database.connection import get_db
-from app.models.user import LoginResponse
-from app.services.auth import AuthService
-from app.services.user import UserService
+from app.database import get_db, Session
+from app.models import LoginResponse
+from app.services import AuthService, UserService
 
 
 class LoginRouter:

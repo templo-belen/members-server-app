@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
 
-from app.models.member_general_data import MemberGeneralDataResponse
-
-from app.database.member_general_data import MembersGeneralData
+from app.database import MembersGeneralData
+from app.models import MemberGeneralDataResponse
 
 
 class MembersGeneralDataService:

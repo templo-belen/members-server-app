@@ -1,18 +1,22 @@
 from typing import List, Optional
 
 from fastapi import Depends, APIRouter, HTTPException, status
-from sqlalchemy.orm import Session
 
-from app.database.connection import get_db
-from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse
-from app.models.member_general_data import MemberGeneralDataResponse
-from app.models.member_references import MemberReferenceResponse
-from app.models.member_dew import MembersDEWResponse
-from app.services.auth import AuthService
-from app.services.member import MemberService
-from app.services.member_dew import MembersDEWService
-from app.services.member_general_data import MembersGeneralDataService
-from app.services.member_references import MembersReferenceService
+from app.database import get_db, Session
+from app.models import (
+    MemberListItemResponse,
+    MemberPersonalInformationResponse,
+    MemberGeneralDataResponse,
+    MemberReferenceResponse,
+    MembersDEWResponse
+)
+from app.services import (
+    AuthService,
+    MemberService,
+    MembersDEWService,
+    MembersGeneralDataService,
+    MembersReferenceService,
+)
 
 
 class MemberRouter:
