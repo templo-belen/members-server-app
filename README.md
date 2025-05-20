@@ -29,15 +29,24 @@ Las dependencias se deben agregar en el el archivo `setup.py`
 app
 ├── __init__.py
 ├── main.py
+├── database
+│   ├── __init__.py
+│   ├── connection.py
+│   └── ...SQLAlchemy models...
 ├── models
 │   ├── __init__.py
-│   └── health.py
+│   ├── health.py
+│   └── ...Paydantic models...
 ├── routers
 │   ├── __init__.py
 │   └── health.py
 └── services
+    ├── __init__.py
     └── health.py
 ```
+
+#### app/database
+Todos los modelos de base de datos deben estar ubicados en esta carpeta, un archivo por tabla.
 
 #### app/models
 Todos los modelos de transporte de la aplicacion deben estar ubicados en esta carpeta, un archivo por funcionalidad con cuantos modelos sea necesario
