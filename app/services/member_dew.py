@@ -1,7 +1,5 @@
-from sqlalchemy.orm import Session
-
-from app.models.member_dew import MembersDEWResponse
-from app.database.member_dew import MembersDEW
+from app.database import MembersDEW, Session
+from app.models import MembersDEWResponse
 
 
 class MembersDEWService:

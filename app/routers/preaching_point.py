@@ -1,12 +1,10 @@
 from typing import Optional, List
 
 from fastapi import Depends, APIRouter
-from sqlalchemy.orm import Session
 
-from app.database.connection import get_db
-from app.models.preaching_point import PreachingPointInformation
-from app.services.auth import AuthService
-from app.services.preaching_point import PreachingPointService
+from app.database import get_db, Session
+from app.models import PreachingPointInformation
+from app.services import AuthService, PreachingPointService
 
 
 class PreachingPointRouter:

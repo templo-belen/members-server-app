@@ -3,9 +3,18 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException
 from fastapi import Query
 
-from app.models.enum_type import MaritalStatusType, GenderType, RoleType, CellLeadershipType, LeadershipType, \
-    HousingType, LeavingReasonType, BloodType
-from app.services.auth import AuthService
+from app.models import (
+    MaritalStatusType,
+    GenderType,
+    RoleType,
+    CellLeadershipType,
+    LeadershipType,
+    HousingType,
+    LeavingReasonType,
+    BloodType
+)
+from app.services import AuthService
+
 
 enum_map = {
     "marital-status": MaritalStatusType,

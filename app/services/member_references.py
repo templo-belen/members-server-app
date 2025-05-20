@@ -1,9 +1,5 @@
-from sqlalchemy.orm import Session
-
-from app.database.member import Member
-from app.database.member_references import MembersReference
-
-from app.models.member_references import MemberReferenceResponse, MembersReferenceElement
+from app.database import Member, MembersReference, Session
+from app.models import MemberReferenceResponse, MembersReferenceElement
 
 
 class MembersReferenceService:

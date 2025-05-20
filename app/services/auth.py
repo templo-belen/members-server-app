@@ -1,13 +1,13 @@
-from fastapi import Depends, HTTPException, status, Header
-from fastapi.security import OAuth2PasswordBearer
 from datetime import datetime, timedelta
 
+from fastapi import Depends, HTTPException, status, Header
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 
-from app.models.user import TokenResponse, LoginRequest
-from app.settings import settings
+from app.database import get_db, User, Session
+from app.models import TokenResponse, LoginRequest
 from app.services.user import UserService
+from app.settings import settings
 
 from sqlalchemy.orm import Session
 from app.database.connection import get_db

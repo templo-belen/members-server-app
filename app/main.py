@@ -1,20 +1,25 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers.enum_type import EnumTypeRouter
-from app.routers.health import HealthRouter
-from app.routers.login import LoginRouter
-from app.routers.member import MemberRouter
-from app.routers.preaching_point import PreachingPointRouter
-from app.routers.user import UserRouter
-from app.services.auth import AuthService
-from app.services.health import HealthService
-from app.services.member import MemberService
-from app.services.member_dew import MembersDEWService
-from app.services.member_general_data import MembersGeneralDataService
-from app.services.member_references import MembersReferenceService
-from app.services.preaching_point import PreachingPointService
-from app.services.user import UserService
+from app.routers import (
+    EnumTypeRouter,
+    HealthRouter,
+    LoginRouter,
+    MemberRouter,
+    PreachingPointRouter,
+    UserRouter,
+)
+from app.services import (
+    AuthService,
+    HealthService,
+    MemberService,
+    MembersDEWService,
+    MembersGeneralDataService,
+    MembersReferenceService,
+    PreachingPointService,
+    UserService,
+)
+
 
 app = FastAPI()
 app.add_middleware(

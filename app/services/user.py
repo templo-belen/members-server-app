@@ -1,10 +1,9 @@
 from sqlalchemy import select
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import joinedload
 
-from app.models.role import RoleInformation
-from app.models.user import LoginRequest, UserResponse
+from app.database import User, Session
+from app.models import LoginRequest, UserResponse, RoleInformation
 
-from app.database.user import User
 
 class UserService:
     def __init__(self):

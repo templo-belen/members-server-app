@@ -1,7 +1,5 @@
-from sqlalchemy.orm import Session
-
-from app.database.member import Member
-from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse
+from app.database import Member, Session
+from app.models import MemberListItemResponse, MemberPersonalInformationResponse
 
 
 class MemberService:
