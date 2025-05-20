@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
 
-from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse
-
 from app.database.member import Member
+from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse
 
 
 class MemberService:
@@ -17,4 +16,4 @@ class MemberService:
         member = db.query(Member).filter(Member.id == id).first()
         if not member:
             return None
-        return MemberPersonalInformationResponse.from_orm(member)
+        return MemberPersonalInformationResponse.model_validate(member)
