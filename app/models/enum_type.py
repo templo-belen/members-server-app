@@ -1,6 +1,6 @@
 import enum
 
-class MaritalStatusType(enum.Enum):
+class MaritalStatusType(str, enum.Enum):
     soltero = "Soltero(a)"
     casado = "Casado(a)"
     viudo = "Viudo(a)"
@@ -10,17 +10,17 @@ class MaritalStatusType(enum.Enum):
     vuelto_a_casar = "Vuelto a casar"
     otro = "Otro"
 
-class GenderType(enum.Enum):
+class GenderType(str, enum.Enum):
     femenino = "Femenino"
     masculino = "Masculino"
 
-class RoleType(enum.Enum):
+class RoleType(str, enum.Enum):
     miembro = "Miembro"
     miembro_asamblea = "Miembro asamblea"
     inactivo = "Inactivo"
     visitante = "Visitante"
 
-class CellLeadershipType(enum.Enum):
+class CellLeadershipType(str, enum.Enum):
     nuevo_creyente = "Nuevo creyente"
     padre_espiritual = "Padre espiritual"
     lider_asociado = "Líder asociado"
@@ -30,7 +30,7 @@ class CellLeadershipType(enum.Enum):
     pastor_zona = "Pastor de zona"
     pastor_principal = "Pastor principal"
 
-class LeadershipType(enum.Enum):
+class LeadershipType(str, enum.Enum):
     musico = "Músico"
     maestro_distrito_infantil = "Maestro distrito infantil (D.I.)"
     maestro_junior = "Maestro junior"
@@ -39,12 +39,12 @@ class LeadershipType(enum.Enum):
     maestro_retbelen = "Maestro RetBelen"
     no_aplica = "N/A"
 
-class HousingType(enum.Enum):
+class HousingType(str, enum.Enum):
     propia = "Propia"
     familiar = "Familiar"
     alquiler = "Alquiler"
 
-class LeavingReasonType(enum.Enum):
+class LeavingReasonType(str, enum.Enum):
     cambio_iglesia = "Cambió de iglesia"
     cambio_residencia = "Cambió de residencia"
     personales = "Personales"
@@ -53,7 +53,7 @@ class LeavingReasonType(enum.Enum):
     cambio_creencia = "Cambió de creencia"
     otro = "Otro"
 
-class BloodType(enum.Enum):
+class BloodType(str, enum.Enum):
     a_positive = "A+"
     a_negative = "A-"
     b_positive = "B+"

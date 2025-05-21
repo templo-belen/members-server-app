@@ -1,5 +1,6 @@
 from app.database import Member, Session
 from app.models import MemberListItemResponse, MemberPersonalInformationResponse
+from app.models.member import MemberBasicData
 
 
 class MemberService:
@@ -15,3 +16,16 @@ class MemberService:
         if not member:
             return None
         return MemberPersonalInformationResponse.model_validate(member)
+
+    def get_all_by_cell_leadership(self, cell_leadership, db: Session) -> list[MemberBasicData] | None:
+        """
+        Returns all the members with a specific cell leadership
+        :param cell_leadership:
+        :param db:
+        :return:
+        """
+        members = (db.query(Member.id, Member.names, Member.surnames)
+                   .filter(Member.cell_leadership == cell_leadership, Member.status == 'A').all())
+        if not members:
+            return None
+        return [MemberBasicData.model_validate(member) for member in members]
