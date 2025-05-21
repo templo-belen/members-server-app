@@ -9,9 +9,8 @@ from app.models import (
     MemberGeneralDataResponse,
     MemberReferenceResponse,
     MembersDEWResponse, CellLeadershipType,
+    parse_enum_by_name, MemberBasicData,
 )
-from app.models.enum_serializer import parse_enum_by_name
-from app.models.member import MemberBasicData
 from app.services import (
     AuthService,
     MemberService,
@@ -76,7 +75,7 @@ class MemberRouter:
             response_model=MemberGeneralDataResponse,
             # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
-        def find_general_data_by_member_id(member_id, db: Session = Depends(get_db)):
+        def find_general_data_by_member_id(member_id : int, db: Session = Depends(get_db)):
             member_general_data = self.member_general_data_service.find_by_id(member_id, db)
             if not member_general_data:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
@@ -87,7 +86,7 @@ class MemberRouter:
             response_model=Optional[MemberReferenceResponse],
             # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
-        def find_by_id(member_id, db: Session = Depends(get_db)):
+        def find_by_id(member_id : int, db: Session = Depends(get_db)):
             member_references = self.member_reference_service.find_by_id(member_id, db)
             if not member_references:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
@@ -98,7 +97,7 @@ class MemberRouter:
             response_model=Optional[MembersDEWResponse],
             # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
-        def find_by_id(member_id, db: Session = Depends(get_db)):
+        def find_by_id(member_id : int, db: Session = Depends(get_db)):
             member_dew = self.member_dew_service.find_by_id(member_id, db)
             if not member_dew:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)

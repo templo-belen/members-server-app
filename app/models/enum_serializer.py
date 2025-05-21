@@ -19,7 +19,7 @@ def serialized_enum_by_name(e: type[T]) -> type[T]:
 
     return Annotated[
         e,
-        BeforeValidator(lambda v: v if isinstance(v, e) else e[v] if v in e.__members__ else e(v)),
+        BeforeValidator(lambda v: v if isinstance(v, e) else e(v)),
         PlainSerializer(lambda v: v.name if isinstance(v, e) else v, return_type=str, when_used="always")
     ]
 
