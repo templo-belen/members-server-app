@@ -111,5 +111,6 @@ class MemberInitFormResponse(BaseModel):
     zone_pastors: List[MemberBasicData] = Field(description="Member zone pastor list", alias="zonePastors")
     preaching_points: List[PreachingPointInformation] = Field(description="Preaching point list", alias="preachingPoints")
 
-    class Config:
-        populate_by_name = True
+    model_config = ConfigDict(
+        populate_by_name=True
+    )
