@@ -6,10 +6,14 @@ from app.models.enum_type import (
     LeadershipType,
     LeavingReasonType,
     MaritalStatusType,
-    RoleType
+    RoleType,
+    KeyValueResponse
 )
 from app.models.health import HealthReponse
-from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse, MemberBasicData
+from app.models.member import (MemberListItemResponse,
+                               MemberPersonalInformationResponse,
+                               MemberBasicData,
+                               MemberInitFormResponse)
 from app.models.member_dew import MembersDEWResponse
 from app.models.member_general_data import MemberGeneralDataResponse
 from app.models.member_references import MemberReferenceResponse, MembersReferenceElement

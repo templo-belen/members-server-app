@@ -20,8 +20,8 @@ class MemberService:
     def get_all_by_cell_leadership(self, cell_leadership, db: Session) -> list[MemberBasicData] | None:
         """
         Returns all the members with a specific cell leadership
-        :param cell_leadership:
-        :param db:
+        :param cell_leadership: Cell leadership from CellLeadershipType
+        :param db: Database connection
         :return:
         """
         members = (db.query(Member.id, Member.names, Member.surnames)

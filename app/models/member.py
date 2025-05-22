@@ -1,25 +1,26 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Dict, List
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serializer
 
 from app.models.enum_serializer import serialized_enum_by_name
-from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType
+from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType, KeyValueResponse
 from app.models.preaching_point import PreachingPointInformation
 
-"""
-This class makes it easier when loading zone pastor data as part of the member data.
-"""
+
 class MemberName(BaseModel):
+    """
+    This class makes it easier when loading zone pastor data as part of the member data.
+    """
     names: str
     surnames: str
 
     model_config = ConfigDict(from_attributes=True)
 
-"""
-This class makes it easier when loading zone pastor and the id data as part of the member data.
-"""
 class MemberBasicData(BaseModel):
+    """
+    This class makes it easier when loading zone pastor and the id data as part of the member data.
+    """
     id: int
     names: str
     surnames: str
@@ -101,3 +102,14 @@ class MemberPersonalInformationResponse(BaseModel):
         from_attributes=True,
         populate_by_name=True
     )
+
+class MemberInitFormResponse(BaseModel):
+    """
+        This class allows to return all the data needed to show/create/update the members
+    """
+    enums: Dict[str, List[KeyValueResponse]] = Field(description="Member init form enums")
+    zone_pastors: List[MemberBasicData] = Field(description="Member zone pastor list", alias="zonePastors")
+    preaching_points: List[PreachingPointInformation] = Field(description="Preaching point list", alias="preachingPoints")
+
+    class Config:
+        populate_by_name = True

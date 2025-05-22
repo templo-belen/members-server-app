@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
 from app.models.user import UserResponse
-from app.services.user import UserService
 from app.services.auth import AuthService
 from app.services.user import UserService
 

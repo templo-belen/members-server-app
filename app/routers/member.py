@@ -9,14 +9,14 @@ from app.models import (
     MemberGeneralDataResponse,
     MemberReferenceResponse,
     MembersDEWResponse, CellLeadershipType,
-    parse_enum_by_name, MemberBasicData,
+    parse_enum_by_name, MemberBasicData, MemberInitFormResponse,
 )
 from app.services import (
     AuthService,
     MemberService,
     MembersDEWService,
     MembersGeneralDataService,
-    MembersReferenceService,
+    MembersReferenceService, get_enums_by_names, PreachingPointService,
 )
 
 
@@ -24,7 +24,8 @@ class MemberRouter:
     def __init__(self, member_service: MemberService,
                  member_general_data_service: MembersGeneralDataService,
                  member_reference_service: MembersReferenceService,
-                 member_dew_service: MembersDEWService):
+                 member_dew_service: MembersDEWService,
+                 preaching_point_service: PreachingPointService):
         self.router = APIRouter(prefix="/members", tags=["members"])
         self.auth_service = AuthService()
         self._setup_routes()
@@ -32,6 +33,7 @@ class MemberRouter:
         self.member_general_data_service = member_general_data_service
         self.member_reference_service = member_reference_service
         self.member_dew_service = member_dew_service
+        self.preaching_point_service = preaching_point_service
 
     def get_router(self):
         return self.router
@@ -44,6 +46,25 @@ class MemberRouter:
         )
         def get_all(db: Session = Depends(get_db)):
             return self.member_service.get_all(db)
+
+        @self.router.get(
+            "/init-form",
+            response_model=MemberInitFormResponse,
+            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def get_init_data(db: Session = Depends(get_db)):
+            enums = get_enums_by_names([
+                "marital-status", "gender", "role", "cell-leadership",
+                "leadership", "housing", "leaving-reason", "blood-type"
+            ])
+            zone_pastors = self.member_service.get_all_by_cell_leadership(CellLeadershipType.pastor_zona, db)
+            preaching_points = self.preaching_point_service.get_all(db)
+
+            return MemberInitFormResponse(
+                enums=enums,
+                zone_pastors=zone_pastors,
+                preaching_points=preaching_points
+            )
 
         @self.router.get(
             "/by-cell-leadership",

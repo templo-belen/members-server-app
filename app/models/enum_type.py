@@ -1,5 +1,8 @@
 import enum
 
+from pydantic import BaseModel
+
+
 class MaritalStatusType(str, enum.Enum):
     soltero = "Soltero(a)"
     casado = "Casado(a)"
@@ -62,3 +65,7 @@ class BloodType(str, enum.Enum):
     ab_negative = "AB-"
     o_positive = "O+"
     o_negative = "O-"
+
+class KeyValueResponse(BaseModel):
+    name: str
+    value: str
