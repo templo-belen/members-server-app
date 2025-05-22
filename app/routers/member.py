@@ -9,7 +9,7 @@ from app.models import (
     MemberGeneralDataResponse,
     MemberReferenceResponse,
     MembersDEWResponse, CellLeadershipType,
-    parse_enum_by_name, MemberBasicData, MemberInitFormResponse,
+    parse_enum_by_name, MemberBasicData, MemberFormValuesResponse,
 )
 from app.services import (
     AuthService,
@@ -49,7 +49,7 @@ class MemberRouter:
 
         @self.router.get(
             "/init-form",
-            response_model=MemberInitFormResponse,
+            response_model=MemberFormValuesResponse,
             # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def get_init_data(db: Session = Depends(get_db)):
@@ -60,7 +60,7 @@ class MemberRouter:
             zone_pastors = self.member_service.get_all_by_cell_leadership(CellLeadershipType.pastor_zona, db)
             preaching_points = self.preaching_point_service.get_all(db)
 
-            return MemberInitFormResponse(
+            return MemberFormValuesResponse(
                 enums=enums,
                 zone_pastors=zone_pastors,
                 preaching_points=preaching_points

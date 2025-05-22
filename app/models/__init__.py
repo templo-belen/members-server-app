@@ -7,13 +7,13 @@ from app.models.enum_type import (
     LeavingReasonType,
     MaritalStatusType,
     RoleType,
-    KeyValueResponse
+    NameValueResponse
 )
 from app.models.health import HealthReponse
 from app.models.member import (MemberListItemResponse,
                                MemberPersonalInformationResponse,
                                MemberBasicData,
-                               MemberInitFormResponse)
+                               MemberFormValuesResponse)
 from app.models.member_dew import MembersDEWResponse
 from app.models.member_general_data import MemberGeneralDataResponse
 from app.models.member_references import MemberReferenceResponse, MembersReferenceElement

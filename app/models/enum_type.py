@@ -66,6 +66,6 @@ class BloodType(str, enum.Enum):
     o_positive = "O+"
     o_negative = "O-"
 
-class KeyValueResponse(BaseModel):
+class NameValueResponse(BaseModel):
     name: str
     value: str

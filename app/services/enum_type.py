@@ -6,7 +6,7 @@ from app.models import (
     MaritalStatusType, GenderType,
     RoleType, CellLeadershipType,
     LeadershipType, HousingType,
-    LeavingReasonType, BloodType, KeyValueResponse,
+    LeavingReasonType, BloodType, NameValueResponse,
 )
 
 enum_map = {
@@ -20,7 +20,7 @@ enum_map = {
     "blood-type": BloodType,
 }
 
-def get_enums_by_names(names: list[str]) -> Dict[str, List[KeyValueResponse]]:
+def get_enums_by_names(names: list[str]) -> Dict[str, List[NameValueResponse]]:
     """
     Returns all the enums by the given names.
     :param names: enums names
@@ -34,10 +34,10 @@ def get_enums_by_names(names: list[str]) -> Dict[str, List[KeyValueResponse]]:
         for name in names:
             enum_class = enum_map.get(name)
             if not enum_class:
-                raise HTTPException(status_code=404, detail=f"Enum '{name}' not found")
+                raise HTTPException(status_code=400, detail=f"Enum '{name}' not found")
             selected_enum_map[name] = enum_class
 
     for name, enum_class in selected_enum_map.items():
-        response[name] = [KeyValueResponse(name=e.name, value=e.value) for e in enum_class]
+        response[name] = [NameValueResponse(name=e.name, value=e.value) for e in enum_class]
 
     return response

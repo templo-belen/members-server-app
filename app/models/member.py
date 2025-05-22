@@ -4,7 +4,7 @@ from typing import Optional, Dict, List
 from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serializer
 
 from app.models.enum_serializer import serialized_enum_by_name
-from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType, KeyValueResponse
+from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType, NameValueResponse
 from app.models.preaching_point import PreachingPointInformation
 
 
@@ -103,11 +103,11 @@ class MemberPersonalInformationResponse(BaseModel):
         populate_by_name=True
     )
 
-class MemberInitFormResponse(BaseModel):
+class MemberFormValuesResponse(BaseModel):
     """
         This class allows to return all the data needed to show/create/update the members
     """
-    enums: Dict[str, List[KeyValueResponse]] = Field(description="Member init form enums")
+    enums: Dict[str, List[NameValueResponse]] = Field(description="Member init form enums")
     zone_pastors: List[MemberBasicData] = Field(description="Member zone pastor list", alias="zonePastors")
     preaching_points: List[PreachingPointInformation] = Field(description="Preaching point list", alias="preachingPoints")
 
