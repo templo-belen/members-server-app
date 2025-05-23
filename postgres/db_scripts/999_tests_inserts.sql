@@ -255,3 +255,48 @@ values
         false,
         false
     );
+
+
+-- Inserts para ADN
+
+INSERT INTO members_adn (member_id, passion, mission, personal_prophecies, personal_values, one_year_plans, two_year_plans, five_year_plans, strengths, weaknesses, improvement_areas, mentor, mentor_frequency, mentee, mentee_frequency) VALUES
+(1, 'Ayudar a los demás', 'Impactar positivamente', 'Tendrás gran influencia', 'Empatía, justicia', 'Desarrollar habilidades sociales', 'Iniciar un proyecto personal', 'Fundar una ONG', 'Comunicación, liderazgo', 'Impaciencia', 'Manejo del estrés', 'Juan Pérez', 'Mensual', 'Laura Gómez', 'Semanal'),
+(2, 'Crear arte', 'Inspirar a otros', 'Tu arte tocará vidas', 'Creatividad, sensibilidad', 'Mejorar técnica de dibujo', 'Exponer en una galería', 'Vivir del arte', 'Imaginación, detalle', 'Indecisión', 'Autodisciplina', 'Ana Torres', 'Quincenal', 'Mario Ruiz', 'Mensual'),
+(3, 'Explorar el mundo', 'Conectar culturas', 'Verás lugares lejanos', 'Curiosidad, respeto', 'Viajar por el país', 'Aprender nuevos idiomas', 'Escribir un libro de viajes', 'Adaptabilidad, comunicación', 'Desorganización', 'Planificación', 'Luis Ríos', 'Mensual', 'Carmen Silva', 'Mensual'),
+(4, 'Investigar', 'Resolver problemas complejos', 'Descubrirás algo importante', 'Lógica, dedicación', 'Iniciar tesis', 'Publicar artículo', 'Trabajar en investigación', 'Pensamiento crítico', 'Perfeccionismo', 'Gestión de tiempo', null, null, 'Pedro Díaz', 'Semanal'),
+(5, 'Emprender', 'Crear soluciones útiles', 'Liderarás una empresa', 'Innovación, valentía', 'Identificar necesidades del mercado', 'Lanzar prototipo', 'Escalar startup', 'Creatividad, resiliencia', 'Ansiedad', 'Delegar', 'Sofía Jiménez', 'Quincenal', 'Andrés León', 'Quincenal'),
+(6, 'Sanar', 'Mejorar la salud de otros', 'Tendrás manos curativas', 'Compasión, responsabilidad', 'Estudiar medicina alternativa', 'Practicar con pacientes', 'Abrir clínica', 'Empatía, conocimientos médicos', 'Autoexigencia', 'Trabajo en equipo', 'Fernando Peña', 'Mensual', 'Natalia Mora', 'Mensual'),
+(7, 'Enseñar', 'Transformar vidas con educación', 'Serás luz en caminos oscuros', 'Paciencia, vocación', 'Diseñar un curso', 'Capacitarme en nuevas metodologías', 'Fundar una escuela', 'Claridad, carisma', 'Falta de confianza', 'Autoafirmación', 'Marcela Vargas', 'Semanal', 'Julián Soto', 'Semanal'),
+(8, 'Escribir', 'Transmitir ideas poderosas', 'Tus palabras cambiarán mentes', 'Veracidad, pasión', 'Publicar un blog', 'Participar en concursos', 'Escribir una novela', 'Expresión escrita, observación', 'Procrastinación', 'Organización', 'Renato Cuevas', 'Mensual', 'Daniela Torres', 'Quincenal'),
+(9, 'Servir', 'Apoyar a comunidades vulnerables', 'Serás puente de esperanza', 'Solidaridad, acción', 'Voluntariado regular', 'Organizar colectas', 'Dirigir una fundación', 'Escucha, gestión', 'Inseguridad', 'Autoconfianza', 'Adriana Ruiz', 'Mensual', 'Carlos Peña', 'Mensual'),
+(10, 'Innovar en tecnología', 'Resolver desafíos globales', 'Crearás algo revolucionario', 'Precisión, lógica', 'Desarrollar app de impacto social', 'Conseguir socios estratégicos', 'Fundar una tech for good', 'Resolución de problemas', 'Impaciencia', 'Escucha activa', 'Iván Torres', 'Quincenal', null, null);
+
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(1, 'Discernimiento espiritual', 'main_gift'),
+(1, 'Liderazgo', 'natural_ability'),
+(1, 'Paciencia', 'natural_ability'),
+(1, 'Resolución de conflictos', 'acquired_skill'),
+(1, 'Estoicidad', 'acquired_skill');
+
+-- member_id: 2
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(2, 'Enseñanza', 'main_gift'),
+(2, 'Empatía', 'secondary_gift'),
+(2, 'Manejo de herramientas digitales', 'acquired_skill');
+
+-- member_id: 3
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(3, 'Servicio', 'main_gift'),
+(3, 'Organización', 'natural_ability');
+
+-- member_id: 4
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(4, 'Palabra de conocimiento', 'main_gift'),
+(4, 'Comunicación efectiva', 'acquired_skill'),
+(4, 'Intuición', 'natural_ability');
+
+-- member_id: 5
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(5, 'Fe', 'secondary_gift'),
+(5, 'Diseño gráfico', 'acquired_skill'),
+(5, 'Pensamiento analítico', 'natural_ability');
