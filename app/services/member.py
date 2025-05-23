@@ -25,7 +25,7 @@ class MemberService:
         :return:
         """
         members = (db.query(Member.id, Member.names, Member.surnames)
-                   .filter(Member.cell_leadership == cell_leadership, Member.status == 'A').all())
+                   .filter(Member.cell_leadership == cell_leadership).all())
         if not members:
             return None
         return [MemberBasicData.model_validate(member) for member in members]
