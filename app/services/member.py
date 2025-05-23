@@ -20,12 +20,12 @@ class MemberService:
     def get_all_by_cell_leadership(self, cell_leadership, db: Session) -> list[MemberBasicData] | None:
         """
         Returns all the members with a specific cell leadership
-        :param cell_leadership:
-        :param db:
+        :param cell_leadership: Cell leadership from CellLeadershipType
+        :param db: Database connection
         :return:
         """
         members = (db.query(Member.id, Member.names, Member.surnames)
-                   .filter(Member.cell_leadership == cell_leadership, Member.status == 'A').all())
+                   .filter(Member.cell_leadership == cell_leadership).all())
         if not members:
             return None
         return [MemberBasicData.model_validate(member) for member in members]
