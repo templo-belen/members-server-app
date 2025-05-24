@@ -6,3 +6,4 @@ from app.services.member_general_data import MembersGeneralDataService
 from app.services.member_references import MembersReferenceService
 from app.services.preaching_point import PreachingPointService
 from app.services.user import UserService
+from app.services.enum_type import get_enums_by_names

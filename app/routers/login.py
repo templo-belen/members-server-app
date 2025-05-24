@@ -29,7 +29,8 @@ class LoginRouter:
                 raise HTTPException(status_code=401, detail="Invalid credentials")
 
             token = self.auth_service.create_access_token(user)
-            headers = {"Authorization": token.access_token}
+            headers = {"Access-Control-Expose-Headers": "Authorization"
+                , "Authorization": token.access_token}
             user = self.user_service.get_user_information_by_id(user.id, db)
             content = jsonable_encoder(LoginResponse(full_name=user.full_name, username=user.username))
             return JSONResponse(content=content, headers=headers)

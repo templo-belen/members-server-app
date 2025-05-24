@@ -46,12 +46,13 @@ member_service = MemberService()
 member_general_data_service = MembersGeneralDataService()
 member_reference_service = MembersReferenceService()
 member_dew_service = MembersDEWService()
+preaching_point_service = PreachingPointService()
 app.include_router(MemberRouter(member_service, member_general_data_service, member_reference_service,
-                                member_dew_service)
+                                member_dew_service, preaching_point_service)
                    .get_router())
 
 # Preaching points
-app.include_router(PreachingPointRouter(PreachingPointService()).get_router())
+app.include_router(PreachingPointRouter(preaching_point_service).get_router())
 
 # Enum types
 app.include_router(EnumTypeRouter().get_router())
