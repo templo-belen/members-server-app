@@ -126,10 +126,10 @@ class CreateMemberRequest(BaseModel):
     phone_number: Optional[str] = Field(description="Phone number", alias="phoneNumber")
     cellphone_number: Optional[str] = Field(description="Member cell phone number", alias="cellphoneNumber")
     email: Optional[str] = Field(description="Member email", examples=["templo.belen@mail.com"])
-    military_service: Optional[str] = Field(description="Military service number", alias="militaryService", default=None)
+    military_service: Optional[str] = Field(description="Military service number", alias="militaryService")
     studies_completed: Optional[str] = Field(description="Completed studies description", alias="studiesCompleted")
     degree_obtained: Optional[str] = Field(description="Obtained degree description", alias="degreeObtained")
-    other_studies: Optional[str] = Field(description="Other studies description", alias="otherStudies", default=None)
+    other_studies: Optional[str] = Field(description="Other studies description", alias="otherStudies")
     company: Optional[str] = Field(description="Company name", alias="company")
     occupation: Optional[str] = Field(description="Member occupation")
     eps: Optional[str] = Field(description="Member eps")
@@ -138,9 +138,9 @@ class CreateMemberRequest(BaseModel):
 
     preaching_point_id: Optional[int] = Field(description="Preaching point ID", alias="preachingPoint")
     role: serialized_enum_by_name(RoleType) = Field(description="Member current role", alias="currentRole")
-    commitment_date: Optional[date] = Field(description="Commitment date", alias="commitmentDate", default=None)
+    commitment_date: Optional[date] = Field(description="Commitment date", alias="commitmentDate")
     cell_leadership: serialized_enum_by_name(CellLeadershipType) = Field(description="Cell leadership", alias="cellLeadership")
-    zone_pastor_id: Optional[int] = Field(description="Member zone pastor ID", alias="zonePastor", default=None)
+    zone_pastor_id: Optional[int] = Field(description="Member zone pastor ID", alias="zonePastor")
     leadership: serialized_enum_by_name(LeadershipType) = Field(description="Leadership")
 
     model_config = ConfigDict(
