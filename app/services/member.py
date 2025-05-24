@@ -16,9 +16,9 @@ class MemberService:
         return [MemberListItemResponse.from_orm(m) for m in members]
     
     def create_member(self, new_member: CreateMemberRequest, current_user: User, db: Session) -> MemberPersonalInformationResponse:
-        db_member = Member(**new_member.model_dump(exclude_unset=True))
-        db_member.created_by = current_user.full_name
-        db_member.updated_by = current_user.full_name
+        db_member = Member(**new_member.model_dump(exclude_unset=True),
+                           created_by=current_user.username,
+                           updated_by=current_user.username)
         
         db.add(db_member)
         db.commit()

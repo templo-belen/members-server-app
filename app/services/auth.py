@@ -48,8 +48,7 @@ class AuthService:
     def get_current_user(self, authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> User:
         payload = self.decode_token(authorization)
         user_id: int = payload.get("id")
-        user = self.user_service.get_user_information_by_id(user_id, db)
-        return user
+        return self.user_service.get_user_information_by_id(user_id, db)
     
     def require_role(self, role_required: list[str]):
         def require_role_dependency(current_user: User = Depends(self.get_current_user)):
