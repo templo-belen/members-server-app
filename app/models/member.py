@@ -133,15 +133,15 @@ class CreateMemberRequest(BaseModel):
     company: Optional[str] = Field(description="Company name", alias="company")
     occupation: Optional[str] = Field(description="Member occupation")
     eps: Optional[str] = Field(description="Member eps")
-    rh: Optional[serialized_enum_by_name(BloodType)] = Field(description="Member rh")
-    gender: Optional[GenderType] = Field(description="Gender type")
+    rh: Optional[serialized_enum_by_name(BloodType)] = Field(description="Member RH")
+    gender: Optional[serialized_enum_by_name(GenderType)] = Field(description="Gender type")
 
     preaching_point_id: Optional[int] = Field(description="Preaching point ID", alias="preachingPoint")
-    role: RoleType = Field(description="Member current role", alias="currentRole")
+    role: serialized_enum_by_name(RoleType) = Field(description="Member current role", alias="currentRole")
     commitment_date: Optional[date] = Field(description="Commitment date", alias="commitmentDate", default=None)
-    cell_leadership: CellLeadershipType = Field(description="Cell leadership", alias="cellLeadership")
+    cell_leadership: serialized_enum_by_name(CellLeadershipType) = Field(description="Cell leadership", alias="cellLeadership")
     zone_pastor_id: Optional[int] = Field(description="Member zone pastor ID", alias="zonePastor", default=None)
-    leadership: LeadershipType = Field(description="Leadership")
+    leadership: serialized_enum_by_name(LeadershipType) = Field(description="Leadership")
 
     model_config = ConfigDict(
         from_attributes=True,

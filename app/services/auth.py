@@ -17,7 +17,8 @@ class AuthService:
 
     _403_exception = HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
-    def __init__(self):
+    def __init__(self, user_service: UserService):
+        self.user_service = user_service
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
     def verify_password(self, plain_password, userdata : LoginRequest):
@@ -43,16 +44,15 @@ class AuthService:
             return payload
         except JWTError as e:
             raise self._403_exception
+        
+    def get_current_user(self, authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> User:
+        payload = self.decode_token(authorization)
+        user_id: int = payload.get("id")
+        user = self.user_service.get_user_information_by_id(user_id, db)
+        return user
     
     def require_role(self, role_required: list[str]):
-        def get_current_user(authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> User:
-            payload = self.decode_token(authorization)
-            user_id: int = payload.get("id")
-            user_service = UserService(db)
-            user = user_service.get_user_information_by_id(user_id)
-            return user
-
-        def require_role_dependency(current_user: User = Depends(get_current_user)):
+        def require_role_dependency(current_user: User = Depends(self.get_current_user)):
             if current_user.role.code not in role_required:
                 raise self._403_exception
             return True

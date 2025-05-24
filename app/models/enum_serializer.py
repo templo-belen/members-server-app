@@ -7,19 +7,26 @@ T = TypeVar("T")
 
 def serialized_enum_by_name(e: type[T]) -> type[T]:
     """
-        This generic function receives an Enum and transforms the values or names of the enums.
+        This generic function receives an Enum type and transforms the name into the appropriate enum value.
 
-        - BeforeValidator(lambda v: v if isinstance(v, E) else E(v)): It is executed before validation.
-        If v is already an Enum, it remains as is. If v is an Enum value (e.g., 0+), it attempts to convert it to an Enum (e.g., BloodType.o_positive).
+        - `BeforeValidator(...)`: It is executed before validation.
+        If `v` is already an `Enum`, it remains it as is. If `v` is an `Enum`'s name (e.g., o_positive), it returns the Enum (e.g., BloodType.o_positive`).
 
-        - PlainSerializer(lambda v: v.name if isinstance(v, E) else v, return_type=str, when_used="always"): This is executed when converting to JSON.
-        If the value is an Enum (e.g., BloodType.o_positive), it returns its name: "o_positive".
+        - PlainSerializer(..., return_type=str, when_used="always"): This is executed when converting to JSON.
+        If the value is an `Enum` (e.g., `BloodType.o_positive`), it returns its name: `"o_positive"`.
         If for some reason it's already a string, it returns it as is (this prevents errors).
     """
 
+    def enum_from_name(v) -> type[T]:
+        if isinstance(v, e):
+            return v
+        if v in e.__members__:
+            return e.__members__[v]
+        raise ValueError(f"value {v} not allowed as {e}")
+
     return Annotated[
         e,
-        BeforeValidator(lambda v: v if isinstance(v, e) else e(v)),
+        BeforeValidator(enum_from_name),
         PlainSerializer(lambda v: v.name if isinstance(v, e) else v, return_type=str, when_used="always")
     ]
 

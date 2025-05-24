@@ -1,4 +1,4 @@
-from app.database import Member, Session
+from app.database import Member, Session, User
 from app.models import (
     CreateMemberRequest,
     MemberListItemResponse,
@@ -15,8 +15,11 @@ class MemberService:
         members = db.query(Member).all()
         return [MemberListItemResponse.from_orm(m) for m in members]
     
-    def create_member(new_member: CreateMemberRequest, db: Session) -> MemberPersonalInformationResponse:
+    def create_member(self, new_member: CreateMemberRequest, current_user: User, db: Session) -> MemberPersonalInformationResponse:
         db_member = Member(**new_member.model_dump(exclude_unset=True))
+        db_member.created_by = current_user.full_name
+        db_member.updated_by = current_user.full_name
+        
         db.add(db_member)
         db.commit()
         db.refresh(db_member)

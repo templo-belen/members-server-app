@@ -10,10 +10,11 @@ from app.services import AuthService, UserService
 
 class LoginRouter:
     def __init__(self, user_service: UserService, auth_service: AuthService):
+        self.auth_service = auth_service
+        self.user_service = user_service
+        
         self.router = APIRouter(tags=["login"])
         self._setup_routes()
-        self.user_service = user_service
-        self.auth_service = auth_service
 
     def get_router(self):
         return self.router

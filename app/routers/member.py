@@ -1,8 +1,13 @@
 from typing import List, Optional
 
-from fastapi import Depends, APIRouter, HTTPException, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    status,
+)
 
-from app.database import get_db, Session
+from app.database import get_db, Session, User
 from app.models import (
     CreateMemberRequest,
     MemberListItemResponse,
@@ -26,15 +31,17 @@ class MemberRouter:
                  member_general_data_service: MembersGeneralDataService,
                  member_reference_service: MembersReferenceService,
                  member_dew_service: MembersDEWService,
-                 preaching_point_service: PreachingPointService):
-        self.router = APIRouter(prefix="/members", tags=["members"])
-        self.auth_service = AuthService()
-        self._setup_routes()
+                 preaching_point_service: PreachingPointService,
+                 auth_service: AuthService):
         self.member_service = member_service
         self.member_general_data_service = member_general_data_service
         self.member_reference_service = member_reference_service
         self.member_dew_service = member_dew_service
         self.preaching_point_service = preaching_point_service
+        self.auth_service = auth_service
+        
+        self.router = APIRouter(prefix="/members", tags=["members"])
+        self._setup_routes()
 
     def get_router(self):
         return self.router
@@ -51,10 +58,10 @@ class MemberRouter:
         @self.router.post(
             "/",
             response_model=MemberPersonalInformationResponse | None,
-            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
-        def create_member(new_member: CreateMemberRequest, db: Session = Depends(get_db)):
-            return self.member_service.create_member(new_member, db)
+        def create_member(new_member: CreateMemberRequest, current_user: User = Depends(self.auth_service.get_current_user), db: Session = Depends(get_db)):
+            return self.member_service.create_member(new_member, current_user, db)
 
         @self.router.get(
             "/init-form",
