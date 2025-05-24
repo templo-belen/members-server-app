@@ -6,9 +6,10 @@ from fastapi import Query
 from app.services import AuthService, get_enums_by_names
 
 class EnumTypeRouter:
-    def __init__(self):
+    def __init__(self, auth_service: AuthService):
+        self.auth_service = auth_service
+        
         self.router = APIRouter(prefix="/enums", tags=["enums"])
-        self.auth_service = AuthService()
         self._setup_routes()
 
     def get_router(self):
