@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serializer
@@ -67,7 +67,7 @@ class MemberPersonalInformationResponse(BaseModel):
     id_number: str = Field(description="Member ID number", alias="idNumber")
     surnames: str = Field(description="Member surnames")
     names: str = Field(description="Member names")
-    birthdate: Optional[datetime] = Field(description="Member birth date")
+    birthdate: Optional[date] = Field(description="Member birth date")
     birth_country: Optional[str] = Field(description="Member birth country", alias="birthCountry")
     residence_country: Optional[str] = Field(description="Member residence country", alias="residenceCountry")
     address: Optional[str] = Field(description="Member address")
@@ -86,7 +86,7 @@ class MemberPersonalInformationResponse(BaseModel):
 
     preaching_point: Optional[PreachingPointInformation] = Field(description="Preaching point", alias="preachingPoint")
     role: serialized_enum_by_name(RoleType) = Field(description="Member current role", alias="currentRole")
-    commitment_date: Optional[datetime] = Field(description="Commitment date", alias="commitmentDate")
+    commitment_date: Optional[date] = Field(description="Commitment date", alias="commitmentDate")
     cell_leadership: serialized_enum_by_name(CellLeadershipType) = Field(description="Cell leadership", alias="cellLeadership")
     zone_pastor: Optional[MemberBasicData] = Field(description="Member zone pastor data", alias="zonePastor")
     leadership: serialized_enum_by_name(LeadershipType) = Field(description="Leadership")
@@ -96,6 +96,39 @@ class MemberPersonalInformationResponse(BaseModel):
     created_by: str = Field(description="Member created by", alias="createdBy")
     updated_at: datetime = Field(description="Member update date", alias="updatedAt")
     updated_by: str = Field(description="Member updated by", alias="updatedBy")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )
+
+class CreateMemberRequest(BaseModel):
+    id_number: str = Field(description="Member ID number", alias="idNumber")
+    surnames: str = Field(description="Member surnames")
+    names: str = Field(description="Member names")
+    birthdate: Optional[date] = Field(description="Member birth date")
+    birth_country: Optional[str] = Field(description="Member birth country", alias="birthCountry")
+    residence_country: Optional[str] = Field(description="Member residence country", alias="residenceCountry")
+    address: Optional[str] = Field(description="Member address")
+    phone_number: Optional[str] = Field(description="Phone number", alias="phoneNumber")
+    cellphone_number: Optional[str] = Field(description="Member cell phone number", alias="cellphoneNumber")
+    email: Optional[str] = Field(description="Member email", examples=["templo.belen@mail.com"])
+    military_service: Optional[str] = Field(description="Military service number", alias="militaryService", default=None)
+    studies_completed: Optional[str] = Field(description="Completed studies description", alias="studiesCompleted")
+    degree_obtained: Optional[str] = Field(description="Obtained degree description", alias="degreeObtained")
+    other_studies: Optional[str] = Field(description="Other studies description", alias="otherStudies", default=None)
+    company: Optional[str] = Field(description="Company name", alias="company")
+    occupation: Optional[str] = Field(description="Member occupation")
+    eps: Optional[str] = Field(description="Member eps")
+    rh: Optional[serialized_enum_by_name(BloodType)] = Field(description="Member rh")
+    gender: Optional[GenderType] = Field(description="Gender type")
+
+    preaching_point_id: Optional[int] = Field(description="Preaching point ID", alias="preachingPoint")
+    role: RoleType = Field(description="Member current role", alias="currentRole")
+    commitment_date: Optional[date] = Field(description="Commitment date", alias="commitmentDate", default=None)
+    cell_leadership: CellLeadershipType = Field(description="Cell leadership", alias="cellLeadership")
+    zone_pastor_id: Optional[int] = Field(description="Member zone pastor ID", alias="zonePastor", default=None)
+    leadership: LeadershipType = Field(description="Leadership")
 
     model_config = ConfigDict(
         from_attributes=True,

@@ -4,6 +4,7 @@ from fastapi import Depends, APIRouter, HTTPException, status
 
 from app.database import get_db, Session
 from app.models import (
+    CreateMemberRequest,
     MemberListItemResponse,
     MemberPersonalInformationResponse,
     MemberGeneralDataResponse,
@@ -44,6 +45,14 @@ class MemberRouter:
         )
         def get_all(db: Session = Depends(get_db)):
             return self.member_service.get_all(db)
+
+        @self.router.post(
+            "/",
+            response_model=MemberPersonalInformationResponse | None,
+            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def create_member(new_member: CreateMemberRequest, db: Session = Depends(get_db)):
+            return self.member_service.create_member(new_member, db)
 
         @self.router.get(
             "/by-cell-leadership",
