@@ -66,6 +66,12 @@ class BloodType(str, enum.Enum):
     o_positive = "O+"
     o_negative = "O-"
 
+class GiftAbilityType(str, enum.Enum):
+    main_gift = 'main_gift'
+    secondary_gift = 'secondary_gift'
+    acquired_skill = 'acquired_skill'
+    natural_ability = 'natural_ability'
+
 class NameValueResponse(BaseModel):
     name: str
     value: str
