@@ -60,8 +60,8 @@ class MemberRouter:
             response_model=MemberPersonalInformationResponse | None,
             dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
-        def create_member(new_member: CreateMemberRequest, current_user: User = Depends(self.auth_service.get_current_user), db: Session = Depends(get_db)):
-            return self.member_service.create_member(new_member, current_user, db)
+        def create_member(new_member: CreateMemberRequest, db: Session = Depends(get_db)):
+            return self.member_service.create_member(new_member, db)
 
         @self.router.get(
             "/init-form",

@@ -19,6 +19,7 @@ from app.services import (
     PreachingPointService,
     UserService,
 )
+from app.middlewares import UserAwareMiddleware
 
 
 app = FastAPI()
@@ -30,13 +31,17 @@ app.add_middleware(
     allow_headers=["*"],  # Or specify required headers
 )
 
+# Used by all routers and auth middleware
+user_service = UserService()
+auth_service = AuthService(user_service)
+app.add_middleware(
+    UserAwareMiddleware,
+    auth_service=auth_service,
+)
+
 health_service = HealthService()
 health_router = HealthRouter(health_service)
 app.include_router(health_router.get_router())
-
-# Used by all routers
-user_service = UserService()
-auth_service = AuthService(user_service)
 
 # Login
 app.include_router(LoginRouter(user_service, auth_service).get_router())

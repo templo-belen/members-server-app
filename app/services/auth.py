@@ -9,9 +9,6 @@ from app.models import TokenResponse, LoginRequest
 from app.services.user import UserService
 from app.settings import settings
 
-from sqlalchemy.orm import Session
-from app.database.connection import get_db
-from app.database.user import User
 
 class AuthService:
 
