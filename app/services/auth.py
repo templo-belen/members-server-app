@@ -1,14 +1,16 @@
 from datetime import datetime, timedelta
 
 from fastapi import Depends, HTTPException, status, Header
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 
-from app.database import get_db, User, Session
-from app.models import TokenResponse, LoginRequest
+from app.database import get_db, Session
+from app.models import TokenResponse, LoginRequest, UserResponse
 from app.services.user import UserService
 from app.settings import settings
 
+security = HTTPBearer()
 
 class AuthService:
 
@@ -37,18 +39,18 @@ class AuthService:
             raise self._403_exception
         token = authorization.split(" ")[1]
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-            return payload
+            return jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         except JWTError as e:
             raise self._403_exception
         
-    def get_current_user(self, authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> User:
+    def get_current_user(self, authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> UserResponse | None:
         payload = self.decode_token(authorization)
-        user_id: int = payload.get("id")
-        return self.user_service.get_user_information_by_id(user_id, db)
+        return self.user_service.get_user_information_by_id(payload.get("id"), db)
     
     def require_role(self, role_required: list[str]):
-        def require_role_dependency(current_user: User = Depends(self.get_current_user)):
+        def require_role_dependency(auth: HTTPAuthorizationCredentials = Depends(security),
+                                    db: Session = Depends(get_db)):
+            current_user = self.get_current_user(f"Bearer {auth.credentials}", db)
             if current_user.role.code not in role_required:
                 raise self._403_exception
             return True

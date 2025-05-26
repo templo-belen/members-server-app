@@ -7,7 +7,7 @@ from fastapi import (
     status,
 )
 
-from app.database import get_db, Session, User
+from app.database import get_db, Session
 from app.models import (
     CreateMemberRequest,
     MemberListItemResponse,
