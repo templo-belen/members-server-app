@@ -9,7 +9,7 @@ class MembersFamilyDataService:
     def __init__(self):
         pass
 
-    def find_by_id(self, member_id, db: Session) -> MemberFamilyDataResponse | None:
+    def find_by_member_id(self, member_id, db: Session) -> MemberFamilyDataResponse | None:
         member_family_data = (db.query(MemberFamilyData)
                               .filter(MemberFamilyData.member_id == member_id).first())
         member_family_data_response = None
