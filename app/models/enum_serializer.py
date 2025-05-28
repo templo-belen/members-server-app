@@ -18,6 +18,18 @@ def serialized_enum_by_name(e: type[T]) -> type[T]:
     """
 
     def enum_from_name(v) -> type[T]:
+        if not v:
+            return None
+        if isinstance(v, e):
+            return v
+        if v in e.__members__:
+            return e.__members__[v]
+        raise ValueError(f"value {v} not allowed as {e}")
+    
+    def name_from_enum(v) -> type[T]:
+        print("enum name", v)
+        if not v:
+            return None
         if isinstance(v, e):
             return v
         if v in e.__members__:
@@ -25,7 +37,7 @@ def serialized_enum_by_name(e: type[T]) -> type[T]:
         raise ValueError(f"value {v} not allowed as {e}")
 
     return Annotated[
-        e,
+        e | None,
         BeforeValidator(enum_from_name),
         PlainSerializer(lambda v: v.name if isinstance(v, e) else v, return_type=str, when_used="always")
     ]

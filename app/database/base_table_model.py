@@ -8,6 +8,6 @@ class BaseTableModel(Base):
 
     created_at = Column(TIMESTAMP, server_default=text('CURRENT_TIMESTAMP'))
     updated_at = Column(TIMESTAMP, server_default=text('CURRENT_TIMESTAMP'), server_onupdate=text('CURRENT_TIMESTAMP'))
-    created_by = Column(String(50))
-    updated_by = Column(String(50))
+    created_by = Column(String(50), nullable=False)
+    updated_by = Column(String(50), nullable=False)
     status = Column(String(1), nullable=False, default='A')

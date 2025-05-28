@@ -10,7 +10,6 @@ from app.models import TokenResponse, LoginRequest, UserResponse
 from app.services.user import UserService
 from app.settings import settings
 
-security = HTTPBearer()
 
 class AuthService:
 
@@ -48,8 +47,7 @@ class AuthService:
         return self.user_service.get_user_information_by_id(payload.get("id"), db)
     
     def require_role(self, role_required: list[str]):
-        def require_role_dependency(auth: HTTPAuthorizationCredentials = Depends(security),
-                                    db: Session = Depends(get_db)):
+        def require_role_dependency(auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()), db: Session = Depends(get_db)):
             current_user = self.get_current_user(f"Bearer {auth.credentials}", db)
             if current_user.role.code not in role_required:
                 raise self._403_exception

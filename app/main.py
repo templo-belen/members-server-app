@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.exception_handler import setup_exception_handles
 from app.routers import (
     EnumTypeRouter,
     HealthRouter,
@@ -68,3 +69,5 @@ app.include_router(PreachingPointRouter(preaching_point_service, auth_service).g
 
 # Enum types
 app.include_router(EnumTypeRouter(auth_service).get_router())
+
+app = setup_exception_handles(app)

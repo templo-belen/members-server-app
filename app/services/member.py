@@ -1,5 +1,8 @@
+from fastapi import HTTPException, status
+
 from app.database import Member, Session
 from app.models import (
+    CellLeadershipType,
     CreateMemberRequest,
     MemberListItemResponse,
     MemberPersonalInformationResponse,
@@ -22,6 +25,15 @@ class MemberService:
                            created_by=current_user.username,
                            updated_by=current_user.username)
         
+        zone_pastor = self.find_by_id(new_member.zone_pastor_id, db)
+        pastor_cell_leadership_types = [CellLeadershipType.pastor_principal, CellLeadershipType.pastor_zona]
+        if (
+            zone_pastor
+            and zone_pastor.cell_leadership
+            and zone_pastor.cell_leadership not in pastor_cell_leadership_types
+        ):
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
         db.add(db_member)
         db.commit()
         db.refresh(db_member)
