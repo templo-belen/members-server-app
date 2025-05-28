@@ -1,7 +1,7 @@
 from sqlalchemy import select
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, Session
 
-from app.database import User, Session
+from app.database import User
 from app.models import LoginRequest, UserResponse, RoleInformation
 
 

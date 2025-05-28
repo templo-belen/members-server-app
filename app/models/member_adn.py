@@ -6,7 +6,7 @@ from app.models.enum_serializer import serialized_enum_by_name
 from app.models.enum_type import GiftAbilityType
 
 
-class MemberADNData(BaseModel):
+class MemberADNDataResponse(BaseModel):
     member_id: int = Field(description="Member ID", alias="memberId")
 
     passion: Optional[str] = Field(description="What you passionately desire to do for God", alias="passion")
@@ -29,7 +29,7 @@ class MemberADNData(BaseModel):
         populate_by_name=True
     )
 
-class MemberGiftAbilityData(BaseModel):
+class MemberGiftAbilityDataResponse(BaseModel):
     id: int = Field(description="Member gift ability ID", alias="id")
     member_id: int = Field(description="Member ID", alias="memberId")
 
@@ -42,11 +42,11 @@ class MemberGiftAbilityData(BaseModel):
     )
 
 class MemberADNResponse(BaseModel):
-    adn: MemberADNData = Field(description="Member ADN data", alias="adn")
-    main_gift_list: List[MemberGiftAbilityData] | [] = Field(description="List of main gifts", alias="mainGiftList")
-    secondary_gift_list: List[MemberGiftAbilityData] | [] = Field(description="List of secondary gifts", alias="secondaryGiftList")
-    acquired_skill_list: List[MemberGiftAbilityData] | [] = Field(description="List of acquired skills", alias="acquiredSkillList")
-    natural_ability: List[MemberGiftAbilityData] | [] = Field(description="List of natural abilities", alias="naturalAbilityList")
+    adn: MemberADNDataResponse = Field(description="Member ADN data", alias="adn")
+    main_gift_list: List[MemberGiftAbilityDataResponse] | [] = Field(description="List of main gifts", alias="mainGiftList")
+    secondary_gift_list: List[MemberGiftAbilityDataResponse] | [] = Field(description="List of secondary gifts", alias="secondaryGiftList")
+    acquired_skill_list: List[MemberGiftAbilityDataResponse] | [] = Field(description="List of acquired skills", alias="acquiredSkillList")
+    natural_ability: List[MemberGiftAbilityDataResponse] | [] = Field(description="List of natural abilities", alias="naturalAbilityList")
 
     model_config = ConfigDict(
         populate_by_name=True
