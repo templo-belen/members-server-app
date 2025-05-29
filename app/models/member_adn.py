@@ -42,7 +42,7 @@ class MemberGiftAbilityDataResponse(BaseModel):
     )
 
 class MemberADNResponse(BaseModel):
-    adn: MemberADNDataResponse = Field(description="Member ADN data", alias="adn")
+    adn: Optional[MemberADNDataResponse] = Field(description="Member ADN data", alias="adn")
     main_gift_list: List[MemberGiftAbilityDataResponse] = Field(description="List of main gifts", alias="mainGiftList")
     secondary_gift_list: List[MemberGiftAbilityDataResponse] = Field(description="List of secondary gifts", alias="secondaryGiftList")
     acquired_skill_list: List[MemberGiftAbilityDataResponse] = Field(description="List of acquired skills", alias="acquiredSkillList")
