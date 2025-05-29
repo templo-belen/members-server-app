@@ -300,3 +300,7 @@ INSERT INTO members_gift_ability (member_id, name, type) VALUES
 (5, 'Fe', 'secondary_gift'),
 (5, 'Diseño gráfico', 'acquired_skill'),
 (5, 'Pensamiento analítico', 'natural_ability');
+
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(11, 'Discernimiento espiritual', 'main_gift'),
+(11, 'Liderazgo', 'natural_ability');

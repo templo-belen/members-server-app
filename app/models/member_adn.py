@@ -42,11 +42,11 @@ class MemberGiftAbilityData(BaseModel):
     )
 
 class MemberADNResponse(BaseModel):
-    adn: MemberADNData = Field(description="Member ADN data", alias="adn")
-    main_gift_list: List[MemberGiftAbilityData] | [] = Field(description="List of main gifts", alias="mainGiftList")
-    secondary_gift_list: List[MemberGiftAbilityData] | [] = Field(description="List of secondary gifts", alias="secondaryGiftList")
-    acquired_skill_list: List[MemberGiftAbilityData] | [] = Field(description="List of acquired skills", alias="acquiredSkillList")
-    natural_ability: List[MemberGiftAbilityData] | [] = Field(description="List of natural abilities", alias="naturalAbilityList")
+    adn: Optional[MemberADNData] = Field(description="Member ADN data", alias="adn")
+    main_gift_list: List[MemberGiftAbilityData] = Field(description="List of main gifts", alias="mainGiftList")
+    secondary_gift_list: List[MemberGiftAbilityData] = Field(description="List of secondary gifts", alias="secondaryGiftList")
+    acquired_skill_list: List[MemberGiftAbilityData] = Field(description="List of acquired skills", alias="acquiredSkillList")
+    natural_ability: List[MemberGiftAbilityData] = Field(description="List of natural abilities", alias="naturalAbilityList")
 
     model_config = ConfigDict(
         populate_by_name=True

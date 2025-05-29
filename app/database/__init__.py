@@ -8,3 +8,5 @@ from app.database.member_references import MembersReference
 from app.database.preaching_point import PreachingPoint
 from app.database.role import Role
 from app.database.user import User
+from app.database.member_adn import MemberADN
+from app.database.member_gift_ability import MemberGiftAbility
