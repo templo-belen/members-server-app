@@ -1,4 +1,6 @@
-from app.database import Member, MembersReference, Session
+from sqlalchemy.orm import Session
+
+from app.database import Member, MembersReference
 from app.models import MemberReferenceResponse, MembersReferenceElement
 
 

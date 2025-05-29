@@ -1,6 +1,8 @@
 from fastapi import HTTPException, status
+from sqlalchemy.orm import Session
 
-from app.database import Member, Session
+
+from app.database import Member
 from app.models import (
     CellLeadershipType,
     CreateMemberRequest,
@@ -24,7 +26,7 @@ class MemberService:
         db_member = Member(**new_member.model_dump(exclude_unset=True),
                            created_by=current_user.username,
                            updated_by=current_user.username)
-        
+
         zone_pastor = self.find_by_id(new_member.zone_pastor_id, db)
         pastor_cell_leadership_types = [CellLeadershipType.pastor_principal, CellLeadershipType.pastor_zona]
         if (
@@ -38,7 +40,7 @@ class MemberService:
         db.commit()
         db.refresh(db_member)
         return MemberPersonalInformationResponse.model_validate(db_member)
-    
+
     def find_by_id(self, id, db: Session) -> MemberPersonalInformationResponse | None:
         member = db.query(Member).filter(Member.id == id).first()
         if not member:

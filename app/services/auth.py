@@ -4,8 +4,9 @@ from fastapi import Depends, HTTPException, status, Header
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 from passlib.context import CryptContext
+from sqlalchemy.orm import Session
 
-from app.database import get_db, Session
+from app.database.connection import get_db
 from app.models import TokenResponse, LoginRequest, UserResponse
 from app.services.user import UserService
 from app.settings import settings
@@ -41,11 +42,11 @@ class AuthService:
             return jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         except JWTError as e:
             raise self._403_exception
-        
+
     def get_current_user(self, authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> UserResponse | None:
         payload = self.decode_token(authorization)
         return self.user_service.get_user_information_by_id(payload.get("id"), db)
-    
+
     def require_role(self, role_required: list[str]):
         def require_role_dependency(auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()), db: Session = Depends(get_db)):
             current_user = self.get_current_user(f"Bearer {auth.credentials}", db)

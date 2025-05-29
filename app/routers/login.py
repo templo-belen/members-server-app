@@ -2,8 +2,9 @@ from fastapi import Depends, HTTPException, APIRouter
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
+from sqlalchemy.orm import Session
 
-from app.database import get_db, Session
+from app.database import get_db
 from app.models import LoginResponse
 from app.services import AuthService, UserService
 
