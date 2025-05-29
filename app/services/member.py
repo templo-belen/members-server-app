@@ -1,4 +1,3 @@
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 
@@ -11,6 +10,7 @@ from app.models import (
     MemberBasicData,
 )
 from app.middlewares import current_user_ctx
+from app.services.exception import LogicConstraintViolationException
 
 
 class MemberService:
@@ -34,7 +34,7 @@ class MemberService:
             and zone_pastor.cell_leadership
             and zone_pastor.cell_leadership not in pastor_cell_leadership_types
         ):
-            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
+            raise LogicConstraintViolationException('El pastor de zona proporcionado no tiene el rol de pastor.')
 
         db.add(db_member)
         db.commit()
