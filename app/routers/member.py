@@ -1,22 +1,24 @@
 from typing import List, Optional
 
 from fastapi import Depends, APIRouter, HTTPException, status
+from sqlalchemy.orm import Session
 
-from app.database import get_db, Session
+from app.database import get_db
 from app.models import (
     MemberListItemResponse,
     MemberPersonalInformationResponse,
     MemberGeneralDataResponse,
     MemberReferenceResponse,
     MembersDEWResponse, CellLeadershipType,
-    parse_enum_by_name, MemberBasicData, MemberFormValuesResponse,
+    parse_enum_by_name, MemberBasicData, MemberFormValuesResponse, FamilyDataResponse, MemberFamilyDataResponse,
 )
 from app.services import (
     AuthService,
     MemberService,
     MembersDEWService,
     MembersGeneralDataService,
-    MembersReferenceService, get_enums_by_names, PreachingPointService,
+    MembersReferenceService, get_enums_by_names,
+    PreachingPointService, MembersFamilyDataService,
 )
 
 
@@ -25,7 +27,8 @@ class MemberRouter:
                  member_general_data_service: MembersGeneralDataService,
                  member_reference_service: MembersReferenceService,
                  member_dew_service: MembersDEWService,
-                 preaching_point_service: PreachingPointService):
+                 preaching_point_service: PreachingPointService,
+                 member_family_data_service: MembersFamilyDataService):
         self.router = APIRouter(prefix="/members", tags=["members"])
         self.auth_service = AuthService()
         self._setup_routes()
@@ -34,6 +37,7 @@ class MemberRouter:
         self.member_reference_service = member_reference_service
         self.member_dew_service = member_dew_service
         self.preaching_point_service = preaching_point_service
+        self.member_family_data_service = member_family_data_service
 
     def get_router(self):
         return self.router
@@ -123,3 +127,14 @@ class MemberRouter:
             if not member_dew:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_dew
+
+        @self.router.get(
+            "/{member_id}/family-data",
+            response_model=Optional[MemberFamilyDataResponse],
+            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def find_family_data_by_id(member_id : int, db: Session = Depends(get_db)):
+            member_family_data = self.member_family_data_service.find_by_member_id(member_id, db)
+            if not member_family_data:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+            return member_family_data

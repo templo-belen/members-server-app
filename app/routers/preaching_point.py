@@ -1,8 +1,9 @@
 from typing import Optional, List
 
 from fastapi import Depends, APIRouter
+from sqlalchemy.orm import Session
 
-from app.database import get_db, Session
+from app.database import get_db
 from app.models import PreachingPointInformation
 from app.services import AuthService, PreachingPointService
 

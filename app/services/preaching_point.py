@@ -1,4 +1,6 @@
-from app.database import PreachingPoint, Session
+from sqlalchemy.orm import Session
+
+from app.database import PreachingPoint
 from app.models import PreachingPointInformation
 
 
