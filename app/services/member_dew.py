@@ -1,4 +1,6 @@
-from app.database import MembersDEW, Session
+from sqlalchemy.orm import Session
+
+from app.database import MembersDEW
 from app.models import MembersDEWResponse
 
 

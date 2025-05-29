@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
 from app.database import MemberADN, MemberGiftAbility
-from app.models import MemberGiftAbilityData, GiftAbilityType
-from app.models.member_adn import MemberADNResponse, MemberADNData
+from app.models import MemberGiftAbilityDataResponse, GiftAbilityType
+from app.models.member_adn import MemberADNResponse, MemberADNDataResponse
 
 
 class MemberADNService:
@@ -13,12 +13,12 @@ class MemberADNService:
         member_adn = db.query(MemberADN).filter(MemberADN.member_id == member_id).first()
         member_adn_response = None
         if member_adn:
-            member_adn_response = MemberADNData.model_validate(member_adn)
+            member_adn_response = MemberADNDataResponse.model_validate(member_adn)
 
         member_abilities_list = db.query(MemberGiftAbility).filter(MemberGiftAbility.member_id == member_id).all()
         member_abilities_response = []
         if member_abilities_list:
-            member_abilities_response = [MemberGiftAbilityData.model_validate(ability) for ability in member_abilities_list]
+            member_abilities_response = [MemberGiftAbilityDataResponse.model_validate(ability) for ability in member_abilities_list]
 
         if not member_adn_response and not member_abilities_response:
             return None

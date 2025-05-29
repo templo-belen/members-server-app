@@ -1,4 +1,6 @@
-from app.database import Member, Session
+from sqlalchemy.orm import Session
+
+from app.database import Member
 from app.models import MemberListItemResponse, MemberPersonalInformationResponse
 from app.models.member import MemberBasicData
 

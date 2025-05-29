@@ -3,7 +3,7 @@
 CREATE TABLE members_family_data (
     id SERIAL PRIMARY KEY,
 
-    member_id integer NOT NULL,
+    member_id integer NOT NULL UNIQUE,
     marital_status marital_status_type,
     fathers_name VARCHAR(150),
     mothers_name VARCHAR(150),
