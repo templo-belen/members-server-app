@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.exception_handler import setup_exception_handles
 from app.routers import (
     EnumTypeRouter,
     HealthRouter,
@@ -20,6 +21,7 @@ from app.services import (
     UserService,
     MembersFamilyDataService,
 )
+from app.middlewares import UserAwareMiddleware
 
 
 app = FastAPI()
@@ -31,16 +33,23 @@ app.add_middleware(
     allow_headers=["*"],  # Or specify required headers
 )
 
+# Used by all routers and auth middleware
+user_service = UserService()
+auth_service = AuthService(user_service)
+app.add_middleware(
+    UserAwareMiddleware,
+    auth_service=auth_service,
+)
+
 health_service = HealthService()
 health_router = HealthRouter(health_service)
 app.include_router(health_router.get_router())
 
 # Login
-user_service = UserService()
-app.include_router(LoginRouter(user_service, AuthService()).get_router())
+app.include_router(LoginRouter(user_service, auth_service).get_router())
 
 # Users
-app.include_router(UserRouter(user_service).get_router())
+app.include_router(UserRouter(user_service, auth_service).get_router())
 
 # Members
 member_service = MemberService()
@@ -49,12 +58,19 @@ member_reference_service = MembersReferenceService()
 member_dew_service = MembersDEWService()
 preaching_point_service = PreachingPointService()
 member_family_data_service = MembersFamilyDataService()
-app.include_router(MemberRouter(member_service, member_general_data_service, member_reference_service,
-                                member_dew_service, preaching_point_service, member_family_data_service)
+app.include_router(MemberRouter(member_service,
+                                member_general_data_service,
+                                member_reference_service,
+                                member_dew_service,
+                                preaching_point_service,
+                                member_family_data_service,
+                                auth_service)
                    .get_router())
 
 # Preaching points
-app.include_router(PreachingPointRouter(preaching_point_service).get_router())
+app.include_router(PreachingPointRouter(preaching_point_service, auth_service).get_router())
 
 # Enum types
-app.include_router(EnumTypeRouter().get_router())
+app.include_router(EnumTypeRouter(auth_service).get_router())
+
+app = setup_exception_handles(app)

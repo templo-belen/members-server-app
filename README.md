@@ -15,8 +15,11 @@ Si realiza cambios en la configuracion o en los scripts de base de datos siga lo
 - Corra `docker-compose down` o `podman-compose down`
 - Levante de nuevo el stack con `docker-compose up --build --force-recreate --detach` o `podman-compose up --force-recreate --build --detach`
 
-- La aplicacion REST estara disponible en http://localhost:8000
-- La documentacion swagger es autogenerada, esta disponible en http://localhost:8000/docs
+- La aplicacion REST estara disponible en [http://localhost:8000](http://localhost:8000).
+- La documentacion swagger es autogenerada, esta disponible en [http://localhost:8000/docs](http://localhost:8000/docs).
+
+- Para acceder a la base de datos, se puede usar la herramienta adminer incluida en el `docker-compose.yml`. Esta herramienta estara disponible en la ruta (http://localhost:8900).
+- También se puede acceder a la base de datos directamente desde la linea de comandos utilizando `docker exec -it postgres psql -Upguser templo_belen`.
 
 ## Desarrollo de la aplicacion
 

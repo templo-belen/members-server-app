@@ -1,13 +1,13 @@
 from datetime import datetime, timedelta
 
 from fastapi import Depends, HTTPException, status, Header
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
-from app.database.user import User
-from app.models import TokenResponse, LoginRequest
+from app.models import TokenResponse, LoginRequest, UserResponse
 from app.services.user import UserService
 from app.settings import settings
 
@@ -16,7 +16,8 @@ class AuthService:
 
     _403_exception = HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
-    def __init__(self):
+    def __init__(self, user_service: UserService):
+        self.user_service = user_service
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
     def verify_password(self, plain_password, userdata : LoginRequest):
@@ -38,20 +39,17 @@ class AuthService:
             raise self._403_exception
         token = authorization.split(" ")[1]
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-            return payload
+            return jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         except JWTError as e:
             raise self._403_exception
-    
-    def require_role(self, role_required: list[str]):
-        def get_current_user(authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> User:
-            payload = self.decode_token(authorization)
-            user_id: int = payload.get("id")
-            user_service = UserService(db)
-            user = user_service.get_user_information_by_id(user_id)
-            return user
 
-        def require_role_dependency(current_user: User = Depends(get_current_user)):
+    def get_current_user(self, authorization: str | None = Header(default=None), db: Session = Depends(get_db)) -> UserResponse | None:
+        payload = self.decode_token(authorization)
+        return self.user_service.get_user_information_by_id(payload.get("id"), db)
+
+    def require_role(self, role_required: list[str]):
+        def require_role_dependency(auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()), db: Session = Depends(get_db)):
+            current_user = self.get_current_user(f"Bearer {auth.credentials}", db)
             if current_user.role.code not in role_required:
                 raise self._403_exception
             return True
