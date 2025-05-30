@@ -19,7 +19,9 @@ from app.models import (
     parse_enum_by_name,
     MemberBasicData,
     MemberFormValuesResponse,
-    MemberFamilyDataResponse, UpdateMemberRequest,
+    MemberFamilyDataResponse,
+    MemberADNResponse,
+    UpdateMemberRequest,
 )
 from app.services import (
     AuthService,
@@ -27,7 +29,9 @@ from app.services import (
     MembersDEWService,
     MembersGeneralDataService,
     MembersReferenceService, get_enums_by_names,
-    PreachingPointService, MembersFamilyDataService,
+    PreachingPointService,
+    MembersFamilyDataService,
+    MemberADNService,
 )
 
 
@@ -38,6 +42,7 @@ class MemberRouter:
                  member_dew_service: MembersDEWService,
                  preaching_point_service: PreachingPointService,
                  member_family_data_service: MembersFamilyDataService,
+                 member_adn_service: MemberADNService,
                  auth_service: AuthService):
         self.member_service = member_service
         self.member_general_data_service = member_general_data_service
@@ -45,6 +50,7 @@ class MemberRouter:
         self.member_dew_service = member_dew_service
         self.preaching_point_service = preaching_point_service
         self.member_family_data_service = member_family_data_service
+        self.member_adn_service = member_adn_service
         self.auth_service = auth_service
 
         self.router = APIRouter(prefix="/members", tags=["members"])
@@ -150,7 +156,7 @@ class MemberRouter:
             # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_dew_by_id(member_id : int, db: Session = Depends(get_db)):
-            member_dew = self.member_dew_service.find_by_id(member_id, db)
+            member_dew = self.member_dew_service.find_by_member_id(member_id, db)
             if not member_dew:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_dew
@@ -165,3 +171,14 @@ class MemberRouter:
             if not member_family_data:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_family_data
+
+        @self.router.get(
+            "/{member_id}/adn",
+            response_model=Optional[MemberADNResponse],
+            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def find_adn_by_id(member_id : int, db: Session = Depends(get_db)):
+            member_adn = self.member_adn_service.find_by_member_id(member_id, db)
+            if not member_adn:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+            return member_adn

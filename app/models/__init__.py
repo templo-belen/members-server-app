@@ -7,7 +7,8 @@ from app.models.enum_type import (
     LeavingReasonType,
     MaritalStatusType,
     RoleType,
-    NameValueResponse
+    NameValueResponse,
+    GiftAbilityType,
 )
 from app.models.health import HealthReponse
 from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse, MemberBasicData, CreateMemberRequest
@@ -28,6 +29,10 @@ from app.models.enum_serializer import parse_enum_by_name
 from app.models.member_family_data import (
     MemberFamilyDataResponse,
     MemberChildrenDataResponse,
-    FamilyDataResponse
+    FamilyDataResponse,
 )
-
+from app.models.member_adn import (
+    MemberADNResponse,
+    MemberADNDataResponse,
+    MemberGiftAbilityDataResponse
+)

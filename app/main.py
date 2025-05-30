@@ -20,6 +20,7 @@ from app.services import (
     PreachingPointService,
     UserService,
     MembersFamilyDataService,
+    MemberADNService,
 )
 from app.middlewares import UserAwareMiddleware
 
@@ -58,13 +59,16 @@ member_reference_service = MembersReferenceService()
 member_dew_service = MembersDEWService()
 preaching_point_service = PreachingPointService()
 member_family_data_service = MembersFamilyDataService()
+member_adn_service = MemberADNService()
 app.include_router(MemberRouter(member_service,
                                 member_general_data_service,
                                 member_reference_service,
                                 member_dew_service,
                                 preaching_point_service,
                                 member_family_data_service,
-                                auth_service)
+                                member_adn_service,
+                                auth_service,
+                                )
                    .get_router())
 
 # Preaching points
