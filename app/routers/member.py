@@ -21,6 +21,7 @@ from app.models import (
     MemberFormValuesResponse,
     MemberFamilyDataResponse,
     MemberADNResponse,
+    UpdateMemberRequest,
 )
 from app.services import (
     AuthService,
@@ -74,6 +75,14 @@ class MemberRouter:
         )
         def create_member(new_member: CreateMemberRequest, db: Session = Depends(get_db)):
             return self.member_service.create_member(new_member, db)
+
+        @self.router.put(
+            "/",
+            response_model=MemberPersonalInformationResponse | None,
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def update_member(member_to_update: UpdateMemberRequest, db: Session = Depends(get_db)):
+            return self.member_service.update_member(member_to_update, db)
 
         @self.router.get(
             "/init-form",
