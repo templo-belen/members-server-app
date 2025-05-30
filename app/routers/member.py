@@ -1,16 +1,23 @@
 from typing import List, Optional
 
-from fastapi import Depends, APIRouter, HTTPException, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    status,
+)
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import (
+    CreateMemberRequest,
     MemberListItemResponse,
     MemberPersonalInformationResponse,
     MemberGeneralDataResponse,
     MemberReferenceResponse,
     MembersDEWResponse, CellLeadershipType,
-    parse_enum_by_name, MemberBasicData,
+    parse_enum_by_name,
+    MemberBasicData,
     MemberFormValuesResponse,
     MemberFamilyDataResponse,
     MemberADNResponse,
@@ -21,7 +28,9 @@ from app.services import (
     MembersDEWService,
     MembersGeneralDataService,
     MembersReferenceService, get_enums_by_names,
-    PreachingPointService, MembersFamilyDataService, MemberADNService,
+    PreachingPointService,
+    MembersFamilyDataService,
+    MemberADNService,
 )
 
 
@@ -33,10 +42,7 @@ class MemberRouter:
                  preaching_point_service: PreachingPointService,
                  member_family_data_service: MembersFamilyDataService,
                  member_adn_service: MemberADNService,
-                 ):
-        self.router = APIRouter(prefix="/members", tags=["members"])
-        self.auth_service = AuthService()
-        self._setup_routes()
+                 auth_service: AuthService):
         self.member_service = member_service
         self.member_general_data_service = member_general_data_service
         self.member_reference_service = member_reference_service
@@ -44,6 +50,10 @@ class MemberRouter:
         self.preaching_point_service = preaching_point_service
         self.member_family_data_service = member_family_data_service
         self.member_adn_service = member_adn_service
+        self.auth_service = auth_service
+
+        self.router = APIRouter(prefix="/members", tags=["members"])
+        self._setup_routes()
 
     def get_router(self):
         return self.router
@@ -56,6 +66,14 @@ class MemberRouter:
         )
         def get_all(db: Session = Depends(get_db)):
             return self.member_service.get_all(db)
+
+        @self.router.post(
+            "/",
+            response_model=MemberPersonalInformationResponse | None,
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def create_member(new_member: CreateMemberRequest, db: Session = Depends(get_db)):
+            return self.member_service.create_member(new_member, db)
 
         @self.router.get(
             "/init-form",

@@ -9,11 +9,12 @@ from app.services import AuthService, PreachingPointService
 
 
 class PreachingPointRouter:
-    def __init__(self, preaching_point_service: PreachingPointService):
-        self.router = APIRouter(prefix="/preaching-points", tags=["preaching-points"])
-        self.auth_service = AuthService()
-        self._setup_routes()
+    def __init__(self, preaching_point_service: PreachingPointService, auth_service: AuthService):
+        self.auth_service = auth_service
         self.preaching_point_service = preaching_point_service
+        
+        self.router = APIRouter(prefix="/preaching-points", tags=["preaching-points"])
+        self._setup_routes()
 
     def get_router(self):
         return self.router

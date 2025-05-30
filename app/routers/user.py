@@ -8,11 +8,12 @@ from app.services.user import UserService
 
 
 class UserRouter:
-    def __init__(self, user_service: UserService):
-        self.router = APIRouter(prefix="/users", tags=["users"])
-        self.auth_service = AuthService()
-        self._setup_routes()
+    def __init__(self, user_service: UserService, auth_service: AuthService):
+        self.auth_service = auth_service
         self.user_service = user_service
+        
+        self.router = APIRouter(prefix="/users", tags=["users"])
+        self._setup_routes()
 
     def get_router(self):
         return self.router

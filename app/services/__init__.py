@@ -1,4 +1,5 @@
 from app.services.auth import AuthService
+from app.services.exception import LogicConstraintViolationException
 from app.services.health import HealthService
 from app.services.member import MemberService
 from app.services.member_dew import MembersDEWService

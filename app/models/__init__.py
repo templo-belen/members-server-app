@@ -11,10 +11,12 @@ from app.models.enum_type import (
     GiftAbilityType,
 )
 from app.models.health import HealthReponse
+from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse, MemberBasicData, CreateMemberRequest
 from app.models.member import (MemberListItemResponse,
                                MemberPersonalInformationResponse,
                                MemberBasicData,
-                               MemberFormValuesResponse)
+                               MemberFormValuesResponse,
+                               CreateMemberRequest)
 from app.models.member_dew import MembersDEWResponse
 from app.models.member_general_data import MemberGeneralDataResponse
 from app.models.member_references import MemberReferenceResponse, MembersReferenceElement

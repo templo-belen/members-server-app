@@ -26,16 +26,16 @@ CREATE TABLE members
     commitment_date          DATE,
     preaching_point_id       INTEGER,
     zone_pastor_id           INTEGER,
-    cell_leadership          cell_leadership_type,
-    leadership               leadership_type,
+    cell_leadership          cell_leadership_type NOT NULL,
+    leadership               leadership_type NOT NULL,
 
     reasons_for_congregating VARCHAR(250),   -- This is the field "Razones por las cuales decidio congregarse en Templo Belen" from de tab References
 
     status                   varchar(1)   NOT NULL DEFAULT 'A', -- A=Active, I=Inactive/deleted
     created_at               TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by               VARCHAR(50)  NOT NULL DEFAULT 'SYS',
+    created_by               VARCHAR(50)  NOT NULL,
     updated_at               TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by               VARCHAR(50)  NOT NULL DEFAULT 'SYS'
+    updated_by               VARCHAR(50)  NOT NULL
 );
 
 ALTER TABLE members
