@@ -19,7 +19,7 @@ from app.models.member import (MemberListItemResponse,
                                UpdateMemberRequest,
                                )
 from app.models.member_dew import MembersDEWResponse
-from app.models.member_general_data import MemberGeneralDataResponse
+from app.models.member_general_data import MemberGeneralDataResponse, CreateMemberGeneralDataRequest
 from app.models.member_references import MemberReferenceResponse, MembersReferenceElement
 from app.models.preaching_point import PreachingPointInformation
 from app.models.role import RoleInformation
