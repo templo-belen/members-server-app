@@ -21,8 +21,8 @@ class MemberGeneralDataRouter:
                  member_general_data_service: MembersGeneralDataService,
                  auth_service: AuthService,
                  ):
-        self.member_general_data_service = member_general_data_service
         self.auth_service = auth_service
+        self.member_general_data_service = member_general_data_service
         self.router = APIRouter(prefix="/members/{member_id}/general-data", tags=["member-general-data"])
         self._setup_routes()
 
@@ -34,7 +34,7 @@ class MemberGeneralDataRouter:
             "/",
             description="Get 'Member General Data' given the member ID",
             response_model=MemberGeneralDataResponse,
-            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
         )
         def find_general_data_by_member_id(member_id : int, db: Session = Depends(get_db)):
             member_general_data = self.member_general_data_service.find_by_id(member_id, db)
