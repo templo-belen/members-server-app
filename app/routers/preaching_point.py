@@ -23,7 +23,7 @@ class PreachingPointRouter:
         @self.router.get(
             "/",
             response_model=Optional[List[PreachingPointInformation]] | None,
-            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
         )
         def get_all(db: Session = Depends(get_db)):
             return self.preaching_point_service.get_all(db)

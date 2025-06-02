@@ -1,7 +1,6 @@
 from typing import Optional
 
-from fastapi import APIRouter
-from fastapi import Query
+from fastapi import APIRouter, Query, Depends
 
 from app.services import AuthService, get_enums_by_names
 
@@ -16,7 +15,9 @@ class EnumTypeRouter:
         return self.router
 
     def _setup_routes(self):
-        @self.router.get("/")
-        # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        @self.router.get(
+            "/",
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
+        )
         def get_enums(names: Optional[list[str]] = Query(None, alias="names")):
             return get_enums_by_names(names)

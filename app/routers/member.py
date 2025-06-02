@@ -61,7 +61,7 @@ class MemberRouter:
         @self.router.get(
             "/",
             response_model=Optional[List[MemberListItemResponse]] | None,
-            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
         )
         def get_all(db: Session = Depends(get_db)):
             return self.member_service.get_all(db)
@@ -85,7 +85,7 @@ class MemberRouter:
         @self.router.get(
             "/init-form",
             response_model=MemberFormValuesResponse,
-            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
         )
         def get_init_data(db: Session = Depends(get_db)):
             enums = get_enums_by_names([
@@ -104,7 +104,7 @@ class MemberRouter:
         @self.router.get(
             "/by-cell-leadership",
             response_model=Optional[List[MemberBasicData]] | None,
-            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
         )
         def get_all_by_cell_leadership(
                 cell_leadership: CellLeadershipType = Depends(
@@ -117,7 +117,7 @@ class MemberRouter:
         @self.router.get(
             "/{member_id}",
             response_model=MemberInformationResponse,
-            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
         )
         def find_by_id(member_id: int, db: Session = Depends(get_db)):
             member = self.member_service.find_by_id(member_id, db)

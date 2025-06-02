@@ -54,3 +54,13 @@ class AuthService:
                 raise self._403_exception
             return True
         return require_role_dependency
+    
+    def require_self_or_admin(self):
+        def require_self_or_admin_dependency(user_id: int, auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()), db: Session = Depends(get_db)):
+            payload = self.decode_token(f"Bearer {auth.credentials}")
+            current_user_id = payload.get('id')
+            current_user = self.user_service.get_user_information_by_id(current_user_id, db)
+            if current_user_id != user_id and (not current_user or current_user.role.code != 'admin'):
+                raise self._403_exception
+            return True
+        return require_self_or_admin_dependency

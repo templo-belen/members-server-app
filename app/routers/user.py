@@ -22,9 +22,7 @@ class UserRouter:
         @self.router.get(
             "/{user_id}",
             response_model=UserResponse | None,
-            # Esto funciona, por ahora estaremos sin seguridad para agilizar
-            # Descomentar para agregar autorización
-            #dependencies=[Depends(self.auth_service.require_role(["admin"]))]
+            dependencies=[Depends(self.auth_service.require_self_or_admin())]
         )
         def get_user(user_id: int, db: Session = Depends(get_db)):
             user_by_id = self.user_service.get_user_information_by_id(user_id, db)
