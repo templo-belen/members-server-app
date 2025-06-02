@@ -38,7 +38,7 @@ class MemberDEWRouter:
             # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_dew_by_id(member_id : int, db: Session = Depends(get_db)):
-            member_dew = self.member_dew_service.find_by_id(member_id, db)
+            member_dew = self.member_dew_service.find_by_member_id(member_id, db)
             if not member_dew:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_dew

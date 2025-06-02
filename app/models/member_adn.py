@@ -2,8 +2,8 @@ from typing import Optional, List
 
 from pydantic import BaseModel, Field, ConfigDict
 
+from app.models import GiftAbilityType
 from app.models.enum_serializer import serialized_enum_by_name
-from app.models.enum_type import GiftAbilityType
 
 
 class MemberADNDataResponse(BaseModel):
@@ -42,11 +42,11 @@ class MemberGiftAbilityDataResponse(BaseModel):
     )
 
 class MemberADNResponse(BaseModel):
-    adn: MemberADNDataResponse = Field(description="Member ADN data", alias="adn")
-    main_gift_list: List[MemberGiftAbilityDataResponse] | [] = Field(description="List of main gifts", alias="mainGiftList")
-    secondary_gift_list: List[MemberGiftAbilityDataResponse] | [] = Field(description="List of secondary gifts", alias="secondaryGiftList")
-    acquired_skill_list: List[MemberGiftAbilityDataResponse] | [] = Field(description="List of acquired skills", alias="acquiredSkillList")
-    natural_ability: List[MemberGiftAbilityDataResponse] | [] = Field(description="List of natural abilities", alias="naturalAbilityList")
+    adn: Optional[MemberADNDataResponse] = Field(description="Member ADN data", alias="adn")
+    main_gift_list: List[MemberGiftAbilityDataResponse] = Field(description="List of main gifts", alias="mainGiftList")
+    secondary_gift_list: List[MemberGiftAbilityDataResponse] = Field(description="List of secondary gifts", alias="secondaryGiftList")
+    acquired_skill_list: List[MemberGiftAbilityDataResponse] = Field(description="List of acquired skills", alias="acquiredSkillList")
+    natural_ability: List[MemberGiftAbilityDataResponse] = Field(description="List of natural abilities", alias="naturalAbilityList")
 
     model_config = ConfigDict(
         populate_by_name=True

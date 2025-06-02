@@ -13,6 +13,7 @@ from app.routers import (
     MemberGeneralDataRouter,
     MemberReferenceRouter, MemberDEWRouter, MemberFamilyDataRouter,
 )
+from app.routers.member_adn import MemberADNRouter
 from app.services import (
     AuthService,
     HealthService,
@@ -23,6 +24,7 @@ from app.services import (
     PreachingPointService,
     UserService,
     MembersFamilyDataService,
+    MemberADNService,
 )
 
 app = FastAPI()
@@ -64,6 +66,7 @@ app.include_router(MemberGeneralDataRouter(MembersGeneralDataService(), auth_ser
 app.include_router(MemberReferenceRouter(MembersReferenceService(), auth_service).get_router())
 app.include_router(MemberDEWRouter(MembersDEWService(), auth_service).get_router())
 app.include_router(MemberFamilyDataRouter(MembersFamilyDataService(), auth_service).get_router())
+app.include_router(MemberADNRouter(MemberADNService(), auth_service).get_router())
 
 # Preaching points
 app.include_router(PreachingPointRouter(preaching_point_service, auth_service).get_router())

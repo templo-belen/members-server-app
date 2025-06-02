@@ -8,3 +8,5 @@ from app.database.role import Role
 from app.database.user import User
 from app.database.member_family_data import MemberFamilyData
 from app.database.member_children import MemberChildren
+from app.database.member_adn import MemberADN
+from app.database.member_gift_ability import MemberGiftAbility
