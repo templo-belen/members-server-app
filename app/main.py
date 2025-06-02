@@ -57,16 +57,26 @@ app.include_router(UserRouter(user_service, auth_service).get_router())
 # Members
 member_service = MemberService()
 preaching_point_service = PreachingPointService()
+general_data_service = MembersGeneralDataService()
+reference_service = MembersReferenceService()
+dew_service = MembersDEWService()
+family_data_service = MembersFamilyDataService()
+adn_service = MemberADNService()
 app.include_router(MemberRouter(member_service,
+                                general_data_service,
+                                reference_service,
+                                dew_service,
+                                family_data_service,
+                                adn_service,
                                 preaching_point_service,
                                 auth_service)
                    .get_router())
 
-app.include_router(MemberGeneralDataRouter(MembersGeneralDataService(), auth_service).get_router())
-app.include_router(MemberReferenceRouter(MembersReferenceService(), auth_service).get_router())
-app.include_router(MemberDEWRouter(MembersDEWService(), auth_service).get_router())
-app.include_router(MemberFamilyDataRouter(MembersFamilyDataService(), auth_service).get_router())
-app.include_router(MemberADNRouter(MemberADNService(), auth_service).get_router())
+app.include_router(MemberGeneralDataRouter(general_data_service, auth_service).get_router())
+app.include_router(MemberReferenceRouter(reference_service, auth_service).get_router())
+app.include_router(MemberDEWRouter(dew_service, auth_service).get_router())
+app.include_router(MemberFamilyDataRouter(family_data_service, auth_service).get_router())
+app.include_router(MemberADNRouter(adn_service, auth_service).get_router())
 
 # Preaching points
 app.include_router(PreachingPointRouter(preaching_point_service, auth_service).get_router())

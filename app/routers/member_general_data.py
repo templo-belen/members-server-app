@@ -37,7 +37,7 @@ class MemberGeneralDataRouter:
             # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
         def find_general_data_by_member_id(member_id : int, db: Session = Depends(get_db)):
-            member_general_data = self.member_general_data_service.find_by_id(member_id, db)
+            member_general_data = self.member_general_data_service.find_by_member_id(member_id, db)
             if not member_general_data:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_general_data

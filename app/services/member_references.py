@@ -8,12 +8,12 @@ class MembersReferenceService:
     def __init__(self):
         pass
 
-    def find_by_id(self, member_id: int, db: Session) -> MemberReferenceResponse | None:
+    def find_by_member_id(self, member_id: int, db: Session) -> MemberReferenceResponse | None:
         member_data = db.query(Member.id, Member.reasons_for_congregating) \
             .filter(Member.id == member_id) \
             .first()
 
-        if member_data is None:
+        if member_data:
             return None
 
         # Getting references
@@ -21,6 +21,9 @@ class MembersReferenceService:
             .filter(MembersReference.member_id == member_id) \
             .all()
         references_pydantic = [MembersReferenceElement.model_validate(ref) for ref in references]
+
+        if not references_pydantic:
+            return None
 
         return MemberReferenceResponse(
             references=references_pydantic,

@@ -5,6 +5,11 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator, field_serial
 
 from app.models.enum_serializer import serialized_enum_by_name
 from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType, NameValueResponse
+from app.models.member_adn import MemberADNResponse
+from app.models.member_dew import MembersDEWResponse
+from app.models.member_family_data import FamilyDataResponse, MemberFamilyDataResponse
+from app.models.member_general_data import MemberGeneralDataResponse
+from app.models.member_references import MemberReferenceResponse
 from app.models.preaching_point import PreachingPointInformation
 
 
@@ -102,6 +107,22 @@ class MemberPersonalInformationResponse(BaseModel):
         from_attributes=True,
         populate_by_name=True
     )
+
+class MemberInformationResponse(BaseModel):
+    """
+        This is the template for returning condensed information about a member.
+    """
+    personal_information: MemberPersonalInformationResponse = Field(description="Member personal information", alias="personalInformation")
+    dew: Optional[MembersDEWResponse] = Field(description="Member DEW", alias="dew")
+    general_data: Optional[MemberGeneralDataResponse] = Field(description="Member general data", alias="generalData")
+    family_data: Optional[MemberFamilyDataResponse] = Field(description="Member family data", alias="familyData")
+    references: Optional[MemberReferenceResponse] = Field(description="Member references", alias="references")
+    adn: Optional[MemberADNResponse] = Field(description="Member adn", alias="adn")
+
+    model_config = ConfigDict(
+        populate_by_name=True
+    )
+
 
 class MemberFormValuesResponse(BaseModel):
     """

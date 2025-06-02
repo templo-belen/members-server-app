@@ -10,7 +10,7 @@ class MembersGeneralDataService:
     def __init__(self):
         pass
 
-    def find_by_id(self, member_id : int, db: Session) -> MemberGeneralDataResponse | None:
+    def find_by_member_id(self, member_id : int, db: Session) -> MemberGeneralDataResponse | None:
         member = db.query(MembersGeneralData).filter(MembersGeneralData.member_id == member_id).first()
         if not member:
             return None
@@ -33,6 +33,6 @@ class MembersGeneralDataService:
         return MemberGeneralDataResponse.model_validate(db_member_general_data)
 
     def validate_member_general_data(self, member_id: int, db: Session):
-        member_general_data = self.find_by_id(member_id , db)
+        member_general_data = self.find_by_member_id(member_id, db)
         if member_general_data:
             raise ConflictException(f'El miembro con id {member_id} ya tiene datos generales')
