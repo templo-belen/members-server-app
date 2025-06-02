@@ -23,8 +23,8 @@ class MemberReferenceRouter:
                  member_reference_service: MembersReferenceService,
                  auth_service: AuthService
                  ):
-        self.member_reference_service = member_reference_service
         self.auth_service = auth_service
+        self.member_reference_service = member_reference_service
 
         self.router = APIRouter(prefix="/members/{member_id}/references", tags=["member-reference"])
         self._setup_routes()
@@ -37,7 +37,7 @@ class MemberReferenceRouter:
         @self.router.get(
             "/",
             response_model=Optional[MemberReferenceResponse],
-            # dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
         )
         def find_references_by_member_id(member_id : int, db: Session = Depends(get_db)):
             member_references = self.member_reference_service.find_by_id(member_id, db)
