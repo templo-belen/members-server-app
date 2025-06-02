@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.exception_handler import setup_exception_handles
+from app.middlewares import UserAwareMiddleware
 from app.routers import (
     EnumTypeRouter,
     HealthRouter,
@@ -9,6 +10,8 @@ from app.routers import (
     MemberRouter,
     PreachingPointRouter,
     UserRouter,
+    MemberGeneralDataRouter,
+    MemberReferenceRouter, MemberDEWRouter, MemberFamilyDataRouter,
 )
 from app.services import (
     AuthService,
@@ -21,8 +24,6 @@ from app.services import (
     UserService,
     MembersFamilyDataService,
 )
-from app.middlewares import UserAwareMiddleware
-
 
 app = FastAPI()
 app.add_middleware(
@@ -53,19 +54,16 @@ app.include_router(UserRouter(user_service, auth_service).get_router())
 
 # Members
 member_service = MemberService()
-member_general_data_service = MembersGeneralDataService()
-member_reference_service = MembersReferenceService()
-member_dew_service = MembersDEWService()
 preaching_point_service = PreachingPointService()
-member_family_data_service = MembersFamilyDataService()
 app.include_router(MemberRouter(member_service,
-                                member_general_data_service,
-                                member_reference_service,
-                                member_dew_service,
                                 preaching_point_service,
-                                member_family_data_service,
                                 auth_service)
                    .get_router())
+
+app.include_router(MemberGeneralDataRouter(MembersGeneralDataService(), auth_service).get_router())
+app.include_router(MemberReferenceRouter(MembersReferenceService(), auth_service).get_router())
+app.include_router(MemberDEWRouter(MembersDEWService(), auth_service).get_router())
+app.include_router(MemberFamilyDataRouter(MembersFamilyDataService(), auth_service).get_router())
 
 # Preaching points
 app.include_router(PreachingPointRouter(preaching_point_service, auth_service).get_router())
