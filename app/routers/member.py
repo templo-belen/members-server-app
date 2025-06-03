@@ -19,20 +19,36 @@ from app.models import (
     MemberFormValuesResponse,
     UpdateMemberRequest,
 )
+from app.models.member import MemberInformationResponse
 from app.services import (
     AuthService,
     MemberService,
     get_enums_by_names,
-    PreachingPointService, )
+    PreachingPointService,
+    MemberADNService,
+    MembersDEWService,
+    MembersReferenceService,
+    MembersGeneralDataService,
+    MembersFamilyDataService,
+)
 
 
 class MemberRouter:
-    def __init__(self,
-                 member_service: MemberService,
+    def __init__(self, member_service: MemberService,
+                 member_general_data_service: MembersGeneralDataService,
+                 member_reference_service: MembersReferenceService,
+                 member_dew_service: MembersDEWService,
+                 member_family_data_service: MembersFamilyDataService,
+                 member_adn_service: MemberADNService,
                  preaching_point_service: PreachingPointService,
                  auth_service: AuthService):
         self.member_service = member_service
+        self.member_general_data_service = member_general_data_service
+        self.member_reference_service = member_reference_service
+        self.member_dew_service = member_dew_service
         self.preaching_point_service = preaching_point_service
+        self.member_family_data_service = member_family_data_service
+        self.member_adn_service = member_adn_service
         self.auth_service = auth_service
 
         self.router = APIRouter(prefix="/members", tags=["members"])
@@ -100,11 +116,18 @@ class MemberRouter:
 
         @self.router.get(
             "/{member_id}",
-            response_model=MemberPersonalInformationResponse,
+            response_model=MemberInformationResponse,
             dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
         )
         def find_by_id(member_id: int, db: Session = Depends(get_db)):
             member = self.member_service.find_by_id(member_id, db)
             if not member:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-            return member
+            return MemberInformationResponse(
+                personal_information = member,
+                dew = self.member_dew_service.find_by_member_id(member_id, db),
+                general_data = self.member_general_data_service.find_by_member_id(member_id, db),
+                family_data = self.member_family_data_service.find_by_member_id(member_id, db),
+                references=self.member_reference_service.find_by_member_id(member_id, db),
+                adn=self.member_adn_service.find_by_member_id(member_id, db),
+            )

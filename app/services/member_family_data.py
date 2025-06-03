@@ -13,7 +13,7 @@ class MembersFamilyDataService:
         member_family_data = (db.query(MemberFamilyData)
                               .filter(MemberFamilyData.member_id == member_id).first())
         member_family_data_response = None
-        if member_family_data is not None:
+        if member_family_data:
             member_family_data_response = FamilyDataResponse.model_validate(member_family_data)
 
         member_children_list = (db.query(MemberChildren).filter(MemberChildren.member_id == member_id)
@@ -22,7 +22,7 @@ class MembersFamilyDataService:
         if member_children_list:
             member_children_response = [MemberChildrenDataResponse.model_validate(child) for child in member_children_list]
 
-        if member_family_data_response is None and member_children_response is None:
+        if not member_family_data_response and not member_children_response:
             return None
 
         return MemberFamilyDataResponse(
