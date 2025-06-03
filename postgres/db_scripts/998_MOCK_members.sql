@@ -1,10 +1,18 @@
 -- Inserts de datos de prueba para tablas
 
--- TODO este archivo debe borrarse posteriormente!!!
+-- TODO este archivo deben dejarse solo para ser ejecutados con los TESTS!
 
--- usuario - pass: 12345
+-- ADMIN
 insert into users(username, password, full_name, role_id)
-values ('user', '$2a$12$QRrPDX6ChrRfqVBlyN6D5.zLFAGVidR69/OV8iXMjf8eKvXUg2on2', 'El Usuario de la Verdad', 1);
+values ('admin', '$2a$12$QRrPDX6ChrRfqVBlyN6D5.zLFAGVidR69/OV8iXMjf8eKvXUg2on2', 'Administrador Dominguez', 1);
+
+-- PASTOR
+insert into users(username, password, full_name, role_id)
+values ('pastor', '$2a$12$QRrPDX6ChrRfqVBlyN6D5.zLFAGVidR69/OV8iXMjf8eKvXUg2on2', 'Administrador Dominguez', 2);
+
+-- READONLY
+insert into users(username, password, full_name, role_id)
+values ('readonly', '$2a$12$QRrPDX6ChrRfqVBlyN6D5.zLFAGVidR69/OV8iXMjf8eKvXUg2on2', 'Administrador Dominguez', 3);
 
 -- Pastores de zona
 INSERT INTO members (

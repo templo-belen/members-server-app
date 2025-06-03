@@ -1,4 +1,4 @@
-from app.models.health import HealthReponse
+from app.models.health import HealthResponse
 
 
 class HealthService:
@@ -10,9 +10,9 @@ class HealthService:
 
     def get_application_health(
         self
-    ) -> HealthReponse:
+    ) -> HealthResponse:
         # TODO: obtener el estado actual de la bd
-        return HealthReponse(
+        return HealthResponse(
             application_health="OK",
             database_health="OK"
         )

@@ -74,3 +74,20 @@ Crear aquí los scripts de base de datos (tablas necesarias, inserción de datos
 - El PR se debe se debe asignar a la misma persona que lo creo, quien es reponsable de que al PR se le haga merge
 - Por favor no suban configuraciones propias del IDE
 
+## Pruebas de la aplicacion
+
+### Implementación de pruebas
+
+Las pruebas (integración/integration, unitarias/unit), se deben crear en la ruta tests/{tipo prueba}.
+
+pytest se encargará de ejecutar los scripts de base de datos de la carpeta postgres/db_scripts en una base de datos postgres creada por el 
+contenedor docker propio de las pruebas (ver archivo docker-compose.test.yml).
+
+Las configuraciones de base de datos para las pruebas están en [tests/conftest.py](tests/conftest.py).
+
+### Ejecución de las pruebas
+
+1. Instalar las dependencias con el comando `pip install -e .`
+2. Iniciar el contendor docker para pruebas: `docker compose -f docker-compose.test.yml up`
+3. Ejecutar las pruebas con: `pytest`
+4. Para bajar el contenedor docker de las pruebas usar: `docker compose -f docker-compose.test.yml down -v`
