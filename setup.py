@@ -15,6 +15,10 @@ setup(
         "pydantic==2.11.3",
         "bcrypt==4.0.1",
         "pydantic-settings==2.9.1",
+        "iniconfig==2.1.0",
+        "packaging==25.0",
+        "pluggy==1.6.0",
+        "pytest==8.4.0"
     ],
     extras_require={"dev": ["pytest"]},
 )

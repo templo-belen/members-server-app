@@ -10,7 +10,7 @@ from app.models.enum_type import (
     NameValueResponse,
     GiftAbilityType,
 )
-from app.models.health import HealthReponse
+from app.models.health import HealthResponse
 from app.models.member import MemberListItemResponse, MemberPersonalInformationResponse, MemberBasicData, CreateMemberRequest
 from app.models.member import (MemberListItemResponse,
                                MemberPersonalInformationResponse,
