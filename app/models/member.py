@@ -7,7 +7,7 @@ from app.models.enum_serializer import serialized_enum_by_name
 from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType, NameValueResponse
 from app.models.member_adn import MemberADNResponse
 from app.models.member_dew import MembersDEWResponse
-from app.models.member_family_data import FamilyDataResponse, MemberFamilyDataResponse
+from app.models.member_family_data import MemberFamilyDataResponse
 from app.models.member_general_data import MemberGeneralDataResponse
 from app.models.member_references import MemberReferenceResponse
 from app.models.preaching_point import PreachingPointInformation

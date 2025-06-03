@@ -10,7 +10,9 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import (
-    MembersDEWResponse, )
+    MembersDEWResponse,
+    CreateMemberDEWRequest,
+)
 from app.services import (
     AuthService,
     MembersDEWService,
@@ -42,3 +44,12 @@ class MemberDEWRouter:
             if not member_dew:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_dew
+
+        @self.router.post(
+            "/",
+            description="Save 'Member DEW' data",
+            response_model=MembersDEWResponse,
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def find_general_data_by_member_id(new_dew_data : CreateMemberDEWRequest, db: Session = Depends(get_db)):
+            return self.member_dew_service.create_member_dew(new_dew_data, db)
