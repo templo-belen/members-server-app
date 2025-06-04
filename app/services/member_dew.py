@@ -39,10 +39,12 @@ class MembersDEWService:
         if not member_to_update:
             raise NotFoundException(f'El miembro con id {dew_data.member_id} no existe.')
 
-        dew_to_update = db.query(MembersDEW).filter(MembersDEW.id == dew_data.id).first()
+        dew_to_update = (db.query(MembersDEW)
+                         .filter(MembersDEW.id == dew_data.id, MembersDEW.member_id == dew_data.member_id)
+                         .first())
 
         if not dew_to_update:
-            raise NotFoundException(f'Los datos dew del miembro con id {dew_data.member_id} no existen.')
+            raise NotFoundException(f'Los datos dew con id {dew_data.id} del miembro con id {dew_data.member_id} no existe.')
 
         apply_updates_from_pydantic(dew_to_update, dew_data)
 
