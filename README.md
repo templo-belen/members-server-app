@@ -88,6 +88,6 @@ Las configuraciones de base de datos para las pruebas están en [tests/conftest.
 ### Ejecución de las pruebas
 
 1. Instalar las dependencias con el comando `pip install -e .`
-2. Iniciar el contendor docker para pruebas: `docker compose -f docker-compose.test.yml up`
+2. Iniciar el contendor docker para pruebas: `docker compose -f docker-compose.test.yml up -d`
 3. Ejecutar las pruebas con: `pytest`
 4. Para bajar el contenedor docker de las pruebas usar: `docker compose -f docker-compose.test.yml down -v`

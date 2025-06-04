@@ -8,7 +8,9 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import (
-    MemberGeneralDataResponse, CreateMemberGeneralDataRequest,
+    MemberGeneralDataResponse,
+    CreateMemberGeneralDataRequest,
+    UpdateMemberGeneralDataRequest,
 )
 from app.services import (
     AuthService,
@@ -50,3 +52,12 @@ class MemberGeneralDataRouter:
         )
         def find_general_data_by_member_id(new_member_data : CreateMemberGeneralDataRequest, db: Session = Depends(get_db)):
             return self.member_general_data_service.create_member_general_data(new_member_data, db)
+
+        @self.router.put(
+            "/",
+            description="Update 'General Data' from a member",
+            response_model=MemberGeneralDataResponse,
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+        )
+        def find_general_data_by_member_id(update_member_data : UpdateMemberGeneralDataRequest, db: Session = Depends(get_db)):
+            return self.member_general_data_service.update_member_general_data(update_member_data, db)
