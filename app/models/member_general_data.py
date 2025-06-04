@@ -49,3 +49,11 @@ class CreateMemberGeneralDataRequest(BaseModel):
         from_attributes=True,
         populate_by_name=True
     )
+
+class UpdateMemberGeneralDataRequest(CreateMemberGeneralDataRequest):
+    id: int = Field(description="Member ID", gt=0)
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )
