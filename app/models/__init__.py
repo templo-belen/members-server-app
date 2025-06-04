@@ -22,6 +22,7 @@ from app.models.member import (MemberListItemResponse,
 from app.models.member_dew import (
     MembersDEWResponse,
     CreateMemberDEWRequest,
+    UpdateMemberDEWRequest,
 )
 from app.models.member_general_data import MemberGeneralDataResponse, CreateMemberGeneralDataRequest
 from app.models.member_references import MemberReferenceResponse, MembersReferenceElement

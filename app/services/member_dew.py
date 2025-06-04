@@ -2,9 +2,10 @@ from sqlalchemy.orm import Session
 
 from app.database import MembersDEW, Member
 from app.middlewares import current_user_ctx
-from app.models import MembersDEWResponse
+from app.models import MembersDEWResponse, UpdateMemberDEWRequest
 from app.models.member_dew import CreateMemberDEWRequest
 from app.services import NotFoundException, ConflictException
+from app.services.pydantic_tools import apply_updates_from_pydantic
 
 
 class MembersDEWService:
@@ -32,6 +33,25 @@ class MembersDEWService:
         db.refresh(db_member_dew)
         db.refresh(member)
         return MembersDEWResponse.model_validate(db_member_dew)
+
+    def update_member_dew(self, dew_data: UpdateMemberDEWRequest, db: Session) -> MembersDEWResponse:
+        member_to_update = db.query(Member).filter(Member.id == dew_data.member_id).first()
+        if not member_to_update:
+            raise NotFoundException(f'El miembro con id {dew_data.member_id} no existe.')
+
+        dew_to_update = db.query(MembersDEW).filter(MembersDEW.id == dew_data.id).first()
+
+        if not dew_to_update:
+            raise NotFoundException(f'Los datos dew del miembro con id {dew_data.member_id} no existen.')
+
+        apply_updates_from_pydantic(dew_to_update, dew_data)
+
+        member_to_update.updated_by = current_user_ctx.get().username
+        db.commit()
+        db.refresh(dew_to_update)
+        db.refresh(member_to_update)
+
+        return MembersDEWResponse.model_validate(dew_to_update)
 
     def validate_member_dew(self, member_id: int, db: Session):
         member_dew = self.find_by_member_id(member_id, db)
