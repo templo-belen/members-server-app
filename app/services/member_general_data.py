@@ -43,10 +43,11 @@ class MembersGeneralDataService:
             raise NotFoundException(f'El miembro con id {general_data.member_id} no existe.')
 
         general_data_to_update = (db.query(MembersGeneralData)
-                                  .filter(MembersGeneralData.member_id == general_data.member_id).first())
+                                  .filter(MembersGeneralData.id == general_data.id,
+                                          MembersGeneralData.member_id == general_data.member_id).first())
 
         if not general_data_to_update:
-            raise NotFoundException(f'Los datos generales del miembro con id {general_data.member_id} no existen.')
+            raise NotFoundException(f'Los datos generales con id {general_data.id} del miembro con id {general_data.member_id} no existen.')
 
         apply_updates_from_pydantic(general_data_to_update, general_data)
 

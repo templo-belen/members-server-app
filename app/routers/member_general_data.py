@@ -25,7 +25,7 @@ class MemberGeneralDataRouter:
                  ):
         self.auth_service = auth_service
         self.member_general_data_service = member_general_data_service
-        self.router = APIRouter(prefix="/members/{member_id}/general-data", tags=["member-general-data"])
+        self.router = APIRouter(prefix="/members", tags=["member-general-data"])
         self._setup_routes()
 
     def get_router(self):
@@ -33,7 +33,7 @@ class MemberGeneralDataRouter:
 
     def _setup_routes(self):
         @self.router.get(
-            "/",
+            "/{member_id}/general-data",
             description="Get 'Member General Data' given the member ID",
             response_model=MemberGeneralDataResponse,
             dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
@@ -45,7 +45,7 @@ class MemberGeneralDataRouter:
             return member_general_data
 
         @self.router.post(
-            "/",
+            "/general-data",
             description="Save 'Member General Data' given the member ID",
             response_model=MemberGeneralDataResponse,
             dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
@@ -54,7 +54,7 @@ class MemberGeneralDataRouter:
             return self.member_general_data_service.create_member_general_data(new_member_data, db)
 
         @self.router.put(
-            "/",
+            "/general-data",
             description="Update 'General Data' from a member",
             response_model=MemberGeneralDataResponse,
             dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
