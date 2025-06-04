@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status, Header
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
@@ -18,13 +17,6 @@ class AuthService:
 
     def __init__(self, user_service: UserService):
         self.user_service = user_service
-        self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-    def verify_password(self, plain_password, userdata : LoginRequest):
-        return self.pwd_context.verify(plain_password, userdata.password)
-
-    def get_password_hash(self, password):
-        return self.pwd_context.hash(password)
 
     def create_access_token(self, data: LoginRequest, expires_delta: timedelta | None = None):
         to_encode = {"id" : data.id}
