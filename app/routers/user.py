@@ -1,10 +1,10 @@
-from fastapi import Depends, APIRouter, HTTPException
+from fastapi import Depends, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.database.connection import get_db
-from app.models.user import UserResponse, CreateUserRequest
-from app.services.auth import AuthService
-from app.services.user import UserService
+from app.database import get_db
+from app.middlewares import current_user_ctx
+from app.models import UserResponse, AlterUserRequest
+from app.services import UserService, AuthService
 
 
 class UserRouter:
@@ -32,7 +32,7 @@ class UserRouter:
             response_model=UserResponse | None,
             dependencies=[Depends(self.auth_service.require_role(['admin']))]
         )
-        def create_user(user: CreateUserRequest, db: Session = Depends(get_db)):
+        def create_user(user: AlterUserRequest, db: Session = Depends(get_db)):
             return self.user_service.create_user(user, db)
         
         @self.router.get(
@@ -46,3 +46,20 @@ class UserRouter:
                 raise HTTPException(status_code=403)
             return user_by_id
         
+        @self.router.put(
+            "/{user_id}",
+            response_model=UserResponse | None,
+            dependencies=[Depends(self.auth_service.require_role(['admin']))]
+        )
+        def update_user(user_id: int, user: AlterUserRequest, db: Session = Depends(get_db)):
+            return self.user_service.update_user(user_id, user, db)
+        
+        @self.router.delete(
+            "/{user_id}",
+            dependencies=[Depends(self.auth_service.require_role(['admin']))]
+        )
+        def delete_user(user_id: int, db: Session = Depends(get_db)):
+            current_user = current_user_ctx.get()
+            if user_id == current_user.id:
+                raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="El usuario no puede eliminarse a si mismo.")
+            self.user_service.delete_user(user_id, db)

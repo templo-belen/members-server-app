@@ -31,11 +31,11 @@ class UserResponse(BaseModel):
         populate_by_name=True
     )
 
-class CreateUserRequest(BaseModel):
-    username: str
-    full_name: str = Field(alias="fullName")
-    password: str
-    role_id: int = Field(alias="role")
+class AlterUserRequest(BaseModel):
+    username: str = Field(min_length=5)
+    full_name: str = Field(alias="fullName", min_length=5)
+    password: str = Field(min_length=5)
+    role_id: int = Field(alias="role", gt=0)
     
     model_config = ConfigDict(
         from_attributes=True,

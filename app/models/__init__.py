@@ -25,7 +25,7 @@ from app.models.member_references import MemberReferenceResponse, MembersReferen
 from app.models.preaching_point import PreachingPointInformation
 from app.models.role import RoleInformation
 from app.models.user import (
-    CreateUserRequest,
+    AlterUserRequest,
     LoginRequest,
     LoginResponse,
     TokenResponse,

@@ -4,10 +4,12 @@ from sqlalchemy.orm import joinedload, Session
 
 from app.database import User
 from app.models import (
-    CreateUserRequest,
+    AlterUserRequest,
     LoginRequest,
     UserResponse,
 )
+from app.services.exception import NotFoundException
+from app.services.pydantic_tools import apply_updates_from_pydantic
 
 
 class UserService:
@@ -19,12 +21,24 @@ class UserService:
 
     def get_password_hash(self, password):
         return self.pwd_context.hash(password)
+    
+    def normalize_name(self, name: str) -> str:
+        name = name.strip().title()
+        while "  " in name:
+           name = name.replace("  ", " ")
+        return name
+    
+    def normalize_user(self, user: User):
+        user.username = user.username.lower()
+        user.full_name = self.normalize_name(user.full_name)
+        user.password = self.get_password_hash(user.password)
 
     def get_all(self, db: Session) -> list[UserResponse]:
         users = db.query(User).all()
         return [UserResponse.model_validate(user) for user in users]
 
     def get_user_login_by_username(self, username: str, db: Session) -> LoginRequest | None:
+        username = username.lower()
         stmt = select(User.id, User.username, User.password).where(User.username == username.lower())
         result = db.execute(stmt).first()
         if result:
@@ -38,11 +52,32 @@ class UserService:
             return None
         return UserResponse.model_validate(user)
     
-    def create_user(self, new_user: CreateUserRequest, db: Session) -> UserResponse:
-        db_user = User(**new_user.model_dump(exclude_unset=True),)
-        db_user.password = self.get_password_hash(new_user.password)
+    def create_user(self, new_user: AlterUserRequest, db: Session) -> UserResponse:
+        db_user = User(**new_user.model_dump(exclude_unset=True))
+        self.normalize_user(db_user)
 
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
         return UserResponse.model_validate(db_user)
+    
+    def update_user(self, user_id, user: AlterUserRequest, db: Session) -> UserResponse:
+        user_to_update = db.query(User).filter(User.id == user_id).first()
+        if not user_to_update:
+            raise NotFoundException(f'El usuario con ID {user_id} no existe.')
+
+        apply_updates_from_pydantic(user_to_update, user)
+        self.normalize_user(user_to_update)
+
+        db.commit()
+        db.refresh(user_to_update)
+
+        return UserResponse.model_validate(user_to_update)
+    
+    def delete_user(self, user_id, db: Session):
+        user_to_delete = db.get(User, user_id)
+        if not user_to_delete:
+            raise NotFoundException("El usuario no existe.")
+
+        db.delete(user_to_delete)
+        db.commit()
