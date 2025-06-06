@@ -31,11 +31,20 @@ class UserResponse(BaseModel):
         populate_by_name=True
     )
 
-class AlterUserRequest(BaseModel):
+class CreateUpdateUserRequest(BaseModel):
     username: str = Field(min_length=5)
     full_name: str = Field(alias="fullName", min_length=5)
     password: str = Field(min_length=5)
     role_id: int = Field(alias="role", gt=0)
+    
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )
+
+class PasswordChangeRequest(BaseModel):
+    current_password: str = Field(alias="currentPassword")
+    new_password: str = Field(alias="newPassword")
     
     model_config = ConfigDict(
         from_attributes=True,

@@ -13,7 +13,7 @@ from app.settings import settings
 
 class AuthService:
 
-    _403_exception = HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+    _403_exception = HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Acción no permitida.")
 
     def __init__(self, user_service: UserService):
         self.user_service = user_service
@@ -56,3 +56,12 @@ class AuthService:
                 raise self._403_exception
             return True
         return require_self_or_admin_dependency
+    
+    def require_self(self):
+        def require_self_dependency(user_id: int, auth: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
+            payload = self.decode_token(f"Bearer {auth.credentials}")
+            current_user_id = payload.get('id')
+            if current_user_id != user_id:
+                raise self._403_exception
+            return True
+        return require_self_dependency

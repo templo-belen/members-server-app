@@ -4,11 +4,12 @@ from sqlalchemy.orm import joinedload, Session
 
 from app.database import User
 from app.models import (
-    AlterUserRequest,
+    CreateUpdateUserRequest,
     LoginRequest,
+    PasswordChangeRequest,
     UserResponse,
 )
-from app.services.exception import NotFoundException
+from app.services.exception import LogicConstraintViolationException, NotFoundException
 from app.services.pydantic_tools import apply_updates_from_pydantic
 
 
@@ -16,8 +17,8 @@ class UserService:
     def __init__(self):
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-    def verify_password(self, plain_password, userdata : LoginRequest):
-        return self.pwd_context.verify(plain_password, userdata.password)
+    def verify_password(self, plain_password: str, hashed_password: str):
+        return self.pwd_context.verify(plain_password, hashed_password)
 
     def get_password_hash(self, password):
         return self.pwd_context.hash(password)
@@ -52,7 +53,7 @@ class UserService:
             return None
         return UserResponse.model_validate(user)
     
-    def create_user(self, new_user: AlterUserRequest, db: Session) -> UserResponse:
+    def create_user(self, new_user: CreateUpdateUserRequest, db: Session) -> UserResponse:
         db_user = User(**new_user.model_dump(exclude_unset=True))
         self.normalize_user(db_user)
 
@@ -61,7 +62,7 @@ class UserService:
         db.refresh(db_user)
         return UserResponse.model_validate(db_user)
     
-    def update_user(self, user_id, user: AlterUserRequest, db: Session) -> UserResponse:
+    def update_user(self, user_id, user: CreateUpdateUserRequest, db: Session) -> UserResponse:
         user_to_update = db.query(User).filter(User.id == user_id).first()
         if not user_to_update:
             raise NotFoundException(f'El usuario con ID {user_id} no existe.')
@@ -80,4 +81,15 @@ class UserService:
             raise NotFoundException("El usuario no existe.")
 
         db.delete(user_to_delete)
+        db.commit()
+        
+    def password_change(self, user_id, pass_chg: PasswordChangeRequest, db: Session):
+        user_to_update = db.query(User).filter(User.id == user_id).first()
+        if not user_to_update:
+            raise NotFoundException(f'El usuario con no existe.')
+        
+        if not self.verify_password(pass_chg.current_password, user_to_update.password):
+            raise LogicConstraintViolationException("Acción no permitida.")
+        
+        user_to_update.password = self.get_password_hash(pass_chg.new_password)
         db.commit()

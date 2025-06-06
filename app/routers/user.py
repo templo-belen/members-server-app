@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.middlewares import current_user_ctx
-from app.models import UserResponse, AlterUserRequest
+from app.models import UserResponse, CreateUpdateUserRequest, PasswordChangeRequest
 from app.services import UserService, AuthService
 
 
@@ -32,7 +32,7 @@ class UserRouter:
             response_model=UserResponse | None,
             dependencies=[Depends(self.auth_service.require_role(['admin']))]
         )
-        def create_user(user: AlterUserRequest, db: Session = Depends(get_db)):
+        def create_user(user: CreateUpdateUserRequest, db: Session = Depends(get_db)):
             return self.user_service.create_user(user, db)
         
         @self.router.get(
@@ -51,7 +51,7 @@ class UserRouter:
             response_model=UserResponse | None,
             dependencies=[Depends(self.auth_service.require_role(['admin']))]
         )
-        def update_user(user_id: int, user: AlterUserRequest, db: Session = Depends(get_db)):
+        def update_user(user_id: int, user: CreateUpdateUserRequest, db: Session = Depends(get_db)):
             return self.user_service.update_user(user_id, user, db)
         
         @self.router.delete(
@@ -63,3 +63,10 @@ class UserRouter:
             if user_id == current_user.id:
                 raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="El usuario no puede eliminarse a si mismo.")
             self.user_service.delete_user(user_id, db)
+        
+        @self.router.patch(
+            "/{user_id}/password",
+            dependencies=[Depends(self.auth_service.require_self())]
+        )
+        def change_password(user_id: int, pass_chg: PasswordChangeRequest, db: Session = Depends(get_db)):
+            self.user_service.password_change(user_id, pass_chg, db)
