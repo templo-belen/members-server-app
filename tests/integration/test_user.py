@@ -1,7 +1,7 @@
 def test_get_user__with_invalid_token__returns_403(client):
     headers = {"Authorization": "Bearer token_invalido"}
     response = client.get("/users/1", headers=headers)
-    assert response.status_code == 200
+    assert response.status_code == 403
 
 def test_get_user__with_valid_token_admin__returns_200(client):
     login_response = client.post("/login", data={"username": "admin", "password": "12345"})
