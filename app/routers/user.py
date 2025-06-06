@@ -61,7 +61,7 @@ class UserRouter:
         def delete_user(user_id: int, db: Session = Depends(get_db)):
             current_user = current_user_ctx.get()
             if user_id == current_user.id:
-                raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="El usuario no puede eliminarse a si mismo.")
+                raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="El usuario no puede eliminarse a sí mismo.")
             self.user_service.delete_user(user_id, db)
         
         @self.router.patch(
