@@ -42,7 +42,7 @@ jobs:
           done
 
       - name: Run tests
-        run: pytest --color=yes --tb=short -q
+        run: ENV=test pytest --color=yes --tb=short -q
 
       - name: Tear down docker test environment
         if: always()
