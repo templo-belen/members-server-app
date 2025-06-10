@@ -1,12 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from fastapi import Depends, HTTPException, status, Header
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from app.database.connection import get_db
+from app.database import get_db
 from app.models import TokenResponse, LoginRequest, UserResponse
 from app.services.user import UserService
 from app.settings import settings
@@ -14,21 +13,14 @@ from app.settings import settings
 
 class AuthService:
 
-    _403_exception = HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+    _403_exception = HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Acción no permitida.")
 
     def __init__(self, user_service: UserService):
         self.user_service = user_service
-        self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-    def verify_password(self, plain_password, userdata : LoginRequest):
-        return self.pwd_context.verify(plain_password, userdata.password)
-
-    def get_password_hash(self, password):
-        return self.pwd_context.hash(password)
 
     def create_access_token(self, data: LoginRequest, expires_delta: timedelta | None = None):
         to_encode = {"id" : data.id}
-        expire = datetime.utcnow() + (expires_delta or timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES))
+        expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES))
         to_encode.update({"exp": expire})
         token_response = TokenResponse(access_token=jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM),
                                token_type="Bearer")
@@ -64,3 +56,12 @@ class AuthService:
                 raise self._403_exception
             return True
         return require_self_or_admin_dependency
+    
+    def require_self(self):
+        def require_self_dependency(user_id: int, auth: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
+            payload = self.decode_token(f"Bearer {auth.credentials}")
+            current_user_id = payload.get('id')
+            if current_user_id != user_id:
+                raise self._403_exception
+            return True
+        return require_self_dependency

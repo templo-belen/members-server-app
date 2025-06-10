@@ -1,10 +1,10 @@
-from fastapi import Depends, APIRouter, HTTPException
+from fastapi import Depends, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.database.connection import get_db
-from app.models.user import UserResponse
-from app.services.auth import AuthService
-from app.services.user import UserService
+from app.database import get_db
+from app.middlewares import current_user_ctx
+from app.models import UserResponse, CreateUpdateUserRequest, PasswordChangeRequest
+from app.services import UserService, AuthService
 
 
 class UserRouter:
@@ -20,6 +20,22 @@ class UserRouter:
 
     def _setup_routes(self):
         @self.router.get(
+            "/",
+            response_model=list[UserResponse] | None,
+            dependencies=[Depends(self.auth_service.require_role(['admin']))]
+        )
+        def get_all(db: Session = Depends(get_db)):
+            return self.user_service.get_all(db)
+        
+        @self.router.post(
+            "/",
+            response_model=UserResponse | None,
+            dependencies=[Depends(self.auth_service.require_role(['admin']))]
+        )
+        def create_user(user: CreateUpdateUserRequest, db: Session = Depends(get_db)):
+            return self.user_service.create_user(user, db)
+        
+        @self.router.get(
             "/{user_id}",
             response_model=UserResponse | None,
             dependencies=[Depends(self.auth_service.require_self_or_admin())]
@@ -29,3 +45,28 @@ class UserRouter:
             if not user_by_id:
                 raise HTTPException(status_code=403)
             return user_by_id
+        
+        @self.router.put(
+            "/{user_id}",
+            response_model=UserResponse | None,
+            dependencies=[Depends(self.auth_service.require_role(['admin']))]
+        )
+        def update_user(user_id: int, user: CreateUpdateUserRequest, db: Session = Depends(get_db)):
+            return self.user_service.update_user(user_id, user, db)
+        
+        @self.router.delete(
+            "/{user_id}",
+            dependencies=[Depends(self.auth_service.require_role(['admin']))]
+        )
+        def delete_user(user_id: int, db: Session = Depends(get_db)):
+            current_user = current_user_ctx.get()
+            if user_id == current_user.id:
+                raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="El usuario no puede eliminarse a sí mismo.")
+            self.user_service.delete_user(user_id, db)
+        
+        @self.router.patch(
+            "/{user_id}/password",
+            dependencies=[Depends(self.auth_service.require_self())]
+        )
+        def change_password(user_id: int, pass_chg: PasswordChangeRequest, db: Session = Depends(get_db)):
+            self.user_service.password_change(user_id, pass_chg, db)
