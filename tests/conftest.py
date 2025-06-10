@@ -39,7 +39,8 @@ def db_session():
     try:
         yield session
     finally:
-        transaction.rollback()
+        if transaction.is_active:
+            transaction.rollback()
         connection.close()
 
 @pytest.fixture(scope="function")

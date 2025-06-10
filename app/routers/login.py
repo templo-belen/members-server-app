@@ -27,7 +27,7 @@ class LoginRouter:
                 db: Session = Depends(get_db)
         ):
             user = self.user_service.get_user_login_by_username(form_data.username, db)
-            if not user or not self.auth_service.verify_password(form_data.password, user):
+            if not user or not self.user_service.verify_password(form_data.password, user.password):
                 raise HTTPException(status_code=401, detail="Invalid credentials")
 
             token = self.auth_service.create_access_token(user)

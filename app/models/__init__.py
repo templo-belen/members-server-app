@@ -28,7 +28,14 @@ from app.models.member_general_data import (
 from app.models.member_references import MemberReferenceResponse, MembersReferenceElement
 from app.models.preaching_point import PreachingPointInformation
 from app.models.role import RoleInformation
-from app.models.user import UserResponse, TokenResponse, LoginRequest, LoginResponse
+from app.models.user import (
+    CreateUpdateUserRequest,
+    LoginRequest,
+    LoginResponse,
+    PasswordChangeRequest,
+    TokenResponse,
+    UserResponse,
+)
 from app.models.enum_serializer import parse_enum_by_name
 from app.models.member_family_data import (
     MemberFamilyDataResponse,
