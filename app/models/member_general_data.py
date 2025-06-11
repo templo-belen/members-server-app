@@ -30,7 +30,6 @@ class MemberGeneralDataResponse(BaseModel):
     )
 
 class CreateMemberGeneralDataRequest(BaseModel):
-    member_id: int = Field(description="Member ID", alias="memberId", gt=0)
     conversion_date: Optional[date] = Field(description="Conversion date", alias="conversionDate")
     conversion_place: Optional[str] = Field(description="Convertion place", alias="conversionPlace")
     baptism_date: Optional[date] = Field(description="Baptism date", alias="baptismDate")
@@ -51,7 +50,7 @@ class CreateMemberGeneralDataRequest(BaseModel):
     )
 
 class UpdateMemberGeneralDataRequest(CreateMemberGeneralDataRequest):
-    id: int = Field(description="Member ID", gt=0)
+    id: int = Field(description="Member general data ID", gt=0)
 
     model_config = ConfigDict(
         from_attributes=True,
