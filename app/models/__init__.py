@@ -24,7 +24,11 @@ from app.models.member_dew import (
     CreateMemberDEWRequest,
     UpdateMemberDEWRequest,
 )
-from app.models.member_general_data import MemberGeneralDataResponse, CreateMemberGeneralDataRequest
+from app.models.member_general_data import (
+    MemberGeneralDataResponse,
+    CreateMemberGeneralDataRequest,
+    UpdateMemberGeneralDataRequest
+)
 from app.models.member_references import MemberReferenceResponse, MembersReferenceElement
 from app.models.preaching_point import PreachingPointInformation
 from app.models.role import RoleInformation
