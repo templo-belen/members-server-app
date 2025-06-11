@@ -30,7 +30,6 @@ class MemberGeneralDataResponse(BaseModel):
     )
 
 class CreateMemberGeneralDataRequest(BaseModel):
-    member_id: int = Field(description="Member ID", alias="memberId", gt=0)
     conversion_date: Optional[date] = Field(description="Conversion date", alias="conversionDate")
     conversion_place: Optional[str] = Field(description="Convertion place", alias="conversionPlace")
     baptism_date: Optional[date] = Field(description="Baptism date", alias="baptismDate")
@@ -44,6 +43,14 @@ class CreateMemberGeneralDataRequest(BaseModel):
     leaving_reason_description: Optional[str] = Field(description="Leaving reason", alias="leavingReasonDescription")
     leaving_date: Optional[date] = Field(description="Leaving date", alias="leavingDate")
     acceptance_comment: Optional[str] = Field(description="Acceptance comment", alias="acceptanceComment")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )
+
+class UpdateMemberGeneralDataRequest(CreateMemberGeneralDataRequest):
+    id: int = Field(description="Member general data ID", gt=0)
 
     model_config = ConfigDict(
         from_attributes=True,
