@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import date
 from typing import Optional
 
 from pydantic import BaseModel, Field, ConfigDict
@@ -22,8 +22,6 @@ class MembersDEWResponse(BaseModel):
     )
 
 class CreateMemberDEWRequest(BaseModel):
-    member_id: int = Field(description="Member ID", alias="memberId")
-
     ministration_date: Optional[date] = Field(description="Ministration date", alias="ministrationDate")
     worker_1: Optional[str] = Field(description="Worker 1", alias="worker1")
     worker_2: Optional[str] = Field(description="Worker 2", alias="worker2")

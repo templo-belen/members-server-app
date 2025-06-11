@@ -27,7 +27,7 @@ class MemberDEWRouter:
         self.member_dew_service = member_dew_service
         self.auth_service = auth_service
 
-        self.router = APIRouter(prefix="/members", tags=["member-dew"])
+        self.router = APIRouter(prefix="/members/{member_id}/dew", tags=["member-dew"])
         self._setup_routes()
 
     def get_router(self):
@@ -36,7 +36,7 @@ class MemberDEWRouter:
     def _setup_routes(self):
 
         @self.router.get(
-            "/{member_id}/dew",
+            "/",
             response_model=Optional[MembersDEWResponse],
             dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
         )
@@ -47,19 +47,19 @@ class MemberDEWRouter:
             return member_dew
 
         @self.router.post(
-            "/dew",
+            "/",
             description="Save 'Member DEW' data",
             response_model=MembersDEWResponse,
             dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
-        def find_general_data_by_member_id(new_dew_data : CreateMemberDEWRequest, db: Session = Depends(get_db)):
-            return self.member_dew_service.create_member_dew(new_dew_data, db)
+        def find_general_data_by_member_id(member_id : int, new_dew_data : CreateMemberDEWRequest, db: Session = Depends(get_db)):
+            return self.member_dew_service.create_member_dew(member_id, new_dew_data, db)
 
         @self.router.put(
-            "/dew",
+            "/",
             description="Update 'Member DEW' data",
             response_model=MembersDEWResponse,
             dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
         )
-        def find_general_data_by_member_id(update_dew_data : UpdateMemberDEWRequest, db: Session = Depends(get_db)):
-            return self.member_dew_service.update_member_dew(update_dew_data, db)
+        def find_general_data_by_member_id(member_id : int, update_dew_data : UpdateMemberDEWRequest, db: Session = Depends(get_db)):
+            return self.member_dew_service.update_member_dew(member_id, update_dew_data, db)
