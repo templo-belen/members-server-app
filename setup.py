@@ -26,6 +26,7 @@ setup(
             "pathspec==0.12.1",
             "ruff==0.11.13",
             "isort==6.0.1",
+            "pre-commit==4.2.0",
         ]
     },
 )
