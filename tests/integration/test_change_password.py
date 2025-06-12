@@ -1,5 +1,7 @@
 from fastapi.testclient import TestClient
 
+from tests.utils import get_auth_headers
+
 
 def get_request():
     return {
@@ -14,32 +16,20 @@ def test_change_password__with_invalid_token__returns_403(client: TestClient):
     assert response.status_code == 403
 
 def test_change_password__with_non_self_user__returns_403(client: TestClient):
-    login_response = client.post("/login", data={"username": "pastor", "password": "12345"})
-    token = login_response.headers.get("Authorization")
-
     request = get_request()
-    headers = {"Authorization": f"Bearer {token}"}
-    response = client.patch("/users/3/password", json=request, headers=headers)
+    response = client.patch("/users/3/password", json=request, headers=get_auth_headers(client, "pastor", "12345"))
     assert response.status_code == 403
 
 def test_change_password__with_bad_current_passoword__returns_422(client: TestClient):
-    login_response = client.post("/login", data={"username": "pastor", "password": "12345"})
-    token = login_response.headers.get("Authorization")
-
     request = get_request()
     request["currentPassword"] = "123qweasd"
-    headers = {"Authorization": f"Bearer {token}"}
-    response = client.patch("/users/2/password", json=request, headers=headers)
+    response = client.patch("/users/2/password", json=request, headers=get_auth_headers(client, "pastor", "12345"))
     assert response.status_code == 422
 
 def test_change_password__with_valid_request__returns_200(client: TestClient):
-    login_response = client.post("/login", data={"username": "pastor", "password": "12345"})
-    token = login_response.headers.get("Authorization")
-
     request = get_request()
-    headers = {"Authorization": f"Bearer {token}"}
-    response = client.patch("/users/2/password", json=request, headers=headers)
+    response = client.patch("/users/2/password", json=request, headers=get_auth_headers(client, "pastor", "12345"))
     assert response.status_code == 200
     
     login_response = client.post("/login", data={"username": "pastor", "password": request["newPassword"]})
-    assert response.status_code == 200
+    assert login_response.status_code == 200

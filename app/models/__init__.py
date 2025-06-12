@@ -19,7 +19,11 @@ from app.models.member import (MemberListItemResponse,
                                CreateMemberRequest,
                                UpdateMemberRequest,
                                )
-from app.models.member_dew import MembersDEWResponse
+from app.models.member_dew import (
+    MembersDEWResponse,
+    CreateMemberDEWRequest,
+    UpdateMemberDEWRequest,
+)
 from app.models.member_general_data import (
     MemberGeneralDataResponse,
     CreateMemberGeneralDataRequest,
