@@ -86,7 +86,7 @@ jobs:
           service-type: web
           service-env: ACCESS_TOKEN_EXPIRE_MINUTES=@tokenExpireMinutes,ALGORITHM=@algorithm,ENV=@ENV,FRONTEND_URL=@frontendUrl,POSTGRES_DB=@databaseName,POSTGRES_HOST=@dbHost,POSTGRES_PASSWORD=@dbPassw,POSTGRES_PORT=@dbPort,POSTGRES_USER=@dbUser,SECRET_KEY=@secretKey
           service-instance-type: free
-          service-regions: WAS
+          service-regions: was
           service-ports: "80:http"
           service-routes: "/:80"
           service-checks: "80:http:/health"
