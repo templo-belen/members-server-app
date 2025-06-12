@@ -81,6 +81,7 @@ jobs:
         uses: koyeb/action-git-deploy@v1
         with:
           git-builder: docker
+          git-sha: "${{ github.sha }}"
           app-name: wide-gwynne
           service-name: members-server-app
           service-type: web
