@@ -82,6 +82,7 @@ jobs:
         with:
           git-builder: docker
           git-docker-dockerfile: "./Dockerfile"
+          app-name: wide-gwynne
           service-name: members-server-app
           service-type: web
           service-env: ACCESS_TOKEN_EXPIRE_MINUTES=@tokenExpireMinutes,ALGORITHM=@algorithm,ENV=@ENV,FRONTEND_URL=@frontendUrl,POSTGRES_DB=@databaseName,POSTGRES_HOST=@dbHost,POSTGRES_PASSWORD=@dbPassw,POSTGRES_PORT=@dbPort,POSTGRES_USER=@dbUser,SECRET_KEY=@secretKey
