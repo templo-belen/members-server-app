@@ -12,7 +12,7 @@ class PreachingPointRouter:
     def __init__(self, preaching_point_service: PreachingPointService, auth_service: AuthService):
         self.auth_service = auth_service
         self.preaching_point_service = preaching_point_service
-        
+
         self.router = APIRouter(prefix="/preaching-points", tags=["preaching-points"])
         self._setup_routes()
 
@@ -23,7 +23,7 @@ class PreachingPointRouter:
         @self.router.get(
             "/",
             response_model=Optional[List[PreachingPointInformation]] | None,
-            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))],
         )
         def get_all(db: Session = Depends(get_db)):
             return self.preaching_point_service.get_all(db)

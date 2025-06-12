@@ -13,15 +13,18 @@ class MaritalStatusType(str, enum.Enum):
     vuelto_a_casar = "Vuelto a casar"
     otro = "Otro"
 
+
 class GenderType(str, enum.Enum):
     femenino = "Femenino"
     masculino = "Masculino"
+
 
 class RoleType(str, enum.Enum):
     miembro = "Miembro"
     miembro_asamblea = "Miembro asamblea"
     inactivo = "Inactivo"
     visitante = "Visitante"
+
 
 class CellLeadershipType(str, enum.Enum):
     nuevo_creyente = "Nuevo creyente"
@@ -33,6 +36,7 @@ class CellLeadershipType(str, enum.Enum):
     pastor_zona = "Pastor de zona"
     pastor_principal = "Pastor principal"
 
+
 class LeadershipType(str, enum.Enum):
     musico = "Músico"
     maestro_distrito_infantil = "Maestro distrito infantil (D.I.)"
@@ -42,10 +46,12 @@ class LeadershipType(str, enum.Enum):
     maestro_retbelen = "Maestro RetBelen"
     no_aplica = "N/A"
 
+
 class HousingType(str, enum.Enum):
     propia = "Propia"
     familiar = "Familiar"
     alquiler = "Alquiler"
+
 
 class LeavingReasonType(str, enum.Enum):
     cambio_iglesia = "Cambió de iglesia"
@@ -55,6 +61,7 @@ class LeavingReasonType(str, enum.Enum):
     muerte = "Muerte"
     cambio_creencia = "Cambió de creencia"
     otro = "Otro"
+
 
 class BloodType(str, enum.Enum):
     a_positive = "A+"
@@ -66,11 +73,13 @@ class BloodType(str, enum.Enum):
     o_positive = "O+"
     o_negative = "O-"
 
+
 class GiftAbilityType(str, enum.Enum):
-    main_gift = 'main_gift'
-    secondary_gift = 'secondary_gift'
-    acquired_skill = 'acquired_skill'
-    natural_ability = 'natural_ability'
+    main_gift = "main_gift"
+    secondary_gift = "secondary_gift"
+    acquired_skill = "acquired_skill"
+    natural_ability = "natural_ability"
+
 
 class NameValueResponse(BaseModel):
     name: str

@@ -35,17 +35,20 @@ class MemberService:
         :param db: Database connection
         :return:
         """
-        members = (db.query(Member.id, Member.names, Member.surnames)
-                   .filter(Member.cell_leadership == cell_leadership).all())
+        members = (
+            db.query(Member.id, Member.names, Member.surnames).filter(Member.cell_leadership == cell_leadership).all()
+        )
         if not members:
             return None
         return [MemberBasicData.model_validate(member) for member in members]
 
     def create_member(self, new_member: CreateMemberRequest, db: Session) -> MemberPersonalInformationResponse:
         current_user = current_user_ctx.get()
-        db_member = Member(**new_member.model_dump(exclude_unset=True),
-                           created_by=current_user.username,
-                           updated_by=current_user.username)
+        db_member = Member(
+            **new_member.model_dump(exclude_unset=True),
+            created_by=current_user.username,
+            updated_by=current_user.username,
+        )
 
         self.validate_zone_pastor(new_member.zone_pastor_id, db)
 
@@ -57,7 +60,7 @@ class MemberService:
     def update_member(self, member: UpdateMemberRequest, db: Session) -> MemberPersonalInformationResponse:
         member_to_update = db.query(Member).filter(Member.id == member.id).first()
         if not member_to_update:
-            raise NotFoundException(f'El miembro con id {member.id} no existe.')
+            raise NotFoundException(f"El miembro con id {member.id} no existe.")
 
         self.validate_zone_pastor(member.zone_pastor_id, db)
 
@@ -83,11 +86,8 @@ class MemberService:
         zone_pastor = self.find_by_id(zone_pastor_id, db)
 
         if not zone_pastor:
-            raise LogicConstraintViolationException(f'El pastor con id {zone_pastor_id} no existe')
+            raise LogicConstraintViolationException(f"El pastor con id {zone_pastor_id} no existe")
 
         pastor_cell_leadership_types = [CellLeadershipType.pastor_principal, CellLeadershipType.pastor_zona]
-        if (
-                zone_pastor.cell_leadership
-                and zone_pastor.cell_leadership not in pastor_cell_leadership_types
-        ):
-            raise LogicConstraintViolationException('El pastor de zona proporcionado no tiene el rol de pastor.')
+        if zone_pastor.cell_leadership and zone_pastor.cell_leadership not in pastor_cell_leadership_types:
+            raise LogicConstraintViolationException("El pastor de zona proporcionado no tiene el rol de pastor.")
