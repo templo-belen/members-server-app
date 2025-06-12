@@ -1,0 +1,91 @@
+name: Deploy to Koyeb
+
+on:
+    release:
+        types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: "${{ github.ref_name }}"
+      cancel-in-progress: true
+    steps:
+      - name: Install and configure the Koyeb CLI
+        uses: koyeb-community/koyeb-actions@v2
+        with:
+          api_token: "${{ secrets.KOYEB_API_KEY }}"
+
+      - name: Create application secret (algorithm)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: algorithm
+          secret-value: "${{ secrets.ALGORITHM }}"
+
+      - name: Create application secret (frontendUrl)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: frontendUrl
+          secret-value: "${{ secrets.FRONTEND_URL }}"
+
+      - name: Create application secret (tokenExpireMinutes)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: tokenExpireMinutes
+          secret-value: "${{ vars.TOKEN_EXPIRE_MINUTES }}"
+
+      - name: Create application secret (Env)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: ENV
+          secret-value: "${{ vars.ENV }}"
+
+      - name: Create application secret (secretKey)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: secretKey
+          secret-value: "${{ secrets.SECRET_KEY }}"
+
+      - name: Create application secret (dbHost)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: dbHost
+          secret-value: "${{ secrets.DB_HOST }}"
+
+      - name: Create application secret (dbPort)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: dbPort
+          secret-value: "${{ secrets.DB_PORT }}"
+
+      - name: Create application secret (dbUser)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: dbUser
+          secret-value: "${{ secrets.DB_USER }}"
+
+      - name: Create application secret (dbPassw)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: dbPassw
+          secret-value: "${{ secrets.DB_PASSW }}"
+
+      - name: Create application secret (databaseName)
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: databaseName
+          secret-value: "${{ secrets.DATABASE_NAME }}"
+
+      - name: Build and deploy the application to Koyeb
+        uses: koyeb/action-git-deploy@v1
+        with:
+          git-builder: docker
+          git-docker-dockerfile: "./Dockerfile"
+          service-name: members-server-app
+          service-type: web
+          service-env: ACCESS_TOKEN_EXPIRE_MINUTES=@tokenExpireMinutes,ALGORITHM=@algorithm,ENV=@ENV,FRONTEND_URL=@frontendUrl,POSTGRES_DB=@databaseName,POSTGRES_HOST=@dbHost,POSTGRES_PASSWORD=@dbPassw,POSTGRES_PORT=@dbPort,POSTGRES_USER=@dbUser,SECRET_KEY=@secretKey
+          service-instance-type: free
+          service-regions: WAS
+          service-ports: "80:http"
+          service-routes: "/:80"
+          service-checks: "80:http:/health"
