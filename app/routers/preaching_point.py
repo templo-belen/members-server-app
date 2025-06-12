@@ -1,6 +1,6 @@
-from typing import Optional, List
+from typing import List, Optional
 
-from fastapi import Depends, APIRouter
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db

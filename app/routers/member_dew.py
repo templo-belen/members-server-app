@@ -9,10 +9,7 @@ from fastapi import (
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import (
-    MembersDEWResponse,
-    CreateMemberDEWRequest,
-)
+from app.models import CreateMemberDEWRequest, MembersDEWResponse
 from app.models.member_dew import UpdateMemberDEWRequest
 from app.services import (
     AuthService,
@@ -21,9 +18,7 @@ from app.services import (
 
 
 class MemberDEWRouter:
-    def __init__(self,
-                 member_dew_service: MembersDEWService,
-                 auth_service: AuthService):
+    def __init__(self, member_dew_service: MembersDEWService, auth_service: AuthService):
         self.member_dew_service = member_dew_service
         self.auth_service = auth_service
 
@@ -38,9 +33,9 @@ class MemberDEWRouter:
         @self.router.get(
             "/",
             response_model=Optional[MembersDEWResponse],
-            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor", "readonly"]))],
         )
-        def find_dew_by_id(member_id : int, db: Session = Depends(get_db)):
+        def find_dew_by_id(member_id: int, db: Session = Depends(get_db)):
             member_dew = self.member_dew_service.find_by_member_id(member_id, db)
             if not member_dew:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
@@ -50,16 +45,20 @@ class MemberDEWRouter:
             "/",
             description="Save 'Member DEW' data",
             response_model=MembersDEWResponse,
-            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))],
         )
-        def find_general_data_by_member_id(member_id : int, new_dew_data : CreateMemberDEWRequest, db: Session = Depends(get_db)):
+        def find_general_data_by_member_id(
+            member_id: int, new_dew_data: CreateMemberDEWRequest, db: Session = Depends(get_db)
+        ):
             return self.member_dew_service.create_member_dew(member_id, new_dew_data, db)
 
         @self.router.put(
             "/",
             description="Update 'Member DEW' data",
             response_model=MembersDEWResponse,
-            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))]
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))],
         )
-        def find_general_data_by_member_id(member_id : int, update_dew_data : UpdateMemberDEWRequest, db: Session = Depends(get_db)):
+        def find_general_data_by_member_id(
+            member_id: int, update_dew_data: UpdateMemberDEWRequest, db: Session = Depends(get_db)
+        ):
             return self.member_dew_service.update_member_dew(member_id, update_dew_data, db)

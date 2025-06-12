@@ -1,17 +1,17 @@
 from sqlalchemy.orm import Session
 
 from app.database import Member
+from app.middlewares import current_user_ctx
 from app.models import (
     CellLeadershipType,
     CreateMemberRequest,
+    MemberBasicData,
     MemberListItemResponse,
     MemberPersonalInformationResponse,
-    MemberBasicData,
     UpdateMemberRequest,
 )
-from app.middlewares import current_user_ctx
-from app.services.pydantic_tools import apply_updates_from_pydantic
 from app.services.exception import LogicConstraintViolationException, NotFoundException
+from app.services.pydantic_tools import apply_updates_from_pydantic
 
 
 class MemberService:

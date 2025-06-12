@@ -18,7 +18,11 @@ setup(
         "iniconfig==2.1.0",
         "packaging==25.0",
         "pluggy==1.6.0",
-        "pytest==8.4.0"
+        "pytest==8.4.0",
+        "black==25.1.0",
+        "mypy-extensions==1.1.0",
+        "pathspec==0.12.1",
+        "ruff==0.11.13",
     ],
     extras_require={"dev": ["pytest"]},
 )

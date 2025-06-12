@@ -1,14 +1,15 @@
-from sqlalchemy import Column, Integer, ForeignKey, String, Enum
+from sqlalchemy import Column, Enum, ForeignKey, Integer, String
 
 from app.database.connection import Base
-from app.models import MaritalStatusType, HousingType
+from app.models import HousingType, MaritalStatusType
 
 
 class MemberFamilyData(Base):
     __tablename__ = "members_family_data"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    marital_status = Column(Enum(MaritalStatusType, name="marital_status_type", native_enum=False), nullable=True)
+    marital_status = Column(Enum(MaritalStatusType, name="marital_status_type", native_enum=False),
+                            nullable=True)
     fathers_name = Column(String(150))
     mothers_name = Column(String(150))
     spouse_name = Column(String(150))
