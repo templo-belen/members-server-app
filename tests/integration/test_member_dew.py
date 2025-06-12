@@ -72,6 +72,6 @@ def test_update_dew__with_member_ok__returns_200(client):
     assert create_response.json()["id"] == 1
     assert create_response.json()["worker1"] == "Jhon"
     assert create_response.json()["worker2"] == "Peter"
-    assert create_response.json()["isSharingTestimony"] == True
-    assert create_response.json()["isPublishingTestimony"] == True
-    assert create_response.json()["isAgreedShareTestimony"] == False
+    assert create_response.json()["isSharingTestimony"]
+    assert create_response.json()["isPublishingTestimony"]
+    assert not create_response.json()["isAgreedShareTestimony"]

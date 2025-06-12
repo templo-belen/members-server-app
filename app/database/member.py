@@ -1,9 +1,9 @@
-from sqlalchemy import Column, String, TIMESTAMP, Enum, ForeignKey, Integer
+from sqlalchemy import TIMESTAMP, Column, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.database.base_table_model import BaseTableModel
 from app.database.preaching_point import PreachingPoint
-from app.models.enum_type import GenderType, RoleType, LeadershipType, CellLeadershipType, BloodType
+from app.models.enum_type import BloodType, CellLeadershipType, GenderType, LeadershipType, RoleType
 
 
 class Member(BaseTableModel):
@@ -34,7 +34,8 @@ class Member(BaseTableModel):
     role = Column(Enum(RoleType, name="role_type", native_enum=False), nullable=False)
     zone_pastor_id = Column(Integer, ForeignKey("members.id"), nullable=True)
     commitment_date = Column(TIMESTAMP)
-    cell_leadership = Column(Enum(CellLeadershipType, name="cell_leadership_type", native_enum=False), nullable=False)
+    cell_leadership = Column(Enum(CellLeadershipType, name="cell_leadership_type", native_enum=False),
+                             nullable=False)
     leadership = Column(Enum(LeadershipType, name="leadership_type", native_enum=False), nullable=False)
     preaching_point_id = Column(Integer, ForeignKey("preaching_point.id"))
     reasons_for_congregating = Column(String(250))

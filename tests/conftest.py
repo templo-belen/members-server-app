@@ -3,9 +3,9 @@ import os
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import Session, sessionmaker
 
-from app.database.connection import (get_db)
+from app.database.connection import get_db
 from app.main import app
 
 TEST_DB_URL = "postgresql://testuser:testpass@localhost:5433/test_db"

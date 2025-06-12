@@ -1,8 +1,9 @@
 from typing import Optional
 
-from fastapi import APIRouter, Query, Depends
+from fastapi import APIRouter, Depends, Query
 
 from app.services import AuthService, get_enums_by_names
+
 
 class EnumTypeRouter:
     def __init__(self, auth_service: AuthService):

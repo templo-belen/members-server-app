@@ -1,10 +1,11 @@
 from contextvars import ContextVar
+
 from fastapi import Request
+from fastapi.logger import logger
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from app.database import get_db, User
+from app.database import User, get_db
 from app.services import AuthService
-
 
 current_user_ctx: ContextVar[User | None] = ContextVar("current_user", default=None)
 
@@ -23,7 +24,8 @@ class UserAwareMiddleware(BaseHTTPMiddleware):
             authorization = request.headers.get('Authorization')
             current_user = self.auth_service.get_current_user(authorization, next(get_db()))
             current_user_ctx.set(current_user)
-        except:
+        except Exception as e:
+            logger.warning(f"Error inesperado al obtener el usuario: {e}")
             pass
 
         return await call_next(request)

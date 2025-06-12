@@ -6,7 +6,7 @@ from starlette import status
 
 from app.database import get_db
 from app.models import MemberADNResponse
-from app.services import MemberADNService, AuthService
+from app.services import AuthService, MemberADNService
 
 
 class MemberADNRouter:

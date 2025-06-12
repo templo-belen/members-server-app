@@ -12,7 +12,7 @@ def get_alter_user_request():
     }
 
 def test_create_user__with_invalid_token__returns_403(client: TestClient):
-    headers = {"Authorization": f"Bearer 123qweasd"}
+    headers = {"Authorization": "Bearer 123qweasd"}
     response = client.post("/users", headers=headers)
     assert response.status_code == 403
 

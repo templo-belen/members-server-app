@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 from sqlalchemy import select
-from sqlalchemy.orm import joinedload, Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.database import User
 from app.models import (
@@ -86,7 +86,7 @@ class UserService:
     def password_change(self, user_id, pass_chg: PasswordChangeRequest, db: Session):
         user_to_update = db.query(User).filter(User.id == user_id).first()
         if not user_to_update:
-            raise NotFoundException(f'El usuario con no existe.')
+            raise NotFoundException('El usuario con no existe.')
         
         if not self.verify_password(pass_chg.current_password, user_to_update.password):
             raise LogicConstraintViolationException("Acción no permitida.")

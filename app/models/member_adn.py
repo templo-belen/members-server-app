@@ -1,6 +1,6 @@
-from typing import Optional, List
+from typing import List, Optional
 
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.models import GiftAbilityType
 from app.models.enum_serializer import serialized_enum_by_name
@@ -11,7 +11,9 @@ class MemberADNDataResponse(BaseModel):
 
     passion: Optional[str] = Field(description="What you passionately desire to do for God", alias="passion")
     mission: Optional[str] = Field(description="Mission statement", alias="mission")
-    personal_prophecies: Optional[str] = Field(description="Personal prophecies and impressions", alias="personalProphecies")
+    personal_prophecies: Optional[str] = Field(
+        description="Personal prophecies and impressions", alias="personalProphecies"
+    )
     personal_values: Optional[str] = Field(description="Personal values", alias="personalValues")
     one_year_plans: Optional[str] = Field(description="One-year plans", alias="oneYearPlans")
     two_year_plans: Optional[str] = Field(description="Two-year plans", alias="twoYearPlans")
@@ -20,14 +22,14 @@ class MemberADNDataResponse(BaseModel):
     weaknesses: Optional[str] = Field(description="Personal weaknesses", alias="weaknesses")
     improvement_areas: Optional[str] = Field(description="Areas you need to improve", alias="improvementAreas")
     mentor: Optional[str] = Field(description="Mentor's name", alias="mentor")
-    mentor_frequency: Optional[str] = Field(description="Frequency of meeting with your mentors", alias="mentorFrequency")
+    mentor_frequency: Optional[str] = Field(
+        description="Frequency of meeting with your mentors", alias="mentorFrequency"
+    )
     mentee: Optional[str] = Field(description="People you mentor", alias="mentee")
     mentee_frequency: Optional[str] = Field(description="Frequency with which you mentor", alias="menteeFrequency")
 
-    model_config = ConfigDict(
-        from_attributes=True,
-        populate_by_name=True
-    )
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
+
 
 class MemberGiftAbilityDataResponse(BaseModel):
     id: int = Field(description="Member gift ability ID", alias="id")
@@ -36,18 +38,20 @@ class MemberGiftAbilityDataResponse(BaseModel):
     name: str = Field(description="Gift or ability name", alias="name")
     type: serialized_enum_by_name(GiftAbilityType) = Field(description="Gift or ability type", alias="type")
 
-    model_config = ConfigDict(
-        from_attributes=True,
-        populate_by_name=True
-    )
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
+
 
 class MemberADNResponse(BaseModel):
     adn: Optional[MemberADNDataResponse] = Field(description="Member ADN data", alias="adn")
     main_gift_list: List[MemberGiftAbilityDataResponse] = Field(description="List of main gifts", alias="mainGiftList")
-    secondary_gift_list: List[MemberGiftAbilityDataResponse] = Field(description="List of secondary gifts", alias="secondaryGiftList")
-    acquired_skill_list: List[MemberGiftAbilityDataResponse] = Field(description="List of acquired skills", alias="acquiredSkillList")
-    natural_ability: List[MemberGiftAbilityDataResponse] = Field(description="List of natural abilities", alias="naturalAbilityList")
-
-    model_config = ConfigDict(
-        populate_by_name=True
+    secondary_gift_list: List[MemberGiftAbilityDataResponse] = Field(
+        description="List of secondary gifts", alias="secondaryGiftList"
     )
+    acquired_skill_list: List[MemberGiftAbilityDataResponse] = Field(
+        description="List of acquired skills", alias="acquiredSkillList"
+    )
+    natural_ability: List[MemberGiftAbilityDataResponse] = Field(
+        description="List of natural abilities", alias="naturalAbilityList"
+    )
+
+    model_config = ConfigDict(populate_by_name=True)

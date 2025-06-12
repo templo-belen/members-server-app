@@ -3,10 +3,15 @@ from typing import Dict, List
 from fastapi import HTTPException
 
 from app.models import (
-    MaritalStatusType, GenderType,
-    RoleType, CellLeadershipType,
-    LeadershipType, HousingType,
-    LeavingReasonType, BloodType, NameValueResponse,
+    BloodType,
+    CellLeadershipType,
+    GenderType,
+    HousingType,
+    LeadershipType,
+    LeavingReasonType,
+    MaritalStatusType,
+    NameValueResponse,
+    RoleType,
 )
 
 enum_map = {

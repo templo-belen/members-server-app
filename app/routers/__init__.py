@@ -2,9 +2,9 @@ from app.routers.enum_type import EnumTypeRouter
 from app.routers.health import HealthRouter
 from app.routers.login import LoginRouter
 from app.routers.member import MemberRouter
-from app.routers.preaching_point import PreachingPointRouter
-from app.routers.user import UserRouter
-from app.routers.member_general_data import MemberGeneralDataRouter
-from app.routers.member_reference import MemberReferenceRouter
 from app.routers.member_dew import MemberDEWRouter
 from app.routers.member_family_data import MemberFamilyDataRouter
+from app.routers.member_general_data import MemberGeneralDataRouter
+from app.routers.member_reference import MemberReferenceRouter
+from app.routers.preaching_point import PreachingPointRouter
+from app.routers.user import UserRouter

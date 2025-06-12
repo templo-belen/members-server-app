@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, Column, ForeignKey, String, Enum
+from sqlalchemy import Column, Enum, ForeignKey, Integer, String
 
 from app.database.connection import Base
 from app.models.enum_type import GiftAbilityType

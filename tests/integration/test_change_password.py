@@ -11,7 +11,7 @@ def get_request():
 
 def test_change_password__with_invalid_token__returns_403(client: TestClient):
     request = get_request()
-    headers = {"Authorization": f"Bearer 123qweasd"}
+    headers = {"Authorization": "Bearer 123qweasd"}
     response = client.patch("/users/1/password", json=request, headers=headers)
     assert response.status_code == 403
 
