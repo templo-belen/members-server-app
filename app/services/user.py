@@ -3,12 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
 from app.database import User
-from app.models import (
-    CreateUpdateUserRequest,
-    LoginRequest,
-    PasswordChangeRequest,
-    UserResponse,
-)
+from app.models import CreateUpdateUserRequest, LoginRequest, PasswordChangeRequest, UserResponse
 from app.services.exception import LogicConstraintViolationException, NotFoundException
 from app.services.pydantic_tools import apply_updates_from_pydantic
 

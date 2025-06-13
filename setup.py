@@ -25,7 +25,7 @@ setup(
             "mypy-extensions==1.1.0",
             "pathspec==0.12.1",
             "ruff==0.11.13",
-            "isort==6.0.1",
+            "isort==5.10.1",
             "pre-commit==4.2.0",
         ]
     },

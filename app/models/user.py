@@ -1,8 +1,4 @@
-from pydantic import (
-    BaseModel,
-    ConfigDict,
-    Field,
-)
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.models.role import RoleInformation
 

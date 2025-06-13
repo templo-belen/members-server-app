@@ -2,11 +2,7 @@ from sqlalchemy.orm import Session
 
 from app.database import Member, MembersGeneralData
 from app.middlewares import current_user_ctx
-from app.models import (
-    CreateMemberGeneralDataRequest,
-    MemberGeneralDataResponse,
-    UpdateMemberGeneralDataRequest,
-)
+from app.models import CreateMemberGeneralDataRequest, MemberGeneralDataResponse, UpdateMemberGeneralDataRequest
 from app.services import ConflictException, NotFoundException
 from app.services.pydantic_tools import apply_updates_from_pydantic
 
