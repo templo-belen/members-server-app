@@ -1,21 +1,11 @@
 from typing import Optional
 
-from fastapi import (
-    APIRouter,
-    Depends,
-    HTTPException,
-    status,
-)
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import (
-    MemberFamilyDataResponse,
-)
-from app.services import (
-    AuthService,
-    MembersFamilyDataService,
-)
+from app.models import MemberFamilyDataResponse
+from app.services import AuthService, MembersFamilyDataService
 
 
 class MemberFamilyDataRouter:
