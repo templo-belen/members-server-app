@@ -10,4 +10,4 @@ class MemberChildren(Base):
     child_name = Column(String(150), nullable=False)
     child_occupation = Column(String(150))
 
-    member_id = Column(Integer, ForeignKey('members.id'), unique=False, nullable=False)
+    member_id = Column(Integer, ForeignKey("members.id"), unique=False, nullable=False)

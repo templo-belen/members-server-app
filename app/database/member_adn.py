@@ -22,4 +22,4 @@ class MemberADN(Base):
     mentee = Column(String(250))
     mentee_frequency = Column(String(50))
 
-    member_id = Column(Integer, ForeignKey('members.id'), unique=True, nullable=False)
+    member_id = Column(Integer, ForeignKey("members.id"), unique=True, nullable=False)

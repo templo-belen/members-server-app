@@ -4,7 +4,7 @@ from app.database.connection import Base
 
 
 class MembersDEW(Base):
-    __tablename__ = 'members_dew'
+    __tablename__ = "members_dew"
 
     id = Column(Integer, primary_key=True)
     ministration_date = Column(Date)
@@ -15,4 +15,4 @@ class MembersDEW(Base):
     is_publishing_testimony_name = Column(Boolean, default=False)
     is_agreed_share_testimony = Column(Boolean, default=False)
 
-    member_id = Column(Integer, ForeignKey('members.id'), unique=True, nullable=False)
+    member_id = Column(Integer, ForeignKey("members.id"), unique=True, nullable=False)

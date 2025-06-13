@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-def apply_updates_from_pydantic(instance, pydantic_model : BaseModel, exclude_unset=True):
+def apply_updates_from_pydantic(instance, pydantic_model: BaseModel, exclude_unset=True):
     """
     Updates the attributes of a SQLAlchemy database model
     :param instance: SQLAlchemy model

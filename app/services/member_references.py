@@ -9,18 +9,14 @@ class MembersReferenceService:
         pass
 
     def find_by_member_id(self, member_id: int, db: Session) -> MemberReferenceResponse | None:
-        member_data = db.query(Member.id, Member.reasons_for_congregating) \
-            .filter(Member.id == member_id) \
-            .first()
+        member_data = db.query(Member.id, Member.reasons_for_congregating).filter(Member.id == member_id).first()
 
         reasons_for_congregating = None
         if member_data:
             reasons_for_congregating = member_data.reasons_for_congregating
 
         # Getting references
-        references = db.query(MembersReference) \
-            .filter(MembersReference.member_id == member_id) \
-            .all()
+        references = db.query(MembersReference).filter(MembersReference.member_id == member_id).all()
 
         references_pydantic = []
         if references:
@@ -30,6 +26,5 @@ class MembersReferenceService:
             return None
 
         return MemberReferenceResponse(
-            references=references_pydantic,
-            reasons_for_congregating=reasons_for_congregating
+            references=references_pydantic, reasons_for_congregating=reasons_for_congregating
         )

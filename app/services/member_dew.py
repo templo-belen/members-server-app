@@ -18,10 +18,10 @@ class MembersDEWService:
             return None
         return MembersDEWResponse.model_validate(member_dew)
 
-    def create_member_dew(self, member_id : int, new_dew: CreateMemberDEWRequest, db: Session) -> MembersDEWResponse:
+    def create_member_dew(self, member_id: int, new_dew: CreateMemberDEWRequest, db: Session) -> MembersDEWResponse:
         member = db.query(Member).filter(Member.id == member_id).first()
         if not member:
-            raise NotFoundException(f'El miembro con id {member_id} no existe.')
+            raise NotFoundException(f"El miembro con id {member_id} no existe.")
 
         self.validate_member_dew(member_id, db)
 
@@ -35,17 +35,17 @@ class MembersDEWService:
         db.refresh(member)
         return MembersDEWResponse.model_validate(db_member_dew)
 
-    def update_member_dew(self, member_id : int, dew_data: UpdateMemberDEWRequest, db: Session) -> MembersDEWResponse:
+    def update_member_dew(self, member_id: int, dew_data: UpdateMemberDEWRequest, db: Session) -> MembersDEWResponse:
         member_to_update = db.query(Member).filter(Member.id == member_id).first()
         if not member_to_update:
-            raise NotFoundException(f'El miembro con id {member_id} no existe.')
+            raise NotFoundException(f"El miembro con id {member_id} no existe.")
 
-        dew_to_update = (db.query(MembersDEW)
-                         .filter(MembersDEW.id == dew_data.id, MembersDEW.member_id == member_id)
-                         .first())
+        dew_to_update = (
+            db.query(MembersDEW).filter(MembersDEW.id == dew_data.id, MembersDEW.member_id == member_id).first()
+        )
 
         if not dew_to_update:
-            raise NotFoundException(f'Los datos dew con id {dew_data.id} del miembro con id {member_id} no existe.')
+            raise NotFoundException(f"Los datos dew con id {dew_data.id} del miembro con id {member_id} no existe.")
 
         apply_updates_from_pydantic(dew_to_update, dew_data)
 
@@ -59,4 +59,4 @@ class MembersDEWService:
     def validate_member_dew(self, member_id: int, db: Session):
         member_dew = self.find_by_member_id(member_id, db)
         if member_dew:
-            raise ConflictException(f'El miembro con id {member_id} ya tiene datos DEW')
+            raise ConflictException(f"El miembro con id {member_id} ya tiene datos DEW")

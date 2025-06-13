@@ -34,12 +34,11 @@ class Member(BaseTableModel):
     role = Column(Enum(RoleType, name="role_type", native_enum=False), nullable=False)
     zone_pastor_id = Column(Integer, ForeignKey("members.id"), nullable=True)
     commitment_date = Column(TIMESTAMP)
-    cell_leadership = Column(Enum(CellLeadershipType, name="cell_leadership_type", native_enum=False),
-                             nullable=False)
+    cell_leadership = Column(Enum(CellLeadershipType, name="cell_leadership_type", native_enum=False), nullable=False)
     leadership = Column(Enum(LeadershipType, name="leadership_type", native_enum=False), nullable=False)
     preaching_point_id = Column(Integer, ForeignKey("preaching_point.id"))
     reasons_for_congregating = Column(String(250))
 
-    #Relationships
+    # Relationships
     preaching_point = relationship(PreachingPoint)
     zone_pastor = relationship("Member", remote_side=[id], backref="zone_members", lazy="select")
