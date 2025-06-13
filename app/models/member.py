@@ -4,14 +4,7 @@ from typing import Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field, field_serializer, model_validator
 
 from app.models.enum_serializer import serialized_enum_by_name
-from app.models.enum_type import (
-    BloodType,
-    CellLeadershipType,
-    GenderType,
-    LeadershipType,
-    NameValueResponse,
-    RoleType,
-)
+from app.models.enum_type import BloodType, CellLeadershipType, GenderType, LeadershipType, NameValueResponse, RoleType
 from app.models.member_adn import MemberADNResponse
 from app.models.member_dew import MembersDEWResponse
 from app.models.member_family_data import MemberFamilyDataResponse
