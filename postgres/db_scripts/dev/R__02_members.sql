@@ -1,20 +1,12 @@
--- Inserts de datos de prueba para tablas
+DELETE FROM members_children;
+DELETE FROM members_family_data;
+DELETE FROM members_gift_ability;
+DELETE FROM members_adn;
+DELETE FROM members_dew;
+DELETE FROM members_references;
+DELETE FROM members_general_data;
+DELETE FROM members;
 
--- TODO este archivo deben dejarse solo para ser ejecutados con los TESTS!
-
--- ADMIN
-insert into users(username, password, full_name, role_id)
-values ('admin', '$2a$12$QRrPDX6ChrRfqVBlyN6D5.zLFAGVidR69/OV8iXMjf8eKvXUg2on2', 'Administrador Dominguez', 1);
-
--- PASTOR
-insert into users(username, password, full_name, role_id)
-values ('pastor', '$2a$12$QRrPDX6ChrRfqVBlyN6D5.zLFAGVidR69/OV8iXMjf8eKvXUg2on2', 'Pastor Maldonado', 2);
-
--- READONLY
-insert into users(username, password, full_name, role_id)
-values ('readonly', '$2a$12$QRrPDX6ChrRfqVBlyN6D5.zLFAGVidR69/OV8iXMjf8eKvXUg2on2', 'Readonly Pérez', 3);
-
--- Pastores de zona
 INSERT INTO members (
     id_number, surnames, names, birthdate, birth_country, residence_country,
     address, phone_number, cellphone_number, email, military_service,
@@ -278,3 +270,325 @@ insert into members (id_number, surnames, names, birthdate, birth_country, resid
 insert into members (id_number, surnames, names, birthdate, birth_country, residence_country, address, phone_number, cellphone_number, email, military_service, studies_completed, degree_obtained, other_studies, company, occupation, eps, rh, gender, role, commitment_date, preaching_point_id, zone_pastor_id, cell_leadership, leadership, reasons_for_congregating, status, created_by, updated_by) values ('376413870379626', 'Ginley Ginley', 'Gerrard Gerrard', '1969-12-17 10:56:16', 'China', 'Mexico', '071 David Plaza', '(602) 1121195', '(104) 5419423', 'gginleyginley2p@home.pl', null, 'Universidad Anáhuac del Sur', 'Universidad La Salle', 'Instituto Tecnológico Autonómo de México', null, 'Research Assistant II', null, null, null, 'miembro_asamblea', '2022-11-22 12:16:47', 1, 1, 'nuevo_creyente', 'maestro_universitario', null, 'A', 'erika', 'SYS');
 insert into members (id_number, surnames, names, birthdate, birth_country, residence_country, address, phone_number, cellphone_number, email, military_service, studies_completed, degree_obtained, other_studies, company, occupation, eps, rh, gender, role, commitment_date, preaching_point_id, zone_pastor_id, cell_leadership, leadership, reasons_for_congregating, status, created_by, updated_by) values ('4017956155204', 'Winspare Winspare', 'Hetti Hetti', null, 'China', 'China', '4571 2nd Drive', null, '(319) 2859972', 'hwinsparewinspare2q@ed.gov', null, null, 'University of Science and Technology Beijing', null, null, 'Registered Nurse', 'colmedica', null, null, 'inactivo', '2022-12-12 03:09:03', 19, 2, 'lider_seccional', 'musico', 'neque sapien placerat ante nulla justo aliquam quis turpis eget elit sodales scelerisque mauris sit amet eros suspendisse accumsan tortor quis turpis sed ante vivamus tortor duis mattis egestas metus aenean fermentum', 'I', 'user', 'developer');
 insert into members (id_number, surnames, names, birthdate, birth_country, residence_country, address, phone_number, cellphone_number, email, military_service, studies_completed, degree_obtained, other_studies, company, occupation, eps, rh, gender, role, commitment_date, preaching_point_id, zone_pastor_id, cell_leadership, leadership, reasons_for_congregating, status, created_by, updated_by) values ('4257827943207041', 'Goulbourn Goulbourn', 'Rafaello Rafaello', '1998-01-27 02:13:21', null, 'Kenya', '77 Porter Parkway', null, '(758) 1322992', 'rgoulbourngoulbourn2r@rakuten.co.jp', null, 'Kenya College of Accountancy', 'Kenyatta University', null, null, 'Associate Professor', null, null, null, 'miembro_asamblea', '2024-06-12 17:09:19', 13, 2, 'padre_espiritual', 'maestro_junior', 'eget congue eget semper rutrum nulla nunc purus phasellus in felis donec semper sapien a libero nam dui proin leo odio porttitor id consequat in consequat ut nulla sed accumsan felis ut at dolor quis odio consequat', 'A', 'developer', 'developer');
+
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    3, 36, 'Iglesia Nueva Vida', 'Pastor Luis Herrera', 'Cambio de ciudad'
+);
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    7, 10, 'Temblo Jerusalén', 'Pastora Ana Martínez', 'Razones personales'
+);
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    3, 24, 'Ministerio Cristo Redentor', 'Pastora Ana Martínez', 'Razones personales'
+);
+
+INSERT INTO members_references (
+    member_id, total_time, church_name, main_pastor_name, leaving_reason
+) VALUES (
+    5, 48, 'Templo Luz del Mundo', 'Pastor Carlos Ramírez', 'Incompatibilidad doctrinal'
+);
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        1,
+        '2024-12-14',
+        'Antonie Klainman',
+        'Donny Mace',
+        false,
+        true,
+        true,
+        true
+    );
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        2,
+        '2024-12-30',
+        'Elnore Klaffs',
+        'Tadeas Haily',
+        true,
+        false,
+        false,
+        false
+    );
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        3,
+        '2025-03-25',
+        'Willette Yitzovitz',
+        'Gussi Guiton',
+        true,
+        false,
+        false,
+        true
+    );
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        4,
+        '2024-06-25',
+        'Ruy Meneer',
+        'Matti Eykelbosch',
+        false,
+        true,
+        false,
+        false
+    );
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        5,
+        '2025-01-02',
+        'Wally Flamank',
+        'Guilbert MacMeanma',
+        true,
+        true,
+        false,
+        true
+    );
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        6,
+        '2025-04-13',
+        'Gabe Clare',
+        'Donia de Merida',
+        true,
+        true,
+        true,
+        true
+    );
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        7,
+        '2024-08-09',
+        'Cindra Woolcocks',
+        'Efrem Pearl',
+        true,
+        false,
+        true,
+        false
+    );
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        8,
+        '2024-12-10',
+        'Kasey Bonwell',
+        'Lilian Gosz',
+        false,
+        true,
+        true,
+        false
+    );
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        9,
+        '2025-02-09',
+        'Erda Weadick',
+        'Benoite Tutt',
+        false,
+        false,
+        false,
+        true
+    );
+
+insert into
+    members_dew (
+        member_id,
+        ministration_date,
+        worker_1,
+        worker_2,
+        is_sharing_testimony,
+        is_publishing_testimony,
+        is_publishing_testimony_name,
+        is_agreed_share_testimony
+    )
+values
+    (
+        10,
+        '2025-01-02',
+        'Devina Chezelle',
+        'Germana Antliff',
+        true,
+        true,
+        false,
+        false
+    );
+
+
+-- Inserts para ADN
+INSERT INTO members_adn (member_id, passion, mission, personal_prophecies, personal_values, one_year_plans, two_year_plans, five_year_plans, strengths, weaknesses, improvement_areas, mentor, mentor_frequency, mentee, mentee_frequency) VALUES
+(1, 'Ayudar a los demás', 'Impactar positivamente', 'Tendrás gran influencia', 'Empatía, justicia', 'Desarrollar habilidades sociales', 'Iniciar un proyecto personal', 'Fundar una ONG', 'Comunicación, liderazgo', 'Impaciencia', 'Manejo del estrés', 'Juan Pérez', 'Mensual', 'Laura Gómez', 'Semanal'),
+(2, 'Crear arte', 'Inspirar a otros', 'Tu arte tocará vidas', 'Creatividad, sensibilidad', 'Mejorar técnica de dibujo', 'Exponer en una galería', 'Vivir del arte', 'Imaginación, detalle', 'Indecisión', 'Autodisciplina', 'Ana Torres', 'Quincenal', 'Mario Ruiz', 'Mensual'),
+(3, 'Explorar el mundo', 'Conectar culturas', 'Verás lugares lejanos', 'Curiosidad, respeto', 'Viajar por el país', 'Aprender nuevos idiomas', 'Escribir un libro de viajes', 'Adaptabilidad, comunicación', 'Desorganización', 'Planificación', 'Luis Ríos', 'Mensual', 'Carmen Silva', 'Mensual'),
+(4, 'Investigar', 'Resolver problemas complejos', 'Descubrirás algo importante', 'Lógica, dedicación', 'Iniciar tesis', 'Publicar artículo', 'Trabajar en investigación', 'Pensamiento crítico', 'Perfeccionismo', 'Gestión de tiempo', null, null, 'Pedro Díaz', 'Semanal'),
+(5, 'Emprender', 'Crear soluciones útiles', 'Liderarás una empresa', 'Innovación, valentía', 'Identificar necesidades del mercado', 'Lanzar prototipo', 'Escalar startup', 'Creatividad, resiliencia', 'Ansiedad', 'Delegar', 'Sofía Jiménez', 'Quincenal', 'Andrés León', 'Quincenal'),
+(6, 'Sanar', 'Mejorar la salud de otros', 'Tendrás manos curativas', 'Compasión, responsabilidad', 'Estudiar medicina alternativa', 'Practicar con pacientes', 'Abrir clínica', 'Empatía, conocimientos médicos', 'Autoexigencia', 'Trabajo en equipo', 'Fernando Peña', 'Mensual', 'Natalia Mora', 'Mensual'),
+(7, 'Enseñar', 'Transformar vidas con educación', 'Serás luz en caminos oscuros', 'Paciencia, vocación', 'Diseñar un curso', 'Capacitarme en nuevas metodologías', 'Fundar una escuela', 'Claridad, carisma', 'Falta de confianza', 'Autoafirmación', 'Marcela Vargas', 'Semanal', 'Julián Soto', 'Semanal'),
+(8, 'Escribir', 'Transmitir ideas poderosas', 'Tus palabras cambiarán mentes', 'Veracidad, pasión', 'Publicar un blog', 'Participar en concursos', 'Escribir una novela', 'Expresión escrita, observación', 'Procrastinación', 'Organización', 'Renato Cuevas', 'Mensual', 'Daniela Torres', 'Quincenal'),
+(9, 'Servir', 'Apoyar a comunidades vulnerables', 'Serás puente de esperanza', 'Solidaridad, acción', 'Voluntariado regular', 'Organizar colectas', 'Dirigir una fundación', 'Escucha, gestión', 'Inseguridad', 'Autoconfianza', 'Adriana Ruiz', 'Mensual', 'Carlos Peña', 'Mensual'),
+(10, 'Innovar en tecnología', 'Resolver desafíos globales', 'Crearás algo revolucionario', 'Precisión, lógica', 'Desarrollar app de impacto social', 'Conseguir socios estratégicos', 'Fundar una tech for good', 'Resolución de problemas', 'Impaciencia', 'Escucha activa', 'Iván Torres', 'Quincenal', null, null);
+
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(1, 'Discernimiento espiritual', 'main_gift'),
+(1, 'Liderazgo', 'natural_ability'),
+(1, 'Paciencia', 'natural_ability'),
+(1, 'Resolución de conflictos', 'acquired_skill'),
+(1, 'Estoicidad', 'acquired_skill');
+
+-- member_id: 2
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(2, 'Enseñanza', 'main_gift'),
+(2, 'Empatía', 'secondary_gift'),
+(2, 'Manejo de herramientas digitales', 'acquired_skill');
+
+-- member_id: 3
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(3, 'Servicio', 'main_gift'),
+(3, 'Organización', 'natural_ability');
+
+-- member_id: 4
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(4, 'Palabra de conocimiento', 'main_gift'),
+(4, 'Comunicación efectiva', 'acquired_skill'),
+(4, 'Intuición', 'natural_ability');
+
+-- member_id: 5
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(5, 'Fe', 'secondary_gift'),
+(5, 'Diseño gráfico', 'acquired_skill'),
+(5, 'Pensamiento analítico', 'natural_ability');
+
+INSERT INTO members_gift_ability (member_id, name, type) VALUES
+(11, 'Discernimiento espiritual', 'main_gift'),
+(11, 'Liderazgo', 'natural_ability');
+
+
+-- Family data
+INSERT INTO members_family_data (
+    member_id, marital_status, fathers_name, mothers_name, spouse_name,
+    spouse_occupation, marriage_registration_number, housing
+) VALUES
+(3, 'soltero', 'Carlos Ramírez', 'Lucía Herrera', 'Nombre de la pareja', 'Enfermera', 'MRN-00123', NULL),
+(4, 'casado', 'Roberto Díaz', 'Sandra Molina', NULL, NULL, NULL, 'alquiler'),
+(5, 'viudo', 'Luis Torres', 'Carmen Pérez', 'Nombre de la pareja', 'Ingeniera', 'MRN-00456', 'propia'),
+(6, 'divorciado', 'Julio Méndez', 'Paula Rivas', 'El nombre', 'Docente', 'MRN-00987', 'familiar');
+
+INSERT INTO members_children (
+    member_id, child_name, child_occupation
+) VALUES
+(3, 'Lucía Ramírez', 'Estudiante'),
+(3, 'Mateo Ramírez', 'Programador Junior'),
+(7, 'Sofía Herrera', 'Arquitecta'),
+(7, 'Tomás Herrera', 'Chef');

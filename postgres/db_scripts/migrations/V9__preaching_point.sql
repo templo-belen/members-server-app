@@ -5,11 +5,11 @@ CREATE TABLE preaching_point (
 
     name VARCHAR(30) NOT NULL UNIQUE,
 
-    status                   varchar(1)   NOT NULL DEFAULT 'A', -- A=Active, I=Inactive/deleted
-    created_at               TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by               VARCHAR(50)  NOT NULL DEFAULT 'SYS',
-    updated_at               TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by               VARCHAR(50)  NOT NULL DEFAULT 'SYS'
+    status VARCHAR(1) NOT NULL DEFAULT 'A', -- A=Active, I=Inactive/deleted
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(50) NOT NULL DEFAULT 'SYS',
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_by VARCHAR(50) NOT NULL DEFAULT 'SYS'
 
 );
 
@@ -35,10 +35,9 @@ INSERT INTO preaching_point (name) VALUES
 ('TEMPLO BELÉN'),
 ('TB13'),
 ('TB SUR')
-ON CONFLICT (name) DO NOTHING;
-;
+ON CONFLICT (name) DO NOTHING;;
 
 -- Relation in members table
 ALTER TABLE members
-ADD CONSTRAINT FK_members_preaching_point FOREIGN KEY (preaching_point_id)
-REFERENCES preaching_point(id);
+ADD CONSTRAINT fk_members_preaching_point FOREIGN KEY (preaching_point_id)
+REFERENCES preaching_point (id);
