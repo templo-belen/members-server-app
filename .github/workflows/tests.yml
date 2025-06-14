@@ -35,12 +35,19 @@ jobs:
       - name: Start docker test environment
         run: docker compose -f docker-compose.test.yml up -d
 
-      - name: Wait for Postgres to be ready
+      - name: Wait for Flyway migrations to complete
         run: |
-          for i in {1..10}; do
-            docker exec $(docker ps -qf "name=postgres-test") pg_isready && break
-            sleep 2
-          done
+          echo "Waiting for Flyway migrations to complete..."
+          
+          # Wait for flyway service to complete and capture exit code
+          if docker compose -f docker-compose.test.yml wait flyway-test; then
+            echo "✅ Flyway migrations completed successfully"
+          else
+            echo "❌ Flyway migrations failed"
+            echo "Flyway logs:"
+            docker compose -f docker-compose.test.yml logs flyway
+            exit 1
+          fi
 
       - name: Run tests
         run: ENV=test pytest --color=yes --tb=short -q
