@@ -93,15 +93,13 @@ class MemberPersonalInformationResponse(BaseModel):
     rh: Optional[serialized_enum_by_name(BloodType)] = Field(description="Member rh")
     gender: Optional[serialized_enum_by_name(GenderType)] = Field(description="Gender type")
 
-    preaching_point: Optional[PreachingPointInformation] = Field(
-        description="Preaching point", alias="preachingPointId"
-    )
+    preaching_point_id: Optional[int] = Field(description="Preaching point", alias="preachingPoint")
     role: serialized_enum_by_name(RoleType) = Field(description="Member current role", alias="currentRole")
     commitment_date: Optional[date] = Field(description="Commitment date", alias="commitmentDate")
     cell_leadership: serialized_enum_by_name(CellLeadershipType) = Field(
         description="Cell leadership", alias="cellLeadership"
     )
-    zone_pastor: Optional[MemberBasicData] = Field(description="Member zone pastor data", alias="zonePastorId")
+    zone_pastor_id: Optional[int] = Field(description="Member zone pastor data", alias="zonePastor")
     leadership: serialized_enum_by_name(LeadershipType) = Field(description="Leadership")
     status: str = Field(description="Member current status")
 
@@ -111,14 +109,6 @@ class MemberPersonalInformationResponse(BaseModel):
     updated_by: str = Field(description="Member updated by", alias="updatedBy")
 
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
-
-    @field_serializer("zone_pastor")
-    def serialize_zone_pastor(self, obj, _info):
-        return obj.id if obj else None
-
-    @field_serializer("preaching_point")
-    def serialize_preaching_point(self, obj, _info):
-        return obj.id if obj else None
 
 
 class MemberInformationResponse(BaseModel):
