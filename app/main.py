@@ -7,24 +7,26 @@ from app.routers import (
     EnumTypeRouter,
     HealthRouter,
     LoginRouter,
+    MemberDEWRouter,
+    MemberFamilyDataRouter,
+    MemberGeneralDataRouter,
+    MemberReferenceRouter,
     MemberRouter,
     PreachingPointRouter,
     UserRouter,
-    MemberGeneralDataRouter,
-    MemberReferenceRouter, MemberDEWRouter, MemberFamilyDataRouter,
 )
 from app.routers.member_adn import MemberADNRouter
 from app.services import (
     AuthService,
     HealthService,
-    MemberService,
+    MemberADNService,
     MembersDEWService,
+    MemberService,
+    MembersFamilyDataService,
     MembersGeneralDataService,
     MembersReferenceService,
     PreachingPointService,
     UserService,
-    MembersFamilyDataService,
-    MemberADNService,
 )
 
 from app.settings import settings
@@ -64,15 +66,18 @@ reference_service = MembersReferenceService()
 dew_service = MembersDEWService()
 family_data_service = MembersFamilyDataService()
 adn_service = MemberADNService()
-app.include_router(MemberRouter(member_service,
-                                general_data_service,
-                                reference_service,
-                                dew_service,
-                                family_data_service,
-                                adn_service,
-                                preaching_point_service,
-                                auth_service)
-                   .get_router())
+app.include_router(
+    MemberRouter(
+        member_service,
+        general_data_service,
+        reference_service,
+        dew_service,
+        family_data_service,
+        adn_service,
+        preaching_point_service,
+        auth_service,
+    ).get_router()
+)
 
 app.include_router(MemberGeneralDataRouter(general_data_service, auth_service).get_router())
 app.include_router(MemberReferenceRouter(reference_service, auth_service).get_router())

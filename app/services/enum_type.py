@@ -3,10 +3,15 @@ from typing import Dict, List
 from fastapi import HTTPException
 
 from app.models import (
-    MaritalStatusType, GenderType,
-    RoleType, CellLeadershipType,
-    LeadershipType, HousingType,
-    LeavingReasonType, BloodType, NameValueResponse,
+    BloodType,
+    CellLeadershipType,
+    GenderType,
+    HousingType,
+    LeadershipType,
+    LeavingReasonType,
+    MaritalStatusType,
+    NameValueResponse,
+    RoleType,
 )
 
 enum_map = {
@@ -20,6 +25,7 @@ enum_map = {
     "blood-type": BloodType,
 }
 
+
 def get_enums_by_names(names: list[str]) -> Dict[str, List[NameValueResponse]]:
     """
     Returns all the enums by the given names.
@@ -28,7 +34,7 @@ def get_enums_by_names(names: list[str]) -> Dict[str, List[NameValueResponse]]:
     """
     response = {}
     if not names:
-        selected_enum_map = enum_map    # Return all the enums
+        selected_enum_map = enum_map  # Return all the enums
     else:
         selected_enum_map = {}
         for name in names:

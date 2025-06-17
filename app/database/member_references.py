@@ -1,10 +1,10 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, ForeignKey, Integer, String
 
 from app.database.connection import Base
 
 
 class MembersReference(Base):
-    __tablename__ = 'members_references'
+    __tablename__ = "members_references"
 
     id = Column(Integer, primary_key=True)
 
@@ -13,4 +13,4 @@ class MembersReference(Base):
     main_pastor_name = Column(String(150))
     leaving_reason = Column(String(50))
 
-    member_id = Column(Integer, ForeignKey('members.id'), unique=True, nullable=False)
+    member_id = Column(Integer, ForeignKey("members.id"), unique=True, nullable=False)

@@ -1,11 +1,11 @@
-from sqlalchemy import Column, Integer, Date, String, Enum, ForeignKey
+from sqlalchemy import Column, Date, Enum, ForeignKey, Integer, String
 
 from app.database.connection import Base
 from app.models.enum_type import LeavingReasonType
 
 
 class MembersGeneralData(Base):
-    __tablename__ = 'members_general_data'
+    __tablename__ = "members_general_data"
 
     id = Column(Integer, primary_key=True)
     conversion_date = Column(Date)
@@ -21,4 +21,4 @@ class MembersGeneralData(Base):
     leaving_reason_description = Column(String(100))
     leaving_date = Column(Date)
     acceptance_comment = Column(String(250))
-    member_id = Column(Integer, ForeignKey('members.id'), unique=True, nullable=False)
+    member_id = Column(Integer, ForeignKey("members.id"), unique=True, nullable=False)
