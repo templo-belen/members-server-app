@@ -9,5 +9,5 @@ class PreachingPointService:
         pass
 
     def get_all(self, db: Session) -> list[PreachingPointInformation]:
-        preaching_points = db.query(PreachingPoint).filter(PreachingPoint.status != 'I')
+        preaching_points = db.query(PreachingPoint).filter(PreachingPoint.status != "I")
         return [PreachingPointInformation.from_orm(pp) for pp in preaching_points]

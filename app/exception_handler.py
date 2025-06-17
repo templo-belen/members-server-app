@@ -1,7 +1,8 @@
-from fastapi import FastAPI, Request, HTTPException, status
+from fastapi import FastAPI, HTTPException, Request, status
 from sqlalchemy.exc import IntegrityError
 
-from app.services import LogicConstraintViolationException, NotFoundException, ConflictException
+from app.services import ConflictException, LogicConstraintViolationException, NotFoundException
+
 
 def setup_exception_handles(app: FastAPI) -> FastAPI:
     @app.exception_handler(IntegrityError)

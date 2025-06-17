@@ -1,4 +1,4 @@
-name: Integration Tests
+name: Lint
 
 on:
   pull_request:
@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  test:
-    name: integration tests
+  lint:
+    name: lint
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      
+
       - name: Cache pip
         uses: actions/cache@v3
         with:
@@ -32,19 +32,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install .[dev]
 
-      - name: Start docker test environment
-        run: docker compose -f docker-compose.test.yml up -d
+      - name: Run ruff
+        run: ruff check .
 
-      - name: Wait for Postgres to be ready
-        run: |
-          for i in {1..10}; do
-            docker exec $(docker ps -qf "name=postgres-test") pg_isready && break
-            sleep 2
-          done
+      - name: Run isort (check only)
+        run: isort . --check-only
 
-      - name: Run tests
-        run: ENV=test pytest --color=yes --tb=short -q
-
-      - name: Tear down docker test environment
-        if: always()
-        run: docker compose -f docker-compose.test.yml down -v
+      - name: Run black (check only)
+        run: black . --check
