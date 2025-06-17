@@ -1,4 +1,4 @@
-def get_auth_headers(client, username : str, password : str):
+def get_auth_headers(client, username: str, password: str):
     login_response = client.post("/login", data={"username": username, "password": password})
 
     assert login_response.status_code == 200

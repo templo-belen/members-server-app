@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
 from app.database import MemberADN, MemberGiftAbility
-from app.models import MemberGiftAbilityDataResponse, GiftAbilityType
-from app.models.member_adn import MemberADNResponse, MemberADNDataResponse
+from app.models import GiftAbilityType, MemberGiftAbilityDataResponse
+from app.models.member_adn import MemberADNDataResponse, MemberADNResponse
 
 
 class MemberADNService:
@@ -18,16 +18,25 @@ class MemberADNService:
         member_abilities_list = db.query(MemberGiftAbility).filter(MemberGiftAbility.member_id == member_id).all()
         member_abilities_response = []
         if member_abilities_list:
-            member_abilities_response = [MemberGiftAbilityDataResponse.model_validate(ability) for ability in member_abilities_list]
+            member_abilities_response = [
+                MemberGiftAbilityDataResponse.model_validate(ability) for ability in member_abilities_list
+            ]
 
         if not member_adn_response and not member_abilities_response:
             return None
 
         return MemberADNResponse(
             adn=member_adn_response,
-            mainGiftList= [ability for ability in member_abilities_response if ability.type == GiftAbilityType.main_gift],
-            secondaryGiftList=[ability for ability in member_abilities_response if ability.type == GiftAbilityType.secondary_gift],
-            acquiredSkillList=[ability for ability in member_abilities_response if ability.type == GiftAbilityType.acquired_skill],
-            naturalAbilityList=[ability for ability in member_abilities_response if ability.type == GiftAbilityType.natural_ability]
+            mainGiftList=[
+                ability for ability in member_abilities_response if ability.type == GiftAbilityType.main_gift
+            ],
+            secondaryGiftList=[
+                ability for ability in member_abilities_response if ability.type == GiftAbilityType.secondary_gift
+            ],
+            acquiredSkillList=[
+                ability for ability in member_abilities_response if ability.type == GiftAbilityType.acquired_skill
+            ],
+            naturalAbilityList=[
+                ability for ability in member_abilities_response if ability.type == GiftAbilityType.natural_ability
+            ],
         )
-

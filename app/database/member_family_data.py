@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Integer, ForeignKey, String, Enum
+from sqlalchemy import Column, Enum, ForeignKey, Integer, String
 
 from app.database.connection import Base
-from app.models import MaritalStatusType, HousingType
+from app.models import HousingType, MaritalStatusType
 
 
 class MemberFamilyData(Base):
@@ -16,4 +16,4 @@ class MemberFamilyData(Base):
     marriage_registration_number = Column(String(150))
     housing = Column(Enum(HousingType, name="housing_type", native_enum=False), nullable=True)
 
-    member_id = Column(Integer, ForeignKey('members.id'), unique=True, nullable=False)
+    member_id = Column(Integer, ForeignKey("members.id"), unique=True, nullable=False)
