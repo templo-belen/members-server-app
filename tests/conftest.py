@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from app.database.connection import get_db
 from app.main import app
 
-TEST_DB_URL = "postgresql://postgres:password@localhost:5432/test"
+TEST_DB_URL = "postgresql://postgres:password@localhost:5433/test"
 engine = create_engine(TEST_DB_URL)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
