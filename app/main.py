@@ -3,16 +3,31 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.exception_handler import setup_exception_handles
 from app.middlewares import UserAwareMiddleware
-from app.routers import (EnumTypeRouter, HealthRouter, LoginRouter,
-                         MemberDEWRouter, MemberFamilyDataRouter,
-                         MemberGeneralDataRouter, MemberReferenceRouter,
-                         MemberRouter, PreachingPointRouter, UserRouter)
+from app.routers import (
+    EnumTypeRouter,
+    HealthRouter,
+    LoginRouter,
+    MemberDEWRouter,
+    MemberFamilyDataRouter,
+    MemberGeneralDataRouter,
+    MemberReferenceRouter,
+    MemberRouter,
+    PreachingPointRouter,
+    UserRouter,
+)
 from app.routers.member_adn import MemberADNRouter
-from app.services import (AuthService, HealthService, MemberADNService,
-                          MembersDEWService, MemberService,
-                          MembersFamilyDataService, MembersGeneralDataService,
-                          MembersReferenceService, PreachingPointService,
-                          UserService)
+from app.services import (
+    AuthService,
+    HealthService,
+    MemberADNService,
+    MembersDEWService,
+    MemberService,
+    MembersFamilyDataService,
+    MembersGeneralDataService,
+    MembersReferenceService,
+    PreachingPointService,
+    UserService,
+)
 from app.settings import settings
 
 app = FastAPI()
