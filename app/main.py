@@ -1,3 +1,6 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.exception_handler import setup_exception_handles
 from app.middlewares import UserAwareMiddleware
 from app.routers import (EnumTypeRouter, HealthRouter, LoginRouter,
@@ -11,8 +14,6 @@ from app.services import (AuthService, HealthService, MemberADNService,
                           MembersReferenceService, PreachingPointService,
                           UserService)
 from app.settings import settings
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 app.add_middleware(
