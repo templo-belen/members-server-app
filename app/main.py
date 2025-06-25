@@ -28,11 +28,12 @@ from app.services import (
     PreachingPointService,
     UserService,
 )
+from app.settings import settings
 
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],  # Your Angular app's URL (adjust as needed)
+    allow_origins=[settings.FRONTEND_URL],  # Your Angular app's URL (adjust as needed)
     allow_credentials=True,
     allow_methods=["*"],  # Or specify: ["GET", "POST", "PUT", "DELETE", etc.]
     allow_headers=["*"],  # Or specify required headers

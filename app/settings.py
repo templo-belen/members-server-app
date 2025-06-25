@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_HOST: str = "localhost"
     POSTGRES_PORT: str = "5432"
+    FRONTEND_URL: str
 
     class Config:
         env_file = ".env" if os.path.exists(".env") else f".env.{os.getenv('ENV', 'dev')}"
