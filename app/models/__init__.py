@@ -30,7 +30,7 @@ from app.models.member_general_data import (
 )
 from app.models.member_references import MemberReferenceResponse, MembersReferenceElement
 from app.models.preaching_point import PreachingPointInformation
-from app.models.role import RoleInformation
+from app.models.role import RoleResponse
 from app.models.user import (
     CreateUpdateUserRequest,
     LoginRequest,

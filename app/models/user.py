@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.role import RoleInformation
+from app.models.role import RoleResponse
 
 
 class LoginRequest(BaseModel):
@@ -23,7 +23,7 @@ class UserResponse(BaseModel):
     id: int
     username: str
     full_name: str
-    role: RoleInformation | None
+    role: RoleResponse | None
 
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
