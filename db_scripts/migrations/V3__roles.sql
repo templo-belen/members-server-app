@@ -1,5 +1,4 @@
 -- Roles table
-
 CREATE TABLE IF NOT EXISTS roles (
     id SERIAL PRIMARY KEY,
     code VARCHAR(15) NOT NULL UNIQUE,
@@ -8,13 +7,12 @@ CREATE TABLE IF NOT EXISTS roles (
 );
 
 -- Insert admin role
-
 INSERT INTO roles (code, name) VALUES
-        ('admin', 'Administrador'),
-        ('pastor', 'Pastor de zona'),
-        ('readonly', 'Solo lectura');
+('admin', 'Administrador'),
+('pastor', 'Pastor de zona'),
+('readonly', 'Solo lectura');
 
 -- Relation with users
 ALTER TABLE users
-ADD CONSTRAINT FK_users_roles FOREIGN KEY (role_id)
-REFERENCES roles(id);
+ADD CONSTRAINT fk_users_roles FOREIGN KEY (role_id)
+REFERENCES roles (id);
