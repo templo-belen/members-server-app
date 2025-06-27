@@ -4,7 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import MemberReferenceResponse
+from app.models import MemberReferenceResponse, UpdateMemberReferenceRequest
+from app.models.member_references import MembersReferenceElement 
 from app.services import AuthService, MembersReferenceService
 
 
@@ -31,3 +32,15 @@ class MemberReferenceRouter:
             if not member_references:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return member_references
+        
+        @self.router.put(
+            "/",
+            description="Update 'Member Reference' data",
+            response_model=MembersReferenceElement,
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))],
+        )
+        def find_general_data_by_member_id(
+            member_id: int, updated_reference_data: UpdateMemberReferenceRequest, db: Session = Depends(get_db) 
+        ):
+            return self.member_reference_service.update_member_reference(member_id, updated_reference_data, db)
+
