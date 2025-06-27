@@ -32,16 +32,31 @@ class MembersReferenceService:
         return MemberReferenceResponse(
             references=references_pydantic, reasons_for_congregating=reasons_for_congregating
         )
-    def update_member_reference(self, member_id: int, reference_data: UpdateMemberReferenceRequest, db : Session) -> MembersReferenceElement:
+    def update_member_reference(
+        self,
+        member_id: int,
+        reference_data: UpdateMemberReferenceRequest,
+        db: Session
+    ) -> MembersReferenceElement:
         member_to_update = db.query(Member).filter(Member.id == member_id).first()
         if not member_to_update:
-            raise NotFoundException(f"El miembro con id {member_id} no existe.")
+            raise NotFoundException(
+                f"El miembro con id {member_id} no existe."
+            )
 
         reference_to_update = (
-            db.query(MembersReference).filter(MembersReference.id == reference_data.id, MembersReference.member_id == member_id).first()
+            db.query(MembersReference)
+            .filter(
+                MembersReference.id == reference_data.id,
+                MembersReference.member_id == member_id
+            )
+            .first()
         )
         if not reference_to_update:
-            raise NotFoundException(f"Los datos de referencia con id {reference_data.id} del miembro con id {member_id} no existen.")
+            raise NotFoundException(
+                f"Los datos de referencia con id {reference_data.id} del miembro "
+                f"con id {member_id} no existen."
+            )
 
         apply_updates_from_pydantic(reference_to_update, reference_data)
 
