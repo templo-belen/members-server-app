@@ -22,8 +22,8 @@ services:
     image: flyway/flyway:11.9
     command: -url=jdbc:postgresql://postgres:5432/templo_belen -user=postgres -password=password -connectRetries=60 -locations=filesystem:/flyway/sql/migrations,filesystem:/flyway/sql/dev migrate
     volumes:
-      - ./postgres/db_scripts/migrations:/flyway/sql/migrations
-      - ./postgres/db_scripts/dev:/flyway/sql/dev
+      - ./db_scripts/migrations:/flyway/sql/migrations
+      - ./db_scripts/dev:/flyway/sql/dev
     depends_on:
       postgres:
         condition: service_healthy
