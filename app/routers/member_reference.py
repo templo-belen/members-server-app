@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import MemberReferenceResponse, UpdateMemberReferenceRequest
-from app.models.member_references import MembersReferenceElement 
+from app.models.member_references import MembersReferenceElement
 from app.services import AuthService, MembersReferenceService
 
 

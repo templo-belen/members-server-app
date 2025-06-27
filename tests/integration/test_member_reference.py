@@ -1,6 +1,5 @@
 from tests.utils import get_auth_headers
 
-
 reference_update = {
     "id": 1,
     "totalTime": 24,

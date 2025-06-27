@@ -35,7 +35,12 @@ from app.models.member_general_data import (
     MemberGeneralDataResponse,
     UpdateMemberGeneralDataRequest,
 )
-from app.models.member_references import MemberReferenceResponse, MembersReferenceElement, CreateMemberReferenceRequest, UpdateMemberReferenceRequest
+from app.models.member_references import (
+    CreateMemberReferenceRequest,
+    MemberReferenceResponse,
+    MembersReferenceElement,
+    UpdateMemberReferenceRequest,
+)
 from app.models.preaching_point import PreachingPointInformation
 from app.models.role import RoleInformation
 from app.models.user import (
