@@ -2,7 +2,6 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.feature import FeatureResponse
 from app.models.role import RoleInformation
 
 
@@ -15,7 +14,7 @@ class LoginRequest(BaseModel):
 class LoginResponse(BaseModel):
     username: str
     full_name: str
-    features: list[FeatureResponse]
+    features: list[str]
 
 
 class TokenResponse(BaseModel):
@@ -28,7 +27,7 @@ class UserResponse(BaseModel):
     username: str
     full_name: str
     role: RoleInformation | None
-    features_list: Optional[list[FeatureResponse]] = Field(default_factory=list, alias="features")
+    features_list: Optional[list[str]] = Field(default_factory=list, alias="features")
 
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
