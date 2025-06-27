@@ -1,3 +1,5 @@
+import copy
+
 from tests.utils import get_auth_headers
 
 member_updating_json = {
@@ -78,7 +80,7 @@ def test_update_general_data__with_member_not_found__returns_404(client):
 
 
 def test_update_general_data__with_member_without_general_data__returns_404(client):
-    without_general_data_json = member_updating_json.copy()
+    without_general_data_json = copy.deepcopy(member_updating_json)
     without_general_data_json["id"] = 101
     create_response = client.put(
         "/members/101/general-data", json=without_general_data_json, headers=get_auth_headers(client, "admin", "12345")
