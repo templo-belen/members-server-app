@@ -26,6 +26,7 @@ class MemberReferenceResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
+
 class CreateMemberReferenceRequest(BaseModel):
     total_time: Optional[int] = Field(description="Total time reference", alias="totalTime")
     church_name: Optional[str] = Field(description="Reference church name", alias="churchName")
@@ -33,6 +34,7 @@ class CreateMemberReferenceRequest(BaseModel):
     leaving_reason: Optional[str] = Field(description="Leaving reason", alias="leavingReason")
 
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
+
 
 class UpdateMemberReferenceRequest(CreateMemberReferenceRequest):
     id: int = Field(description="Member reference ID", gt=0)

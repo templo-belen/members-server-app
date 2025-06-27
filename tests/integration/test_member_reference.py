@@ -8,6 +8,7 @@ reference_update = {
     "leavingReason": "Me fui de la ciudad",
 }
 
+
 def test_find_references_by_member_id__with_not_found_member__returns_404(client):
     response = client.get("/members/9999/references", headers=get_auth_headers(client, "admin", "12345"))
     assert response.status_code == 404
