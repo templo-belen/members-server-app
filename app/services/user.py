@@ -2,9 +2,8 @@ from passlib.context import CryptContext
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
-from app.database import RoleFeature, User
+from app.database import Feature, RoleFeature, User
 from app.models import CreateUpdateUserRequest, LoginRequest, PasswordChangeRequest, UserResponse
-from app.models.feature import FeatureResponse
 from app.services.exception import LogicConstraintViolationException, NotFoundException
 from app.services.pydantic_tools import apply_updates_from_pydantic
 
@@ -47,15 +46,14 @@ class UserService:
         if not user:
             return None
         user_information = UserResponse.model_validate(user)
-        features_list_db = (
-            db.query(RoleFeature)
+        feature_codes = (
+            db.query(Feature.code)
+            .join(RoleFeature, Feature.id == RoleFeature.feature_id)
             .filter(RoleFeature.role_id == user.role.id)
-            .options(joinedload(RoleFeature.feature))
+            .filter(RoleFeature.enabled)
             .all()
         )
-        user_information.features_list = [
-            FeatureResponse.model_validate(feature_db.feature) for feature_db in features_list_db
-        ]
+        user_information.features_list = [code for (code,) in feature_codes]
         return user_information
 
     def create_user(self, new_user: CreateUpdateUserRequest, db: Session) -> UserResponse:
