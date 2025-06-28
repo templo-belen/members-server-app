@@ -27,3 +27,56 @@ values (
     3
 )
 on conflict (username) do nothing;
+
+insert into features (code, name) values
+('create_membership', 'Crear membresía'),
+('update_membership', 'Actualizar membresía'),
+('manage_users', 'Administrar usuarios')
+on conflict (code) do nothing;
+
+insert into role_features (
+    role_id, feature_id
+) values
+(
+    (
+        select id from roles
+        where code = 'admin'
+    ),
+    (
+        select id from features
+        where code = 'manage_users'
+    )
+),
+(
+    (
+        select id from roles
+        where code = 'admin'
+    ),
+    (
+        select id from features
+        where code = 'create_membership'
+    )
+),
+(
+    (
+        select id from roles
+        where code = 'admin'
+    ),
+    (
+        select id from features
+        where code = 'update_membership'
+    )
+)
+on conflict (role_id, feature_id) do nothing;
+
+insert into role_features (
+    role_id, feature_id) values ((
+    select id from roles
+    where code = 'pastor'
+),
+(
+    select id from features
+    where code = 'update_membership'
+)
+)
+on conflict (role_id, feature_id) do nothing;

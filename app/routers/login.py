@@ -30,5 +30,7 @@ class LoginRouter:
             token = self.auth_service.create_access_token(user)
             headers = {"Access-Control-Expose-Headers": "Authorization", "Authorization": token.access_token}
             user = self.user_service.get_user_information_by_id(user.id, db)
-            content = jsonable_encoder(LoginResponse(full_name=user.full_name, username=user.username))
+            content = jsonable_encoder(
+                LoginResponse(full_name=user.full_name, username=user.username, features=user.features_list)
+            )
             return JSONResponse(content=content, headers=headers)
