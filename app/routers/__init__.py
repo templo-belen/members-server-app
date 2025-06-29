@@ -7,4 +7,5 @@ from app.routers.member_family_data import MemberFamilyDataRouter
 from app.routers.member_general_data import MemberGeneralDataRouter
 from app.routers.member_reference import MemberReferenceRouter
 from app.routers.preaching_point import PreachingPointRouter
+from app.routers.role import RoleRouter
 from app.routers.user import UserRouter

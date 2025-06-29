@@ -13,6 +13,7 @@ from app.routers import (
     MemberReferenceRouter,
     MemberRouter,
     PreachingPointRouter,
+    RoleRouter,
     UserRouter,
 )
 from app.routers.member_adn import MemberADNRouter
@@ -26,6 +27,7 @@ from app.services import (
     MembersGeneralDataService,
     MembersReferenceService,
     PreachingPointService,
+    RoleService,
     UserService,
 )
 
@@ -55,6 +57,9 @@ app.include_router(LoginRouter(user_service, auth_service).get_router())
 
 # Users
 app.include_router(UserRouter(user_service, auth_service).get_router())
+
+# Roles
+app.include_router(RoleRouter(RoleService(), auth_service).get_router())
 
 # Members
 member_service = MemberService()

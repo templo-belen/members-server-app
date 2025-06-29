@@ -17,6 +17,6 @@ def test_login__with_valid_user__returns_200(client: TestClient):
 
     assert login_response.status_code == 200
     assert login_response.headers.get("Authorization")
-    assert login_response.json()["full_name"] == "Administrador Dominguez"
+    assert login_response.json()["fullName"] == "Administrador Dominguez"
     assert login_response.json()["username"] == "admin"
     assert login_response.json()["features"] and len(login_response.json()["features"]) > 0
