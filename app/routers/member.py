@@ -101,7 +101,7 @@ class MemberRouter:
             zone_pastors = self.member_service.get_all_by_cell_leadership(CellLeadershipType.pastor_zona, db)
             preaching_points = self.preaching_point_service.get_all(db)
 
-            return MemberFormValuesResponse(enums=enums, zone_pastors=zone_pastors, preaching_points=preaching_points)
+            return MemberFormValuesResponse(enums=enums, zonePastors=zone_pastors, preachingPoints=preaching_points)
 
         @self.router.get(
             "/by-cell-leadership",
@@ -126,10 +126,10 @@ class MemberRouter:
             if not member:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
             return MemberInformationResponse(
-                personal_information=member,
+                personalInformation=member,
                 dew=self.member_dew_service.find_by_member_id(member_id, db),
-                general_data=self.member_general_data_service.find_by_member_id(member_id, db),
-                family_data=self.member_family_data_service.find_by_member_id(member_id, db),
+                generalData=self.member_general_data_service.find_by_member_id(member_id, db),
+                familyData=self.member_family_data_service.find_by_member_id(member_id, db),
                 references=self.member_reference_service.find_by_member_id(member_id, db),
                 adn=self.member_adn_service.find_by_member_id(member_id, db),
             )

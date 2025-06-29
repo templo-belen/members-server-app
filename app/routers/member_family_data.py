@@ -42,3 +42,14 @@ class MemberFamilyDataRouter:
             member_id: int, new_member_data: CreateMemberFamilyDataRequest, db: Session = Depends(get_db)
         ):
             return self.member_family_data_service.create_member_family_data(member_id, new_member_data, db)
+
+        @self.router.put(
+            "/",
+            description="Update 'Member Family Data'",
+            response_model=MemberFamilyDataResponse,
+            dependencies=[Depends(self.auth_service.require_role(["admin", "pastor"]))],
+        )
+        def save_general_data_by_member_id(
+            member_id: int, update_member_data: MemberFamilyDataResponse, db: Session = Depends(get_db)
+        ):
+            return self.member_family_data_service.update_member_family_data(member_id, update_member_data, db)
