@@ -13,6 +13,7 @@ from app.routers import (
     MemberReferenceRouter,
     MemberRouter,
     PreachingPointRouter,
+    ReportsRouter,
     RoleRouter,
     UserRouter,
 )
@@ -27,6 +28,7 @@ from app.services import (
     MembersGeneralDataService,
     MembersReferenceService,
     PreachingPointService,
+    ReportsService,
     RoleService,
     UserService,
 )
@@ -90,6 +92,10 @@ app.include_router(MemberADNRouter(adn_service, auth_service).get_router())
 
 # Preaching points
 app.include_router(PreachingPointRouter(preaching_point_service, auth_service).get_router())
+
+# Reports
+reports_service = ReportsService()
+app.include_router(ReportsRouter(reports_service, auth_service).get_router())
 
 # Enum types
 app.include_router(EnumTypeRouter(auth_service).get_router())
